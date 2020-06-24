@@ -1,3 +1,47 @@
+html, body, ul, li, p, div, caption, h1, span, a{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    list-style-type: none;
+    text-decoration: none; }
+
+
 .orange-header{
-    background: #FC8129;
+    background-color: #FC8129;
+    display:flex;
+    flex-direction: row;
+}
+
+.menu li{
+    display:inline-block;
+}
+
+.menu a {
+    color: #657A6E;
+}
+
+.menu a:visited {
+    color: #657A6E;
+}
+
+h1{
+    color: #657A6E;
+}
+
+#title-with-logo {
+    
+}
+
+#title-with-logo img {
+    height: 70px;
+    width: 70px;
+}
+
+.main-container {
+    background-color: #180427;
+}
+
+.title-with-logo {
+    width: 35%;
+    float:right;
 }
