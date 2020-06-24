@@ -5,19 +5,33 @@ html, body, ul, li, p, div, caption, h1, span, a{
     list-style-type: none;
     text-decoration: none; }
 
+.header{
+    display:flex;
+    flex-direction: column;
+}
+
+.blue-line {
+    background-color: #255D9E;
+    height: 6px;
+}
 
 .orange-header{
     background-color: #FC8129;
     display:flex;
     flex-direction: row;
+    justify-content: space-between;
+    padding: 0 50px 0 50px;
 }
 
 .menu li{
     display:inline-block;
+    padding: 0 20px 0 20px;
 }
 
 .menu a {
     color: #657A6E;
+    line-height: 80px;
+    
 }
 
 .menu a:visited {
@@ -30,6 +44,8 @@ h1{
 
 #title-with-logo {
     
+    display:flex;
+    flex-direction: row;
 }
 
 #title-with-logo img {
@@ -37,11 +53,62 @@ h1{
     width: 70px;
 }
 
-.main-container {
-    background-color: #180427;
-}
-
 .title-with-logo {
     width: 35%;
     float:right;
 }
+
+.red-line {
+    background-color: #BE2424;
+    height: 25px;
+}
+
+.main-container {
+    background-color: #180427;
+    display:flex;
+    flex-direction: row;
+}
+
+.purple-triangle {
+    position: relative;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 166px 166px 0;
+    border-color: transparent #007bff transparent transparent;
+}
+.shadow-triangle {
+    margin: -150px 0px 0px -0px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 166px 166px 0;
+    border-color: transparent rgba(0, 0, 0, 0.4) transparent transparent;
+}
+
+/* .purple-triangle {
+    position: relative;
+    margin: 3em;
+    padding: 1em;
+    box-sizing: border-box;
+    background: #bada55;
+    box-shadow: 0px 3px 3px 0 rgba(0, 0, 0, 0.4);
+  }
+  .purple-triangle::after{
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      margin-left: -0.5em;
+      bottom: -2em;
+      left: 50%;
+      box-sizing: border-box;
+      
+      border: 1em solid black;
+      border-color: transparent transparent #bada55 #bada55;
+      
+      transform-origin: 0 0;
+      transform: rotate(-45deg);
+      
+      box-shadow: -3px 3px 3px 0 rgba(0, 0, 0, 0.4);
+    } */
