@@ -1,4 +1,4 @@
-html, body, ul, li, p, div, caption, h1, span, a{
+html, body, ul, li, p, div, caption, h1, span, a, h5{
     margin: 0;
     padding: 0;
     height: 100%;
@@ -97,5 +97,10 @@ h1{
     padding: 5%;
 }
 
+footer h5 {
+    text-align: center;
+    line-height: 22px;
+    height: 15px;
+    font-size: 11px;
 
-
+}
