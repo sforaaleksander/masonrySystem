@@ -66,7 +66,13 @@ h1{
 .main-container {
     background-color: #180427;
     display:flex;
+    flex-direction: column;
+}
+
+.sub-container {
+    display:flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .purple-triangle {
@@ -75,7 +81,7 @@ h1{
     height: 0;
     border-style: solid;
     border-width: 0 290px 100px 0;
-    border-color: transparent #007bff transparent transparent;
+    border-color: transparent #491744 transparent transparent;
 }
 .shadow-triangle {
     margin: -90px 0px 0px -0px;
@@ -85,3 +91,11 @@ h1{
     border-width: 0 290px 100px 0;
     border-color: transparent rgba(0, 0, 0, 0.4) transparent transparent;
 }
+
+.content {
+    height: 50vh;
+    padding: 5%;
+}
+
+
+
