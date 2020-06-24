@@ -114,3 +114,13 @@ footer h5 {
     height: 15px;
     font-size: 11px;
 }
+
+.subpage-header a {
+    font-family: Ruda;
+    color: #EB1717;
+    font-size: 32px;
+}
+
+.subpage-header { 
+    padding: 50px;
+}
