@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Ruda";
+    src: url("../fonts/Ruda/static/Ruda-Medium.ttf");
+}
+
 html, body, ul, li, p, div, caption, h1, span, a, h5{
     margin: 0;
     padding: 0;
@@ -21,6 +26,7 @@ html, body, ul, li, p, div, caption, h1, span, a, h5{
     flex-direction: row;
     justify-content: space-between;
     padding: 0 50px 0 50px;
+    height: 100px;
 }
 
 .menu li{
@@ -30,8 +36,9 @@ html, body, ul, li, p, div, caption, h1, span, a, h5{
 
 .menu a {
     color: #657A6E;
-    line-height: 80px;
-    
+    line-height: 100px;
+    font-family: Ruda;
+    font-size: 22px;
 }
 
 .menu a:visited {
@@ -40,17 +47,21 @@ html, body, ul, li, p, div, caption, h1, span, a, h5{
 
 h1{
     color: #657A6E;
+    font-family: Ruda;
+    font-size: 36px;
+    text-shadow: 3px 7px 4px rgba(0, 0, 0, 0.25);
+    letter-spacing: 0.23em;
 }
 
 #title-with-logo {
-    
+    padding-top: 8px;
     display:flex;
     flex-direction: row;
 }
 
 #title-with-logo img {
-    height: 70px;
-    width: 70px;
+    height: 80px;
+    width: 80px;
 }
 
 .title-with-logo {
@@ -93,7 +104,7 @@ h1{
 }
 
 .content {
-    height: 50vh;
+    height: 48vh;
     padding: 5%;
 }
 
@@ -102,5 +113,4 @@ footer h5 {
     line-height: 22px;
     height: 15px;
     font-size: 11px;
-
 }
