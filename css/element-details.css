@@ -34,9 +34,10 @@ button {
     border-radius: 18%;
 }
 
-.quest-description {
+.info {
     width: 70%;
     font-family: Ruda;
     color: #EB1717;
     font-size: 18px;
+    margin-bottom: 30px;
 }
