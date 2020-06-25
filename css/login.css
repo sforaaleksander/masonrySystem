@@ -51,7 +51,7 @@ html, body {
     z-index: 4;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .shadow-triangle {
@@ -92,4 +92,15 @@ html, body {
     z-index: 7;
     display: flex;
     flex-direction: column;
+    margin-top: 32vh;
+}
+
+#login-form input {
+    width: 22vh;
+    background-color: #BE2424;
+    border: none;
+    border-radius: 15em;
+    margin: 1em 0;
+    padding: 0 0.5em;
+    color: #fff;
 }
