@@ -84,17 +84,3 @@
     font-family: Ruda;
     color: #EB1717;
 }
-
-.cards-wrapper {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-}
-
-.card {
-    margin: 0.9375;
-    padding: 5%;
-    width: 9.375em;
-    height: 15.625em;
-    background-color: #47FC90;
-}
