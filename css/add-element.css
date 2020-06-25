@@ -22,3 +22,10 @@ form input[type="file"] {
     flex-direction: column;
     align-items: start;
 }
+
+form .radio {
+    width: 15em;
+    display: flex;
+    flex-direction: row;
+    color: #fff;
+}
