@@ -1,11 +1,11 @@
 .info h4 {
-    margin-bottom: 30px;
+    margin-bottom: 1.875em;
 }
 
 .info h4:nth-of-type(n+4) {
-    margin-bottom: 3px;
+    margin-bottom: 0.1875em;
 }
 
 .info h4:nth-of-type(n+5) {
-    margin-top: 30px;
+    margin-top: 1.875em;
 }

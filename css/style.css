@@ -19,36 +19,34 @@ header{
     flex-direction: column;
 }
 
-/* .blue-line {
-    background-color: #255D9E;
-    height: 6px;
-} */
+/* blue #255D9E; */
+
 
 .orange-header{
     background-color: #FC8129;
     display:flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0 50px 0 50px;
-    height: 100px;
-    border-bottom: solid 24px #BE2424;
-    border-top: solid 6px rgb(255, 94, 0);
+    padding: 0 3.125em 0 3.125em;
+    height: 6.25em;
+    border-bottom: solid 1.5em #BE2424;
+    border-top: solid 0.375em rgb(255, 94, 0);
 }
 
 .menu li{
     display:inline-block;
-    padding: 0 20px 0 20px;
+    padding: 0 1.25em 0 1.25em;
 }
 
 .menu a {
     color: #657A6E;
-    line-height: 100px;
+    line-height: 4.25em;
     font-family: Ruda;
     font-size: 22px;
 }
 
 .menu a:hover {
-    border-bottom: solid 5px #47FC90;
+    border-bottom: solid 0.3125em #47FC90;
 }
 
 .menu a:visited {
@@ -58,8 +56,8 @@ header{
 h1{
     color: #657A6E;
     font-family: Ruda;
-    font-size: 36px;
-    text-shadow: 3px 7px 4px rgba(0, 0, 0, 0.25);
+    font-size: 2.25em;
+    text-shadow: 0.1875em 0.4375 0.25em rgba(0, 0, 0, 0.25);
     letter-spacing: 0.23em;
     opacity: 0.3;
     transition: opacity 1s ease-in-out;
@@ -75,14 +73,14 @@ h1:hover {
 }
 
 #title-with-logo {
-    padding-top: 8px;
+    padding-top: 0.5em;
     display:flex;
     flex-direction: row;
 }
 
 #title-with-logo img {
-    height: 80px;
-    width: 80px;
+    height: 5em;
+    width: 5em;
     opacity: 0.68;
 }
 
@@ -93,15 +91,15 @@ h1:hover {
 
 .red-line {
     background-color: #BE2424;
-    height: 25px;
+    height: 1.5625em;
 }
 
 main{
     background-color: #180427;
     display:flex;
     flex-direction: column;
-    padding-bottom: 25px;
-    min-height: calc(100vh - 180px);
+    padding-bottom: 1.5625em;
+    min-height: calc(100vh - 11.25em);
 }
 
 .sub-container {
@@ -115,27 +113,27 @@ main{
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0 360px 100px 0;
+    border-width: 0 22.5em 6.25em 0;
     border-color: transparent #491744 transparent transparent;
 }
 .shadow-triangle {
-    margin: -70px 0 0 0;
+    margin: -4.375em 0 0 0;
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0 360px 100px 0;
+    border-width: 0 22.5em 6.25em 0;
     border-color: transparent rgba(0, 0, 0, 0.4) transparent transparent;
 }
 
 .content {
-    padding: 0 50px;
+    padding: 0 3.125em;
 }
 
 footer h5 {
     text-align: center;
-    line-height: 22px;
-    height: 15px;
     font-size: 11px;
+    line-height: 2em;
+    height: 1.3636363636em;
 }
 
 .subpage-header h2 {
@@ -145,5 +143,16 @@ footer h5 {
 }
 
 .subpage-header { 
-    padding: 15px 50px;
+    padding: 0.9375em 3.125em;
+}
+
+.red-button {
+    background-color: #EB1717;
+    font-family: Ruda;
+    color: #fff;
+    font-size: 14px;
+    padding: 1.5em;
+    border-style: none;
+    border-radius: 0.5em;
+    padding: 0.71428571428em 1.28571428571em;
 }
