@@ -136,14 +136,11 @@ footer h5 {
     height: 1.3636363636em;
 }
 
-.subpage-header h2 {
+.subpage-header {
     font-family: Ruda;
     color: #EB1717;
     font-size: 32px;
-}
-
-.subpage-header { 
-    padding: 0.9375em 3.125em;
+    padding: 0.46875em 1.5625em;
 }
 
 .red-button {
