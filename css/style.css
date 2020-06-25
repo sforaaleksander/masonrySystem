@@ -3,7 +3,7 @@
     src: url("../fonts/Ruda/static/Ruda-Medium.ttf");
 }
 
-html, body, ul, li, p, div, caption, h1, span, a, h5{
+html, body, ul, li, p, div, caption, h1, span, a, h5, h4{
     margin: 0;
     padding: 0;
     height: 100%;
@@ -78,6 +78,7 @@ h1{
     background-color: #180427;
     display:flex;
     flex-direction: column;
+    padding-bottom: 30px;
 }
 
 .sub-container {
@@ -104,8 +105,7 @@ h1{
 }
 
 .content {
-    height: 48vh;
-    padding: 50px;
+    padding: 0px 50px;
 }
 
 footer h5 {
@@ -115,12 +115,12 @@ footer h5 {
     font-size: 11px;
 }
 
-.subpage-header a {
+.subpage-header h2 {
     font-family: Ruda;
     color: #EB1717;
     font-size: 32px;
 }
 
 .subpage-header { 
-    padding: 50px;
+    padding: 0 50px;
 }

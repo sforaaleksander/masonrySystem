@@ -4,11 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUEST DETAILS</title>
+    <title>USER DETAILS</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/element-details.css">
-    <link rel="stylesheet" href="../css/quest-details.css">
-
+    <link rel="stylesheet" href="../css/user-details.css">
 </head>
 
 <body>
@@ -40,7 +39,7 @@
         <div class="main-container">
             <div class="sub-container">
                 <div class="subpage-header">
-                    <h2 id="quest-name"> Quest name</h2>
+                    <h2 id="user-name"> User name</h2>
                 </div>
                 <div class="triangle-box">
                     <div class="purple-triangle">
@@ -56,24 +55,43 @@
                     <div class="green-box">
                         <img src="../images/illuminati-eye-of-providence-illuminati.png" />
                     </div>
-                    <button>
-                        Submit quest
-                    </button>
+                    <div class="two-buttons">
+                        <button id="edit-profile">
+                            Edit profile
+                        </button>
+                        <button id="approve-quests">
+                            Approve quests
+                        </button>
+                    </div>
                 </div>
                 <div class="info">
                     <h4>
-                        Required rank: <span id="required-rank"> minimalrank</span>
+                        Rank: <span id="rank"> user rank</span>
                     </h4>
                     <h4>
-                        Quest reward: <span id="required-rank"> 999</span> Spirit Points
+                        Email: <span id="email"> user email</span>
                     </h4>
-                    <p id="quest-details">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam consectetur facere itaque
-                        perferendis tempore? Temporibus at tempora id vel provident, natus vero aspernatur minus quo,
-                        itaque explicabo? Dicta, atque assumenda?
-                    </p>
-                </div>
+                    <h4>
+                        Member since: <span id="member-since"> date joined</span>
+                    </h4>
 
+                    <h4>Completed Quests:</h4>
+                    <ul id="completed-guests">
+                        <li>Lorem ipsum dolor<br /> sit amet consectetur adipisicing elit.<br />Ullam consectetur facere
+                        itaque<br />
+                        perferendis tempore? Temporibus at tempora id<br />vel provident, natus vero<br /> aspernatur
+                        minus quo,<br />
+                        itaque explicabo? Dicta, atque assumenda?</li>
+                    </ul>
+                    <h4>Quests in progress:</h4>
+                    <ul id="completed-guests">
+                        <li>Lorem ipsum dolor<br /> sit amet consectetur adipisicing elit.<br />Ullam consectetur facere
+                        itaque<br />
+                        perferendis tempore? Temporibus at tempora id<br />vel provident, natus vero<br /> aspernatur
+                        minus quo,<br />
+                        itaque explicabo? Dicta, atque assumenda?</li>
+                    </ul>
+                </div>
             </div>
 
         </div>
