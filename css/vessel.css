@@ -7,12 +7,10 @@
 
 .subpage-footer .triangle-box {
     display: flex;
-    /* flex-direction: column; */
     align-items: flex-end;
 }
 
 .subpage-footer .purple-triangle {
-    /* position: relative; */
     width: 0;
     height: 0;
     border-style: solid;
@@ -54,17 +52,49 @@
 .sp-text {
     display: flex;
     flex-direction: column;
-    
+    justify-content: space-evenly;
 }
 
 .sp-text div span {
-/* display: flex;
-flex-direction: row;
-align-items: center; */
     position: relative;
-    top: 33%;
     font-family: Ruda;
     color: white;
     font-size: 22px;
     
+}
+.info {
+    font-family: Ruda;
+    color: #EB1717;
+    font-size: 20px;
+
+}
+
+.info h4 {
+    margin-top: 12px;
+}
+
+.info h4:first-child{
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+
+.content-title {
+    margin-top: 50px;
+    font-family: Ruda;
+    color: #EB1717;
+    font-size: 24px;
+}
+
+.cards-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.card {
+    margin: 15px;
+    padding: 5%;
+    width: 150px;
+    height: 250px;
+    background-color: #47FC90;
 }
