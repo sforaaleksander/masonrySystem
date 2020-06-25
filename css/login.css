@@ -1,0 +1,95 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-decoration: none; 
+}
+
+.sky {
+    background-color: #180427;
+    height: 75vh;
+}
+
+.sky, .ground {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.ground {
+    background-color: #260F38;
+    height: 25vh;
+    position: relative;
+    z-index: 2;
+}
+
+.sun {
+    background: #E6EA2B;
+    box-shadow: inset 0px 50px 50px rgba(0, 0, 0, 0.54);
+    border-radius: 45vh;
+    width: 75vh;
+    height: 120vh;
+    margin-top: 30vh;
+    margin-bottom: -90vh;
+    z-index: 1;
+    position: relative;
+}
+
+.triangles {
+    display: flex;
+    align-items: flex-end;
+}
+
+.purple-triangle {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 37vh 60vh 37vh;
+    border-color: transparent transparent #491744;
+    position: relative;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.shadow-triangle {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 37vh 60vh 37vh;
+    border-color: transparent transparent rgba(0, 0, 0, 0.57);
+    margin: 0 0 -12vh -73.73vh;
+    z-index: 3;
+    position: relative;
+}
+
+/* TODO animate the green triangle starting from this values
+/* #green-triangle {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 37vh 60vh 37vh;
+    border-color: transparent transparent #47FC90;
+    position: absolute;
+    z-index: 5;
+} */
+
+#green-triangle {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 10vh 16.5vh 10vh;
+    border-color: transparent transparent #47FC90;
+    position: absolute;
+    z-index: 9;
+    margin: 0 0 44vh 27.1vh;
+}
+
+#login-form {
+    position: relative;
+    z-index: 7;
+    display: flex;
+    flex-direction: column;
+}
