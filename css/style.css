@@ -15,10 +15,10 @@ html, body, ul, li, p, div, caption, h1, span, a, h5, h4{
     flex-direction: column;
 }
 
-.blue-line {
+/* .blue-line {
     background-color: #255D9E;
     height: 6px;
-}
+} */
 
 .orange-header{
     background-color: #FC8129;
@@ -27,6 +27,8 @@ html, body, ul, li, p, div, caption, h1, span, a, h5, h4{
     justify-content: space-between;
     padding: 0 50px 0 50px;
     height: 100px;
+    border-bottom: solid 24px #BE2424;
+    border-top: solid 6px rgb(255, 94, 0);
 }
 
 .menu li{
