@@ -92,7 +92,7 @@ h1{
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0 290px 100px 0;
+    border-width: 0 360px 100px 0;
     border-color: transparent #491744 transparent transparent;
 }
 .shadow-triangle {
@@ -100,7 +100,7 @@ h1{
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0 290px 100px 0;
+    border-width: 0 360px 100px 0;
     border-color: transparent rgba(0, 0, 0, 0.4) transparent transparent;
 }
 
