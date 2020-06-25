@@ -43,6 +43,10 @@ html, body, ul, li, p, div, caption, h1, span, a, h5, h4{
     font-size: 22px;
 }
 
+.menu a:hover {
+    border-bottom: solid 5px #47FC90;
+}
+
 .menu a:visited {
     color: #657A6E;
 }
