@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADDING QUEST</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/add-element.css">
+    <link rel="stylesheet" href="../css/add-quest.css">
+
 </head>
 
 <body>
@@ -40,7 +43,16 @@
             </div>
         </div>
         <div class="content">
-
+            <form class="justify-center">
+                <input id="quest-name" type="text" placeholder="Quest name"/>
+                <input id="quest-requirement" type="text" placeholder="Minimal rank to submit quest"/>
+                <input id="quest-reward" type="text" placeholder="Quest reward"/>
+                <textarea id="quest-description" type="text" placeholder="">Quest description</textarea>
+                <input type="file" id="quest-image">
+                <button class="red-button">
+                    Submit quest
+                </button>
+            </form>
         </div>
     </main>
     <footer>

@@ -153,3 +153,9 @@ footer h5 {
     border-radius: 0.5em;
     padding: 0.71428571428em 1.28571428571em;
 }
+
+.justify-center{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
