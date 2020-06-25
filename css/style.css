@@ -3,7 +3,7 @@
     src: url("../fonts/Ruda/static/Ruda-Medium.ttf");
 }
 
-html, body, ul, li, p, div, caption, h1, span, a, h5{
+html, body, ul, li, p, div, caption, h1, span, a, h5, h4{
     margin: 0;
     padding: 0;
     height: 100%;
