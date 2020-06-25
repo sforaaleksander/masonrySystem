@@ -57,6 +57,17 @@ h1{
     font-size: 36px;
     text-shadow: 3px 7px 4px rgba(0, 0, 0, 0.25);
     letter-spacing: 0.23em;
+    opacity: 0.3;
+    transition: opacity 1s ease-in-out;
+    -moz-transition: opacity 1s ease-in-out;
+    -webkit-transition: opacity 1s ease-in-out;
+}
+
+h1:hover {
+    opacity: 1.0;
+    transition: opacity .55s ease-in-out;
+    -moz-transition: opacity .55s ease-in-out;
+    -webkit-transition: opacity .55s ease-in-out;
 }
 
 #title-with-logo {
@@ -68,6 +79,7 @@ h1{
 #title-with-logo img {
     height: 80px;
     width: 80px;
+    opacity: 0.68;
 }
 
 .title-with-logo {
@@ -102,7 +114,7 @@ h1{
     border-color: transparent #491744 transparent transparent;
 }
 .shadow-triangle {
-    margin: -90px 0px 0px -0px;
+    margin: -70px 0px 0px -0px;
     width: 0;
     height: 0;
     border-style: solid;
