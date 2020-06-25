@@ -95,7 +95,7 @@ h1{
     border-color: transparent #491744 transparent transparent;
 }
 .shadow-triangle {
-    margin: -90px 0px 0px -0px;
+    margin: -70px 0px 0px -0px;
     width: 0;
     height: 0;
     border-style: solid;
@@ -105,7 +105,7 @@ h1{
 
 .content {
     height: 48vh;
-    padding: 5%;
+    padding: 50px;
 }
 
 footer h5 {
