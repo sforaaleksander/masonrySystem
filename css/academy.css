@@ -1,0 +1,15 @@
+h4 {
+    font-family: Ruda;
+    color: #EB1717;
+    font-size: 16px;
+    padding: 0.46875em 2.9625em;
+}
+
+.subpage-header {
+    padding-bottom: 0;
+}
+
+.header-box {
+    display: flex;
+    flex-direction: column;
+}
