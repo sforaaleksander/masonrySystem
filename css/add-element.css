@@ -13,6 +13,11 @@ input, textarea {
     font-family: "Rational";
 }
 
+input::selection, textarea::selection {
+    background-color: #E6EA2B;
+    color: rgb(75, 75, 75);
+}
+
 form textarea {
     width: 43em;
     height: 10em;
