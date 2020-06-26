@@ -19,7 +19,7 @@ input::selection, textarea::selection {
 }
 
 form textarea {
-    width: 43em;
+    width: 32em;
     height: 10em;
 }
 
