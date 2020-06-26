@@ -154,6 +154,11 @@ footer h5 {
     padding: 0.71428571428em 1.28571428571em;
 }
 
+.red-button:hover {
+    background-color: #E6EA2B;
+    color: #000;
+}
+
 .justify-center{
     display:flex;
     flex-direction: column;
