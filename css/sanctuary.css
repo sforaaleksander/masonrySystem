@@ -1,4 +1,3 @@
-
 .blue-box {
     background-color: #255D9E;
     width: 20.25em;
@@ -21,4 +20,8 @@
     font-size: 22px;
     color: white;
     line-height: 1.8em;
+}
+
+.lodge-info h4,h2 {
+    margin: 0.3em 0em;
 }
