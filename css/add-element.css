@@ -17,6 +17,10 @@ form input[type="file"] {
     color: rgb(153, 153, 153);
 }
 
+form input:focus {
+    background-color: #47FC90;
+}
+
 .content {
     display: flex;
     flex-direction: column;
