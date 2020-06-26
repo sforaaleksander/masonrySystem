@@ -1,7 +1,16 @@
+@font-face {
+    font-family: "Rational";
+    src: url("../fonts/Rational/Rational-light.otf");
+}
+
 form input, textarea, button{
     display: block;
     margin-bottom: 3em;
     width: 35em;
+}
+
+input, textarea {
+    font-family: "Rational";
 }
 
 form textarea {
