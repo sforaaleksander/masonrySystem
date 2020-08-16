@@ -53,11 +53,11 @@ public class Quest {
         this.name = name;
     }
 
-    public Boolean getActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(Boolean active) {
+    public void setIsActive(Boolean active) {
         isActive = active;
     }
 
@@ -69,11 +69,11 @@ public class Quest {
         this.expirationDate = expirationDate;
     }
 
-    public Boolean getCollective() {
+    public Boolean getIsCollective() {
         return isCollective;
     }
 
-    public void setCollective(Boolean collective) {
+    public void setIsCollective(Boolean collective) {
         isCollective = collective;
     }
 }
