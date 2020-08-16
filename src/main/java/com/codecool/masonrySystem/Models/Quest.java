@@ -1,12 +1,17 @@
 package com.codecool.masonrySystem.Models;
 
+import java.util.Date;
+
 public class Quest {
     Long id;
+    String name;
     Integer reward;
-    String description;
-    QuestCategory category;
-    Boolean achieved;
     Rank requiredRank;
+    String description;
+    Boolean isActive;
+    Date expirationDate;
+    Boolean isCollective;
+
 
     public Long getId() {
         return id;
@@ -32,27 +37,43 @@ public class Quest {
         this.description = description;
     }
 
-    public QuestCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(QuestCategory category) {
-        this.category = category;
-    }
-
-    public Boolean getAchieved() {
-        return achieved;
-    }
-
-    public void setAchieved(Boolean achieved) {
-        this.achieved = achieved;
-    }
-
     public Rank getRequiredRank() {
         return requiredRank;
     }
 
     public void setRequiredRank(Rank requiredRank) {
         this.requiredRank = requiredRank;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public Boolean getCollective() {
+        return isCollective;
+    }
+
+    public void setCollective(Boolean collective) {
+        isCollective = collective;
     }
 }
