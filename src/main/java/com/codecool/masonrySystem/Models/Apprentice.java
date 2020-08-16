@@ -5,7 +5,7 @@ import java.util.List;
 public class Apprentice extends User{
     Integer lodgeId;
     Integer totalPoints;
-    Integer balance;
+    Integer spiritPoints;
     List<Quest> questList;
     List<Artifact> usedArtifacts;
 
@@ -25,12 +25,12 @@ public class Apprentice extends User{
         this.totalPoints = totalPoints;
     }
 
-    public Integer getBalance() {
-        return balance;
+    public Integer getSpiritPoints() {
+        return spiritPoints;
     }
 
-    public void setBalance(Integer balance) {
-        this.balance = balance;
+    public void setSpiritPoints(Integer spiritPoints) {
+        this.spiritPoints = spiritPoints;
     }
 
     public List<Quest> getQuestList() {

@@ -10,7 +10,7 @@ public enum Rank {
     ANCIENTRITES("Ancient Rites"),
     ORDOTEMPLIORIENTIS("Ordo Templis Orientis"),
     THEPALLADIUM("The Palladium"),
-    THEILUMINATI("The Iluminati"),
+    THEILLUMINATI("The Illuminati"),
     AINSOPHAUR("Ain Soph Aur");
 
     String rankString;
