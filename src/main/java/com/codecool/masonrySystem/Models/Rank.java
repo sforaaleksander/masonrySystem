@@ -2,6 +2,7 @@ package com.codecool.masonrySystem.Models;
 
 public enum Rank {
 
+    NONE("None"),
     THEROYALARCH("The Royal Arch"),
     GRANDSUVERENINSPECTORS33RDDEGREE("Grand Suveren Inspectors 33rd Degree"),
     SUPREMECOUNCILOFGRANDINSPECTORS("Supreme Council Of Grand Inspectors"),
