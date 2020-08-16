@@ -1,4 +1,4 @@
-import com.codecool.masonrySystem.DAO.ArtifactsDao;
+import com.codecool.masonrySystem.DAO.ArtifactDao;
 import com.codecool.masonrySystem.Models.Artifact;
 
 import java.util.List;
@@ -8,9 +8,9 @@ public class Main
     public static void main( String[] args )
     {
         System.out.println( "Hello World!" );
-        ArtifactsDao artifactsDao = new ArtifactsDao();
+        ArtifactDao artifactDao = new ArtifactDao();
         try {
-            List<Artifact> artifacts = artifactsDao.getArtifacts();
+            List<Artifact> artifacts = artifactDao.getArtifacts();
             for (Artifact artifact : artifacts) {
                 System.out.println(artifact.getDescription());
             }

@@ -1,0 +1,59 @@
+1.
+SELECT roles.name, count(users.role_id) rolecount
+FROM users
+JOIN roles on roles.id = users.role_id
+GROUP BY roles.name
+ORDER BY rolecount;
+
+
+3.
+SELECT roles.name as rolename,  sum(CASE WHEN is_active THEN 1 END) as active, sum(CASE WHEN is_active THEN 0 ELSE 1 end) as inactive,  count(users.id) as total
+FROM roles
+         INNER JOIN users on roles.id = users.role_id
+GROUP BY rolename
+ORDER BY total;
+
+
+5.
+SELECT lodges.name as lodgename, sum(users.id) as students
+FROM users
+INNER JOIN lodges on users.id = lodges.id
+GROUP BY lodgename;
+
+
+7.
+SELECT sum(CASE WHEN is_passed THEN 1 END) as finished,
+       sum(CASE WHEN is_passed THEN 0 ELSE 1 END) as unfinished,
+       sum(CASE WHEN quest_id is NULL THEN 1 END) as neverstarted
+FROM quests q
+LEFT JOIN quests_users qu on q.id = qu.quest_id;
+
+
+9.
+SELECT quests.name as questname, sum(CASE WHEN start_date IS NULL THEN 0 ELSE 1 END) as passedCount
+FROM quests
+JOIN quests_users qu on quests.id = qu.quest_id
+GROUP BY questname
+ORDER BY passedCount DESC LIMIT 3;
+
+
+11.
+SELECT concat(u.first_name, ' ', u.last_name) as name
+FROM users u
+LEFT JOIN quests_users ON u.id = quests_users.user_id
+WHERE user_id is NULL AND u.role_id = 3
+ORDER BY name;
+
+
+13.
+SELECT concat(u.first_name, ' ', u.last_name) as name, count(t.id) as count
+FROM users u
+         LEFT JOIN transactions t on u.id = t.user_id
+GROUP BY name
+ORDER BY count DESC LIMIT 5;
+
+
+
+
+
+

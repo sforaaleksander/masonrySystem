@@ -1,19 +1,20 @@
 package com.codecool.masonrySystem.Models;
 
 public abstract class User {
-    String login;
+    Long id;
     String password;
     String email;
     String firstName;
     String lastName;
     Rank rank;
+    Boolean isActive;
 
-    public String getLogin() {
-        return login;
+    public Long getId() {
+        return id;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getPassword() {
@@ -54,5 +55,13 @@ public abstract class User {
 
     public void setRank(Rank rank) {
         this.rank = rank;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

@@ -1,11 +1,20 @@
 package com.codecool.masonrySystem.Models;
 
 public class Quest {
+    Long id;
     Integer reward;
     String description;
     QuestCategory category;
     Boolean achieved;
     Rank requiredRank;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Integer getReward() {
         return reward;
