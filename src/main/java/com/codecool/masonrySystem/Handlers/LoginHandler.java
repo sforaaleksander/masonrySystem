@@ -1,8 +1,10 @@
 package com.codecool.masonrySystem.Handlers;
 
 import com.codecool.masonrySystem.DAO.UserDao;
+import com.codecool.masonrySystem.Exception.InvalidLoginDataException;
 import com.codecool.masonrySystem.Helpers.CookieHelper;
 import com.codecool.masonrySystem.Helpers.HandlerHelper;
+import com.codecool.masonrySystem.Helpers.LoginHelper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.jtwig.JtwigModel;
@@ -10,6 +12,7 @@ import org.jtwig.JtwigTemplate;
 
 import java.io.IOException;
 import java.net.HttpCookie;
+import java.util.Map;
 import java.util.Optional;
 
 public class LoginHandler implements HttpHandler {
@@ -18,12 +21,14 @@ public class LoginHandler implements HttpHandler {
     private CookieHelper cookieHelper;
     private HandlerHelper handlerHelper;
     private UserDao userDao;
+    private LoginHelper loginHelper;
 
 
     public LoginHandler(HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao) {
         this.handlerHelper = handlerHelper;
         this.cookieHelper = cookieHelper;
         this.userDao = userDao;
+        this.loginHelper = new LoginHelper(userDao);
     }
 
     @Override
@@ -54,8 +59,16 @@ public class LoginHandler implements HttpHandler {
     }
 
     private void postForm(HttpExchange httpExchange) throws IOException {
-        String response = "posted form!";
-        handlerHelper.send200(httpExchange, response);
+        Map<String, String> inputs = handlerHelper.getInputs(httpExchange);
+        String response;
+        try {
+            if (loginHelper.areCredentialsValid(inputs)) {
+                response = "succesfully logged!";
+                handlerHelper.send200(httpExchange, response);
+            }
+        } catch (InvalidLoginDataException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void redirectToIndex(HttpExchange httpExchange) {
