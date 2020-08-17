@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class Transaction {
     Integer id;
+    Long userId;
     Integer artifactId;
-    Date openTransactionDate;
-    Date closeTransactionDate;
-    Integer collectedSum;
+    Date openTransaction;
+    Date closeTransaction;
 
     public Integer getId() {
         return id;
@@ -15,6 +15,14 @@ public class Transaction {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Integer getArtifactId() {
@@ -25,27 +33,19 @@ public class Transaction {
         this.artifactId = artifactId;
     }
 
-    public Date getOpenTransactionDate() {
-        return openTransactionDate;
+    public Date getOpenTransaction() {
+        return openTransaction;
     }
 
-    public void setOpenTransactionDate(Date openTransactionDate) {
-        this.openTransactionDate = openTransactionDate;
+    public void setOpenTransaction(Date openTransaction) {
+        this.openTransaction = openTransaction;
     }
 
-    public Date getCloseTransactionDate() {
-        return closeTransactionDate;
+    public Date getCloseTransaction() {
+        return closeTransaction;
     }
 
-    public void setCloseTransactionDate(Date closeTransactionDate) {
-        this.closeTransactionDate = closeTransactionDate;
-    }
-
-    public Integer getCollectedSum() {
-        return collectedSum;
-    }
-
-    public void setCollectedSum(Integer collectedSum) {
-        this.collectedSum = collectedSum;
+    public void setCloseTransaction(Date closeTransaction) {
+        this.closeTransaction = closeTransaction;
     }
 }
