@@ -53,7 +53,9 @@ public class LoginHandler implements HttpHandler {
         handlerHelper.send200(httpExchange, response);
     }
 
-    private void postForm(HttpExchange httpExchange) {
+    private void postForm(HttpExchange httpExchange) throws IOException {
+        String response = "posted form!";
+        handlerHelper.send200(httpExchange, response);
     }
 
     private void redirectToIndex(HttpExchange httpExchange) {
