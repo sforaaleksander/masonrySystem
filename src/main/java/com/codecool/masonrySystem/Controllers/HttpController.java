@@ -1,5 +1,6 @@
 package com.codecool.masonrySystem.Controllers;
 import com.codecool.masonrySystem.DAO.UserDao;
+import com.codecool.masonrySystem.Handlers.IndexHandler;
 import com.codecool.masonrySystem.Handlers.LoginHandler;
 import com.codecool.masonrySystem.Handlers.Static;
 import com.codecool.masonrySystem.Helpers.CookieHelper;
@@ -19,6 +20,7 @@ public class HttpController {
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/login", new LoginHandler(handlerHelper, cookieHelper, userDao));
+        server.createContext("/index", new IndexHandler(handlerHelper, cookieHelper));
         server.createContext("/static", new Static());
         server.setExecutor(null);
         server.start();

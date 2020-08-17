@@ -5,6 +5,7 @@ import com.codecool.masonrySystem.Exception.InvalidLoginDataException;
 import com.codecool.masonrySystem.Helpers.CookieHelper;
 import com.codecool.masonrySystem.Helpers.HandlerHelper;
 import com.codecool.masonrySystem.Helpers.LoginHelper;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.jtwig.JtwigModel;
@@ -44,7 +45,7 @@ public class LoginHandler implements HttpHandler {
     private void handleGet(HttpExchange httpExchange) throws IOException {
         Optional<HttpCookie> optionalCookie = cookieHelper.getSessionIdCookie(httpExchange, SESSION_COOKIE_NAME);
         if (optionalCookie.isPresent()) {
-            redirectToIndex(httpExchange);
+            redirectHome(httpExchange);
         } else {
             getForm(httpExchange);
         }
@@ -60,17 +61,19 @@ public class LoginHandler implements HttpHandler {
 
     private void postForm(HttpExchange httpExchange) throws IOException {
         Map<String, String> inputs = handlerHelper.getInputs(httpExchange);
-        String response;
         try {
             if (loginHelper.areCredentialsValid(inputs)) {
-                response = "succesfully logged!";
-                handlerHelper.send200(httpExchange, response);
+                redirectHome(httpExchange);
             }
         } catch (InvalidLoginDataException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    private void redirectToIndex(HttpExchange httpExchange) {
+    private void redirectHome(HttpExchange httpExchange) throws IOException {
+        Headers responseHeaders = httpExchange.getResponseHeaders();
+        responseHeaders.set("Location", "index");
+        httpExchange.sendResponseHeaders(302, -1);
+        httpExchange.close();
     }
 }
