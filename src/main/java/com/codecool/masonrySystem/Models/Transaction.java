@@ -3,17 +3,17 @@ package com.codecool.masonrySystem.Models;
 import java.util.Date;
 
 public class Transaction {
-    Integer id;
+    Long id;
     Long userId;
-    Integer artifactId;
+    Long artifactId;
     Date openTransaction;
     Date closeTransaction;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -25,11 +25,11 @@ public class Transaction {
         this.userId = userId;
     }
 
-    public Integer getArtifactId() {
+    public Long getArtifactId() {
         return artifactId;
     }
 
-    public void setArtifactId(Integer artifactId) {
+    public void setArtifactId(Long artifactId) {
         this.artifactId = artifactId;
     }
 
