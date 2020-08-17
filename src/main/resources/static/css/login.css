@@ -104,3 +104,7 @@ html, body {
     padding: 0 0.5em;
     color: #fff;
 }
+
+#login-form input[type$="submit"] {
+    display: none;
+}
