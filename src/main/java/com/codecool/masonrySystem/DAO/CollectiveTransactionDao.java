@@ -41,19 +41,19 @@ public class CollectiveTransactionDao implements IDAO<CollectiveTransaction> {
 
     @Override
     public CollectiveTransaction getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
-        List<CollectiveTransaction> collectiveTransactions = new ArrayList<>();
+        CollectiveTransaction collectiveTransaction;
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM collective_transactions WHERE id = ?");
             ResultSet rs = preparedStatement.executeQuery();
             preparedStatement.setLong(1, id);
-            while (rs.next()) {
-                collectiveTransactions.add(create(rs));
+            if (rs.next()) {
+                collectiveTransaction = create(rs);
+                rs.close();
+                preparedStatement.close();
+                connection.close();
+                return collectiveTransaction;
             }
-            rs.close();
-            preparedStatement.close();
-            connection.close();
-            return collectiveTransactions.get(0);
         } catch (SQLException e) {
             e.printStackTrace();
         }

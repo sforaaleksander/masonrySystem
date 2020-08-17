@@ -45,21 +45,19 @@ public class ArtifactDao implements IDAO<Artifact> {
 
     @Override
     public Artifact getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
-        List<Artifact> artifacts = new ArrayList<>();
-
+        Artifact artifact;
         Connection connection = this.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM artifacts WHERE id = ?");
             ResultSet rs = preparedStatement.executeQuery();
             preparedStatement.setLong(1, id);
-            while (rs.next()) {
-                artifacts.add(create(rs));
+            if (rs.next()) {
+                artifact = create(rs);
+                rs.close();
+                preparedStatement.close();
+                connection.close();
+                return artifact;
             }
-            rs.close();
-            preparedStatement.close();
-            connection.close();
-            return artifacts.get(0);
         } catch (SQLException e) {
             e.printStackTrace();
         }

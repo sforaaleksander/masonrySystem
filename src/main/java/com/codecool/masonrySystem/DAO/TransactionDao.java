@@ -41,23 +41,23 @@ public class TransactionDao implements IDAO<Transaction> {
 
     @Override
     public Transaction getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
-        List<Transaction> transactions = new ArrayList<>();
+        Transaction transaction;
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM transactions WHERE id = ?");
             ResultSet rs = preparedStatement.executeQuery();
             preparedStatement.setLong(1, id);
-            while (rs.next()) {
-                transactions.add(create(rs));
+            if (rs.next()) {
+                transaction = create(rs);
+                rs.close();
+                preparedStatement.close();
+                connection.close();
+                return transaction;
             }
-            rs.close();
-            preparedStatement.close();
-            connection.close();
-            return transactions.get(0);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new ElementNotFoundException("Transactions not found");
+        throw new ElementNotFoundException("Transaction not found");
     }
 
     @Override

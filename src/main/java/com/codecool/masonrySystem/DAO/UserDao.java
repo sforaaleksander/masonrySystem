@@ -147,25 +147,19 @@ public class UserDao implements IDAO<User> {
     }
 
     public User getUserByEmail(String email) throws ClassNotFoundException, InvalidLoginDataException {
-//        User user;
-        List<User> users = new ArrayList<>();
+        User user;
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE email=?");
             preparedStatement.setString(1, email);
             ResultSet rs = preparedStatement.executeQuery();
-//            if (rs.next()) {
-//                rs.absolute(1);
-//                user = create(rs);
-//                rs.close();
-//                preparedStatement.close();
-//                connection.close();
-//                return user;
-//            }
-            while (rs.next()) {
-                users.add(create(rs));
+            if (rs.next()) {
+                user = create(rs);
+                rs.close();
+                preparedStatement.close();
+                connection.close();
+                return user;
             }
-            return users.get(0);
         } catch (SQLException e) {
             e.printStackTrace();
         }

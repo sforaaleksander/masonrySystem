@@ -44,19 +44,19 @@ public class QuestDao implements IDAO<Quest> {
 
     @Override
     public Quest getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
-        List<Quest> quests = new ArrayList<>();
+        Quest quest;
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM quests WHERE id = ?");
             ResultSet rs = preparedStatement.executeQuery();
             preparedStatement.setLong(1, id);
-            while (rs.next()) {
-                quests.add(create(rs));
+            if (rs.next()) {
+                quest = create(rs);
+                rs.close();
+                preparedStatement.close();
+                connection.close();
+                return quest;
             }
-            rs.close();
-            preparedStatement.close();
-            connection.close();
-            return quests.get(0);
         } catch (SQLException e) {
             e.printStackTrace();
         }

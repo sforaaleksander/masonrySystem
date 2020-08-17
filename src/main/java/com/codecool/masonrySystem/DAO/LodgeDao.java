@@ -47,19 +47,19 @@ public class LodgeDao implements IDAO<Lodge> {
 
     @Override
     public Lodge getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
-        List<Lodge> lodges = new ArrayList<>();
+        Lodge lodge;
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM lodges WHERE id = ?");
             ResultSet rs = preparedStatement.executeQuery();
             preparedStatement.setLong(1, id);
-            while (rs.next()) {
-                lodges.add(create(rs));
+            if (rs.next()) {
+                lodge = create(rs);
+                rs.close();
+                preparedStatement.close();
+                connection.close();
+                return lodge;
             }
-            rs.close();
-            preparedStatement.close();
-            connection.close();
-            return lodges.get(0);
         } catch (SQLException e) {
             e.printStackTrace();
         }
