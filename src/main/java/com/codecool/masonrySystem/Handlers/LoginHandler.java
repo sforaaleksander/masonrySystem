@@ -1,5 +1,6 @@
 package com.codecool.masonrySystem.Handlers;
 
+import com.codecool.masonrySystem.DAO.UserDao;
 import com.codecool.masonrySystem.Helpers.CookieHelper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -8,9 +9,11 @@ import java.io.IOException;
 
 public class LoginHandler implements HttpHandler {
     private CookieHelper cookieHelper;
+    private UserDao userDao;
 
-    public LoginHandler(CookieHelper cookieHelper) {
+    public LoginHandler(CookieHelper cookieHelper, UserDao userDao) {
         this.cookieHelper = cookieHelper;
+        this.userDao = userDao;
     }
 
     @Override
