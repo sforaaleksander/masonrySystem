@@ -3,16 +3,16 @@ package com.codecool.masonrySystem.Models;
 import java.util.List;
 
 public class Lodge {
-    Integer id;
+    Long id;
     String name;
     Journeyman owner;
     List<Apprentice> members;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
