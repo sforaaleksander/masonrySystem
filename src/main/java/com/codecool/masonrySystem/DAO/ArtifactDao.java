@@ -25,8 +25,7 @@ public class ArtifactDao implements IDAO<Artifact> {
     public List<Artifact> getAll() throws ElementNotFoundException, ClassNotFoundException {
         List<Artifact> artifacts = new ArrayList<>();
 
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
 
         try {
             Statement statement = connection.createStatement();
@@ -48,8 +47,7 @@ public class ArtifactDao implements IDAO<Artifact> {
     public Artifact getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
         List<Artifact> artifacts = new ArrayList<>();
 
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM artifacts WHERE id = ?");
@@ -70,8 +68,7 @@ public class ArtifactDao implements IDAO<Artifact> {
 
     @Override
     public boolean insert(Artifact artifact) throws ClassNotFoundException, ElementNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO artifacts" +
@@ -98,8 +95,7 @@ public class ArtifactDao implements IDAO<Artifact> {
 
     @Override
     public boolean update(Artifact artifact) throws ClassNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         Long id = artifact.getId();
 
         try {
@@ -126,8 +122,7 @@ public class ArtifactDao implements IDAO<Artifact> {
 
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM artifacts WHERE id = ?");

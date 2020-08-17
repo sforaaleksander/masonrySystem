@@ -22,8 +22,7 @@ public class CollectiveTransactionDao implements IDAO<CollectiveTransaction> {
 
     public List<CollectiveTransaction> getAll() throws ElementNotFoundException, ClassNotFoundException {
         List<CollectiveTransaction> collectiveTransactions = new ArrayList<>();
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM collective_transactions;");
@@ -43,8 +42,7 @@ public class CollectiveTransactionDao implements IDAO<CollectiveTransaction> {
     @Override
     public CollectiveTransaction getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
         List<CollectiveTransaction> collectiveTransactions = new ArrayList<>();
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM collective_transactions WHERE id = ?");
             ResultSet rs = preparedStatement.executeQuery();
@@ -64,8 +62,7 @@ public class CollectiveTransactionDao implements IDAO<CollectiveTransaction> {
 
     @Override
     public boolean insert(CollectiveTransaction collectiveTransaction) throws ClassNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO collective_transactions" +
@@ -88,8 +85,7 @@ public class CollectiveTransactionDao implements IDAO<CollectiveTransaction> {
 
     @Override
     public boolean update(CollectiveTransaction collectiveTransaction) throws ClassNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         Long id = collectiveTransaction.getId();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE collective_transactions SET " +
@@ -111,8 +107,7 @@ public class CollectiveTransactionDao implements IDAO<CollectiveTransaction> {
 
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM collective_transactions WHERE id = ?");

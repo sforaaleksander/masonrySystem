@@ -1,6 +1,7 @@
 package com.codecool.masonrySystem.DAO;
 
 import com.codecool.masonrySystem.Exception.ElementNotFoundException;
+import com.codecool.masonrySystem.Exception.InvalidLoginDataException;
 import com.codecool.masonrySystem.Models.Apprentice;
 import com.codecool.masonrySystem.Models.User;
 import com.codecool.masonrySystem.Models.Rank;
@@ -24,8 +25,7 @@ public class UserDao implements IDAO<User> {
 
     public List<User> getAll() throws ElementNotFoundException, ClassNotFoundException {
         List<User> users = new ArrayList<>();
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM users;");
@@ -44,32 +44,30 @@ public class UserDao implements IDAO<User> {
 
     @Override
     public User getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
-        List<User> users = new ArrayList<>();
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        User user;
+        Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
             ResultSet rs = preparedStatement.executeQuery();
             preparedStatement.setLong(1, id);
-            while (rs.next()) {
-                users.add(create(rs));
+            if (rs.next()) {
+                user = (create(rs));
+                rs.close();
+                preparedStatement.close();
+                connection.close();
+                return user;
             }
-            rs.close();
-            preparedStatement.close();
-            connection.close();
-            return users.get(0);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new ElementNotFoundException("Users not found");
+        throw new ElementNotFoundException("User not found");
     }
 
     @Override
-    public boolean insert(User user) throws ClassNotFoundException, ElementNotFoundException {
+    public boolean insert(User user) throws ClassNotFoundException {
         Integer spiritPoints = null;
         Integer lodgeId = null;
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" +
@@ -103,8 +101,7 @@ public class UserDao implements IDAO<User> {
     public boolean update(User user) throws ClassNotFoundException {
         Integer spiritPoints = null;
         Integer lodgeId = null;
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         Long id = user.getId();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET " +
@@ -135,9 +132,7 @@ public class UserDao implements IDAO<User> {
 
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
-
+        Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE id = ?");
             preparedStatement.setLong(1, id);
@@ -149,5 +144,31 @@ public class UserDao implements IDAO<User> {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public User getUserByEmail(String email) throws ClassNotFoundException, InvalidLoginDataException {
+//        User user;
+        List<User> users = new ArrayList<>();
+        Connection connection = this.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE email=?");
+            preparedStatement.setString(1, email);
+            ResultSet rs = preparedStatement.executeQuery();
+//            if (rs.next()) {
+//                rs.absolute(1);
+//                user = create(rs);
+//                rs.close();
+//                preparedStatement.close();
+//                connection.close();
+//                return user;
+//            }
+            while (rs.next()) {
+                users.add(create(rs));
+            }
+            return users.get(0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new InvalidLoginDataException("Could not login with provided data");
     }
 }

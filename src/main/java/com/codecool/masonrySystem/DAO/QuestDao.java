@@ -25,8 +25,7 @@ public class QuestDao implements IDAO<Quest> {
 
     public List<Quest> getAll() throws ElementNotFoundException, ClassNotFoundException {
         List<Quest> quests = new ArrayList<>();
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM quests;");
@@ -46,8 +45,7 @@ public class QuestDao implements IDAO<Quest> {
     @Override
     public Quest getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
         List<Quest> quests = new ArrayList<>();
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM quests WHERE id = ?");
             ResultSet rs = preparedStatement.executeQuery();
@@ -67,8 +65,7 @@ public class QuestDao implements IDAO<Quest> {
 
     @Override
     public boolean insert(Quest quest) throws ClassNotFoundException, ElementNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO quests" +
@@ -94,8 +91,7 @@ public class QuestDao implements IDAO<Quest> {
 
     @Override
     public boolean update(Quest quest) throws ClassNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         Long id = quest.getId();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE quests SET " +
@@ -120,8 +116,7 @@ public class QuestDao implements IDAO<Quest> {
 
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM quests WHERE id = ?");

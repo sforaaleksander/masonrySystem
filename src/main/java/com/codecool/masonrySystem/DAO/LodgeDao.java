@@ -28,8 +28,7 @@ public class LodgeDao implements IDAO<Lodge> {
 
     public List<Lodge> getAll() throws ElementNotFoundException, ClassNotFoundException {
         List<Lodge> lodges = new ArrayList<>();
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM lodges;");
@@ -49,8 +48,7 @@ public class LodgeDao implements IDAO<Lodge> {
     @Override
     public Lodge getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
         List<Lodge> lodges = new ArrayList<>();
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM lodges WHERE id = ?");
             ResultSet rs = preparedStatement.executeQuery();
@@ -70,8 +68,7 @@ public class LodgeDao implements IDAO<Lodge> {
 
     @Override
     public boolean insert(Lodge lodge) throws ClassNotFoundException, ElementNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO lodges" +
@@ -92,8 +89,7 @@ public class LodgeDao implements IDAO<Lodge> {
 
     @Override
     public boolean update(Lodge lodge) throws ClassNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         Long id = lodge.getId();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE lodges SET " +
@@ -113,8 +109,7 @@ public class LodgeDao implements IDAO<Lodge> {
 
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM lodges WHERE id = ?");

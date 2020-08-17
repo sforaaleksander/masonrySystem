@@ -2,6 +2,7 @@ package com.codecool.masonrySystem.DAO;
 
 import com.codecool.masonrySystem.Exception.ElementNotFoundException;
 
+import java.sql.Connection;
 import java.util.List;
 
 public interface IDAO<T> {
@@ -12,4 +13,9 @@ public interface IDAO<T> {
     boolean delete(Long id) throws ClassNotFoundException;
 
     List<T> getAll() throws ElementNotFoundException, ClassNotFoundException;
+
+    default Connection getConnection() throws ClassNotFoundException {
+        Connector connector = new Connector();
+        return connector.Connect();
+    }
 }

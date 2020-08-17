@@ -22,8 +22,7 @@ public class TransactionDao implements IDAO<Transaction> {
 
     public List<Transaction> getAll() throws ElementNotFoundException, ClassNotFoundException {
         List<Transaction> transactions = new ArrayList<>();
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM transactions;");
@@ -43,8 +42,7 @@ public class TransactionDao implements IDAO<Transaction> {
     @Override
     public Transaction getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
         List<Transaction> transactions = new ArrayList<>();
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM transactions WHERE id = ?");
             ResultSet rs = preparedStatement.executeQuery();
@@ -64,8 +62,7 @@ public class TransactionDao implements IDAO<Transaction> {
 
     @Override
     public boolean insert(Transaction transaction) throws ClassNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO transactions " +
@@ -88,8 +85,7 @@ public class TransactionDao implements IDAO<Transaction> {
 
     @Override
     public boolean update(Transaction transaction) throws ClassNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
         Long id = transaction.getId();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE transactions SET " +
@@ -111,8 +107,7 @@ public class TransactionDao implements IDAO<Transaction> {
 
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
-        Connector connector = new Connector();
-        Connection connection = connector.Connect();
+        Connection connection = this.getConnection();
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM transactions WHERE id = ?");
