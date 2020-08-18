@@ -1,6 +1,7 @@
 package com.codecool.masonrySystem.Handlers;
 
 import com.codecool.masonrySystem.DAO.QuestDao;
+import com.codecool.masonrySystem.DAO.UserDao;
 import com.codecool.masonrySystem.Exception.ElementNotFoundException;
 import com.codecool.masonrySystem.Helpers.CookieHelper;
 import com.codecool.masonrySystem.Helpers.HandlerHelper;
@@ -16,18 +17,21 @@ import java.util.List;
 public class AcademyHandler implements HttpHandler {
     private HandlerHelper handlerHelper;
     private CookieHelper cookieHelper;
+    private UserDao userDao;
     private QuestDao questDao;
 
-    public AcademyHandler(HandlerHelper handlerHelper, CookieHelper cookieHelper) {
+
+    public AcademyHandler(HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao) {
         this.handlerHelper = handlerHelper;
         this.cookieHelper = cookieHelper;
+        this.userDao = userDao;
         this.questDao = new QuestDao();
     }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         String response;
-        List<Quest> questList = null;        
+        List<Quest> questList = null;
         try {
             questList = questDao.getAll();
         } catch (ElementNotFoundException | ClassNotFoundException e) {

@@ -63,6 +63,9 @@ public class LoginHandler implements HttpHandler {
         Map<String, String> inputs = handlerHelper.getInputs(httpExchange);
         try {
             if (loginHelper.areCredentialsValid(inputs)) {
+                String sessionId = loginHelper.getIdGenerator().generateId(18);
+                System.out.println(sessionId);
+                cookieHelper.createCookie(httpExchange, SESSION_COOKIE_NAME, sessionId);
                 redirectHome(httpExchange);
             }
         } catch (InvalidLoginDataException | ClassNotFoundException e) {

@@ -31,7 +31,7 @@
     <div class="sub-container">
         <div class="header-box">
             <h2 class="subpage-header">ACADEMY</h2>
-            <h4>Your rank: <span id="user-rank"> user rank</span></h4>
+            <h4>Your rank: {{ user.rank }}</h4>
         </div>
         <div class="triangle-box">
             <div class="purple-triangle">
@@ -47,9 +47,9 @@
                 <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>
             </div>
             <div class="info">
-                {{ quest.name }} <br/>
-                {{ quest.requiredRank.getRankString() }}<br/>
-                {{ Reward }}<br/>
+                <strong>{{ quest.name }}</strong> <br/>
+                Required rank: {{ quest.requiredRank.getRankString() }}<br/>
+                Reward: {{ quest.reward }}<br/>
             </div>
         </div>
         {% endfor %}

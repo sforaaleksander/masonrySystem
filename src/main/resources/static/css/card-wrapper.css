@@ -11,7 +11,7 @@
     /*width: 9.375em; !*original*!*/
     width: 15em;
     /*height: 15.625em; !*original*!*/
-    height: 19em;
+    height: 21em;
     background-color: #657A6E;
     /*display: flex;*/
     /*flex-direction: column;*/
@@ -22,11 +22,11 @@
 .image-box {
     background-color: #47FC90;
     position: relative;
-    bottom: 2em;
-    right: 0.5em;
-    width: 12em;
-    height: 15em;
-    padding: 5%;
+    /*bottom: 2em;*/
+    /*right: 0.5em;*/
+    width: 13em;
+    height: 16em;
+    /*padding: 5%;*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,10 +41,10 @@
 .info {
     margin: 0;
     position: relative;
-    bottom: 2em;
+    /*bottom: 2em;*/
 }
 
-.info h6, h5 {
+.info {
     padding: 0;
     /*margin: 0.8em;*/
     color: #180427;
