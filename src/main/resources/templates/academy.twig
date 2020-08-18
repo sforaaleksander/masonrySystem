@@ -31,7 +31,7 @@
     <div class="sub-container">
         <div class="header-box">
             <h2 class="subpage-header">ACADEMY</h2>
-            <h4>Your rank: {{ user.rank }}</h4>
+            <h4>Your rank: {{ user.rank.getRankString() }}</h4>
         </div>
         <div class="triangle-box">
             <div class="purple-triangle">
@@ -53,14 +53,6 @@
             </div>
         </div>
         {% endfor %}
-
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
     </div>
 </main>
 <footer>
