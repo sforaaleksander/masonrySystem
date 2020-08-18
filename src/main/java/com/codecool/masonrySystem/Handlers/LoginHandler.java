@@ -1,5 +1,6 @@
 package com.codecool.masonrySystem.Handlers;
 
+import com.codecool.masonrySystem.DAO.SessionDao;
 import com.codecool.masonrySystem.DAO.UserDao;
 import com.codecool.masonrySystem.Exception.InvalidLoginDataException;
 import com.codecool.masonrySystem.Helpers.CookieHelper;
@@ -25,7 +26,7 @@ public class LoginHandler implements HttpHandler {
     private LoginHelper loginHelper;
 
 
-    public LoginHandler(HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao) {
+    public LoginHandler(HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
         this.handlerHelper = handlerHelper;
         this.cookieHelper = cookieHelper;
         this.userDao = userDao;

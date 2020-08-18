@@ -37,13 +37,17 @@ public class SessionDao implements IDAO<Session> {
     }
 
     @Override
-    public Session getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
+    public Session getById(Long id) {
+        return null;
+    }
+
+    public Session getById(String id) throws ClassNotFoundException, ElementNotFoundException {
         Session session;
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM sessions WHERE session_id = ?");
             ResultSet rs = preparedStatement.executeQuery();
-            preparedStatement.setLong(1, id);
+            preparedStatement.setString(1, id);
             if (rs.next()) {
                 session = create(rs);
                 rs.close();
@@ -58,7 +62,7 @@ public class SessionDao implements IDAO<Session> {
     }
 
     @Override
-    public boolean insert(Session session) throws ClassNotFoundException, ElementNotFoundException {
+    public boolean insert(Session session) throws ClassNotFoundException {
         Connection connection = this.getConnection();
 
         try {
@@ -83,12 +87,15 @@ public class SessionDao implements IDAO<Session> {
     }
 
     @Override
-    public boolean delete(Long id) throws ClassNotFoundException {
-        Connection connection = this.getConnection();
+    public boolean delete(Long id) {
+        return false;
+    }
 
+    public boolean delete(String id) throws ClassNotFoundException {
+        Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM sessions WHERE session_id = ?");
-            preparedStatement.setLong(1, id);
+            preparedStatement.setString(1, id);
             preparedStatement.executeQuery();
             preparedStatement.close();
             connection.close();
