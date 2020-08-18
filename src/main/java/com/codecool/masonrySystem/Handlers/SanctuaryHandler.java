@@ -56,8 +56,8 @@ public class SanctuaryHandler implements HttpHandler {
         }
         JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/sanctuary.twig");
         JtwigModel model = JtwigModel.newModel();
-        model.with("artifacts", artifactList);
         model.with("user", user);
+        model.with("artifacts", artifactList);
         response = template.render(model);
         handlerHelper.send200(httpExchange, response);
     }

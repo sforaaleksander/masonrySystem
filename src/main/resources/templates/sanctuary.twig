@@ -14,30 +14,34 @@
     <div class="orange-header">
         <nav class="menu">
             <ul>
-                <li> <a href="vessel">Console</a></li>
-                <li> <a href="academy">Academy</a></li>
-                <li> <a href="sanctuary">Sanctuary</a></li>
-                <li> <a href="logout">Log out</a></li>
+                <li><a href="vessel">Console</a></li>
+                <li><a href="academy">Academy</a></li>
+                <li><a href="sanctuary">Sanctuary</a></li>
+                <li><a href="logout">Log out</a></li>
             </ul>
         </nav>
         <div id="title-with-logo">
-            <h1><a href="index">MASONRY<br /> SYSTEM</a></h1>
-            <img src="/static/images/masonry-logo.png" alt="masonry-logo" />
+            <h1><a href="index">MASONRY<br/> SYSTEM</a></h1>
+            <img src="/static/images/masonry-logo.png" alt="masonry-logo"/>
         </div>
     </div>
 </header>
 <main>
     <div class="sub-container">
         <h2 class="subpage-header">SANCTUARY</h2>
-        <div class="blue-box">
-            <div class="sp-logo">
-                <img src="/static/images/eye_of_providence.png" alt="Spirit Points" />
+
+        {% if not (user.rank.getRankString().equals(Rank.AINSOPHAUR.getRankString()) or user.rank.getRankString().equals(Rank.THEILLUMINATIg.getRankString())) %}
+            <div class="blue-box">
+                <div class="sp-logo">
+                    <img src="/static/images/eye_of_providence.png" alt="Spirit Points"/>
+                </div>
+                <div class="sp-text">
+                    <span>Spirit Points:&nbsp</span>
+                    <span {{ user.spiritPoints }} </span>
+                </div>
             </div>
-            <div class="sp-text">
-                <span>Spirit Points:&nbsp</span>
-                <span id="sp-points">xxx</span>
-            </div>
-        </div>
+        {% endif %}
+
         <div class="triangle-box">
             <div class="purple-triangle">
             </div>
@@ -46,14 +50,17 @@
         </div>
     </div>
     <div class="cards-wrapper">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
+        {% for artifact in artifacts %}
+            <div class="card">
+                <div class="image-box">
+                    <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>
+                </div>
+                <div class="info">
+                    <strong>{{ artifact.name }}</strong> <br/>
+                    Price: {{ artifact.price }}<br/>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 </main>
 <footer>

@@ -3,13 +3,13 @@ package com.codecool.masonrySystem.Models;
 import java.util.Date;
 
 public class Artifact {
-    Long id;
-    String name;
-    Integer price;
-    String description;
-    Boolean isCollective;
-    Boolean isActive;
-    Date expirationDate;
+    private Long id;
+    private String name;
+    private Integer price;
+    private String description;
+    private Boolean isCollective;
+    private Boolean isActive;
+    private Date expirationDate;
 
     public Long getId() {
         return id;
