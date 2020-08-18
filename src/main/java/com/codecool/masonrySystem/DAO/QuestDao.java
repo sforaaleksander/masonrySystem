@@ -47,8 +47,8 @@ public class QuestDao implements IDAO<Quest> {
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM quests WHERE id = ?");
-            ResultSet rs = preparedStatement.executeQuery();
             preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 quest = create(rs);
                 rs.close();

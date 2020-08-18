@@ -46,8 +46,8 @@ public class ArtifactDao implements IDAO<Artifact> {
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM artifacts WHERE id = ?");
-            ResultSet rs = preparedStatement.executeQuery();
             preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 artifact = create(rs);
                 rs.close();

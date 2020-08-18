@@ -44,8 +44,8 @@ public class TransactionDao implements IDAO<Transaction> {
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM transactions WHERE id = ?");
-            ResultSet rs = preparedStatement.executeQuery();
             preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 transaction = create(rs);
                 rs.close();

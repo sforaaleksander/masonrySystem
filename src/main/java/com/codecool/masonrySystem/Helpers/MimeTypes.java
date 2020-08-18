@@ -120,7 +120,7 @@ public class MimeTypes {
     public static final String MIME_VIDEO_X_SGI_MOVIE     = "video/x-sgi-movie";
     public static final String MIME_X_CONFERENCE_X_COOLTALK   = "x-conference/x-cooltalk";
     public static final String MIME_FONT   = "font/ttf";
-    
+
 
     public static HashMap<String, String> mimeTypeMapping;
 

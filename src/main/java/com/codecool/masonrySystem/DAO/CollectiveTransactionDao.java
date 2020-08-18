@@ -44,8 +44,8 @@ public class CollectiveTransactionDao implements IDAO<CollectiveTransaction> {
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM collective_transactions WHERE id = ?");
-            ResultSet rs = preparedStatement.executeQuery();
             preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 collectiveTransaction = create(rs);
                 rs.close();
