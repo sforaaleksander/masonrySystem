@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academy</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/academy.css">
+    <link rel="stylesheet" href="/static/css/card-wrapper.css">
+    <link rel="shortcut icon" href="/static/images/masonry-logo_favicon.png">
+    <script src="/static/js/script.js"></script>
+</head>
+<body>
+<header>
+    <div class="orange-header">
+        <nav class="menu">
+            <ul>
+                <li><a href="vessel.html">Console</a></li>
+                <li><a href="academy.html">Academy</a></li>
+                <li><a href="sanctuary.html">Sanctuary</a></li>
+                <li><a href="#" onclick="logout()">Log out</a></li>
+            </ul>
+        </nav>
+        <div id="title-with-logo">
+            <h1><a href="index.html">MASONRY<br/> SYSTEM</a></h1>
+            <img src="/static/images/masonry-logo.png" alt="masonry-logo"/>
+        </div>
+    </div>
+</header>
+<main>
+    <div class="sub-container">
+        <div class="header-box">
+            <h2 class="subpage-header">ACADEMY</h2>
+            <h4>Your rank: <span id="user-rank"> user rank</span></h4>
+        </div>
+        <div class="triangle-box">
+            <div class="purple-triangle">
+            </div>
+            <div class="shadow-triangle">
+            </div>
+        </div>
+    </div>
+    <div class="cards-wrapper">
+        {% for quest in quests %}
+        <div class="card">
+            <div class="image-box">
+                <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>
+            </div>
+            <div class="info">
+                {{ quest.name }} <br/>
+                {{ quest.requiredRank.getRankString() }}<br/>
+                {{ Reward }}<br/>
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+    </div>
+</main>
+<footer>
+    <div class="red-line">
+        <h5>
+            Masonry System &copy; 2020 made by Rafal Zawodowiec & Sfora Aleksander
+        </h5>
+    </div>
+</footer>
+</body>
+
+</html>

@@ -19,4 +19,8 @@ public enum Rank {
     Rank(String rankString){
         this.rankString = rankString;
     }
+
+    public String getRankString() {
+        return rankString;
+    }
 }

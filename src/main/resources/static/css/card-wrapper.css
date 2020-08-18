@@ -5,9 +5,47 @@
 }
 
 .card {
+    position: static;
     margin: 0.9375em;
-    padding: 5%;
-    width: 9.375em;
-    height: 15.625em;
+    /*padding: 5%;*/
+    /*width: 9.375em; !*original*!*/
+    width: 15em;
+    /*height: 15.625em; !*original*!*/
+    height: 19em;
+    background-color: #657A6E;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*!*justify-content: center;*!*/
+    /*align-items: center;*/
+}
+
+.image-box {
     background-color: #47FC90;
+    position: relative;
+    bottom: 2em;
+    right: 0.5em;
+    width: 12em;
+    height: 15em;
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-box img {
+    width: 8.75em;
+    height: 8.75em;
+    margin: 0;
+}
+
+.info {
+    margin: 0;
+    position: relative;
+    bottom: 2em;
+}
+
+.info h6, h5 {
+    padding: 0;
+    /*margin: 0.8em;*/
+    color: #180427;
 }
