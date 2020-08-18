@@ -1,7 +1,6 @@
 package com.codecool.masonrySystem.DAO;
 
 import com.codecool.masonrySystem.Exception.ElementNotFoundException;
-import com.codecool.masonrySystem.Exception.InvalidLoginDataException;
 import com.codecool.masonrySystem.Models.Apprentice;
 import com.codecool.masonrySystem.Models.User;
 import com.codecool.masonrySystem.Models.Rank;
@@ -21,8 +20,7 @@ public class UserDao implements IDAO<User> {
     private User create(ResultSet resultSet) throws SQLException {
         return userFactory.makeUser(resultSet);
     }
-
-
+    
     public List<User> getAll() throws ElementNotFoundException, ClassNotFoundException {
         List<User> users = new ArrayList<>();
         Connection connection = this.getConnection();
@@ -68,7 +66,6 @@ public class UserDao implements IDAO<User> {
         Integer spiritPoints = null;
         Integer lodgeId = null;
         Connection connection = this.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" +
                     "(first_name, last_name, email, password, spirit_points, lodge_id, role_id, rank_id, is_active) VALUES " +
@@ -78,7 +75,7 @@ public class UserDao implements IDAO<User> {
             preparedStatement.setString(3, user.getLastName());
             preparedStatement.setString(4, user.getEmail());
             preparedStatement.setString(5, user.getPassword());
-            if (user.getRank() !=Rank.AINSOPHAUR || user.getRank() !=Rank.THEILLUMINATI) {
+            if (user.getRank() != Rank.AINSOPHAUR || user.getRank() != Rank.THEILLUMINATI) {
                 Apprentice apprentice = (Apprentice) user;
                 spiritPoints = apprentice.getSpiritPoints();
                 lodgeId = apprentice.getLodgeId();
@@ -87,7 +84,7 @@ public class UserDao implements IDAO<User> {
             preparedStatement.setInt(7, lodgeId);
             preparedStatement.setInt(8, user.getRank().ordinal()); //TODO check if correct
             preparedStatement.setBoolean(9, user.getIsActive());
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
@@ -110,7 +107,7 @@ public class UserDao implements IDAO<User> {
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getPassword());
-            if (user.getRank() !=Rank.AINSOPHAUR || user.getRank() !=Rank.THEILLUMINATI) {
+            if (user.getRank() != Rank.AINSOPHAUR || user.getRank() != Rank.THEILLUMINATI) {
                 Apprentice apprentice = (Apprentice) user;
                 spiritPoints = apprentice.getSpiritPoints();
                 lodgeId = apprentice.getLodgeId();
@@ -120,7 +117,7 @@ public class UserDao implements IDAO<User> {
             preparedStatement.setInt(7, user.getRank().ordinal()); //TODO check if correct
             preparedStatement.setBoolean(8, user.getIsActive());
             preparedStatement.setLong(9, id);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;

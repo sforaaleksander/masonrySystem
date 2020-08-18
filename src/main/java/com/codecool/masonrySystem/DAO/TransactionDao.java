@@ -19,7 +19,6 @@ public class TransactionDao implements IDAO<Transaction> {
         return transaction;
     }
 
-
     public List<Transaction> getAll() throws ElementNotFoundException, ClassNotFoundException {
         List<Transaction> transactions = new ArrayList<>();
         Connection connection = this.getConnection();
@@ -63,7 +62,6 @@ public class TransactionDao implements IDAO<Transaction> {
     @Override
     public boolean insert(Transaction transaction) throws ClassNotFoundException {
         Connection connection = this.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO transactions " +
                             "(id, user_id, artifact_id, open_transaction, close_transaction) VALUES " +
@@ -73,7 +71,7 @@ public class TransactionDao implements IDAO<Transaction> {
             preparedStatement.setLong(3, transaction.getArtifactId());
             preparedStatement.setDate(4, (Date) transaction.getOpenTransaction());
             preparedStatement.setDate(5, (Date) transaction.getCloseTransaction());
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
@@ -95,7 +93,7 @@ public class TransactionDao implements IDAO<Transaction> {
             preparedStatement.setDate(3, (Date) transaction.getOpenTransaction());
             preparedStatement.setDate(4, (Date) transaction.getCloseTransaction());
             preparedStatement.setLong(5, id);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
@@ -108,11 +106,10 @@ public class TransactionDao implements IDAO<Transaction> {
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
         Connection connection = this.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM transactions WHERE id = ?");
             preparedStatement.setLong(1, id);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;

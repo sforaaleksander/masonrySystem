@@ -16,7 +16,6 @@ public class SessionDao implements IDAO<Session> {
         return session;
     }
 
-
     public List<Session> getAll() throws ElementNotFoundException, ClassNotFoundException {
         List<Session> sessions = new ArrayList<>();
         Connection connection = this.getConnection();
@@ -33,7 +32,7 @@ public class SessionDao implements IDAO<Session> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new ElementNotFoundException("Sessions not found");
+        throw new ElementNotFoundException("Session not found");
     }
 
     @Override
@@ -64,7 +63,6 @@ public class SessionDao implements IDAO<Session> {
     @Override
     public boolean insert(Session session) throws ClassNotFoundException {
         Connection connection = this.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO sessions" +
                     "(session_id, user_id) VALUES " +

@@ -3,7 +3,6 @@ package com.codecool.masonrySystem.DAO;
 import com.codecool.masonrySystem.Exception.ElementNotFoundException;
 import com.codecool.masonrySystem.Models.Journeyman;
 import com.codecool.masonrySystem.Models.Lodge;
-import com.codecool.masonrySystem.Models.Rank;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ public class LodgeDao implements IDAO<Lodge> {
         lodge.setOwner(journeyman);
         return lodge;
     }
-
 
     public List<Lodge> getAll() throws ElementNotFoundException, ClassNotFoundException {
         List<Lodge> lodges = new ArrayList<>();
@@ -69,7 +67,6 @@ public class LodgeDao implements IDAO<Lodge> {
     @Override
     public boolean insert(Lodge lodge) throws ClassNotFoundException, ElementNotFoundException {
         Connection connection = this.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO lodges" +
                     "(id, name, owner_id) VALUES " +
@@ -77,7 +74,7 @@ public class LodgeDao implements IDAO<Lodge> {
             preparedStatement.setLong(1, lodge.getId());
             preparedStatement.setString(2, lodge.getName());
             preparedStatement.setLong(3, lodge.getOwner().getId());
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
@@ -97,7 +94,7 @@ public class LodgeDao implements IDAO<Lodge> {
             preparedStatement.setString(1, lodge.getName());
             preparedStatement.setLong(2, lodge.getOwner().getId());
             preparedStatement.setLong(3, id);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
@@ -110,11 +107,10 @@ public class LodgeDao implements IDAO<Lodge> {
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
         Connection connection = this.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM lodges WHERE id = ?");
             preparedStatement.setLong(1, id);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;

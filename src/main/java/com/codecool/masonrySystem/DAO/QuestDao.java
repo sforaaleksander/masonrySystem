@@ -22,7 +22,6 @@ public class QuestDao implements IDAO<Quest> {
         return quest;
     }
 
-
     public List<Quest> getAll() throws ElementNotFoundException, ClassNotFoundException {
         List<Quest> quests = new ArrayList<>();
         Connection connection = this.getConnection();
@@ -66,7 +65,6 @@ public class QuestDao implements IDAO<Quest> {
     @Override
     public boolean insert(Quest quest) throws ClassNotFoundException, ElementNotFoundException {
         Connection connection = this.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO quests" +
                     "(id, name, reward, required_rank, description, is_active, expiration_date, is_collective) VALUES " +
@@ -79,7 +77,7 @@ public class QuestDao implements IDAO<Quest> {
             preparedStatement.setBoolean(6, quest.getIsActive());
             preparedStatement.setDate(7, (Date) quest.getExpirationDate());
             preparedStatement.setBoolean(8, quest.getIsCollective());
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
@@ -104,7 +102,7 @@ public class QuestDao implements IDAO<Quest> {
             preparedStatement.setDate(6, (Date) quest.getExpirationDate());
             preparedStatement.setBoolean(7, quest.getIsCollective());
             preparedStatement.setLong(8, id);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
@@ -117,11 +115,10 @@ public class QuestDao implements IDAO<Quest> {
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
         Connection connection = this.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM quests WHERE id = ?");
             preparedStatement.setLong(1, id);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;

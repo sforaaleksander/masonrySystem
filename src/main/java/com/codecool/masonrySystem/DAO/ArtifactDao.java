@@ -21,12 +21,9 @@ public class ArtifactDao implements IDAO<Artifact> {
         return artifact;
     }
 
-
     public List<Artifact> getAll() throws ElementNotFoundException, ClassNotFoundException {
         List<Artifact> artifacts = new ArrayList<>();
-
         Connection connection = this.getConnection();
-
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM artifacts;");
@@ -67,7 +64,6 @@ public class ArtifactDao implements IDAO<Artifact> {
     @Override
     public boolean insert(Artifact artifact) throws ClassNotFoundException, ElementNotFoundException {
         Connection connection = this.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO artifacts" +
                     "(id, name, price, description, is_collective, is_active, expiration_date) VALUES " +
@@ -79,8 +75,7 @@ public class ArtifactDao implements IDAO<Artifact> {
             preparedStatement.setBoolean(5, artifact.getIsCollective());
             preparedStatement.setBoolean(6, artifact.getIsActive());
             preparedStatement.setDate(7, (Date) artifact.getExpirationDate());
-            preparedStatement.executeQuery();
-
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
@@ -95,7 +90,6 @@ public class ArtifactDao implements IDAO<Artifact> {
     public boolean update(Artifact artifact) throws ClassNotFoundException {
         Connection connection = this.getConnection();
         Long id = artifact.getId();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE artifacts SET " +
                     "name=?, price=?, description=?, is_collective=?, is_active=?, expiration_date=? WHERE id = ?");
@@ -106,9 +100,7 @@ public class ArtifactDao implements IDAO<Artifact> {
             preparedStatement.setBoolean(5, artifact.getIsActive());
             preparedStatement.setDate(6, (Date) artifact.getExpirationDate());
             preparedStatement.setLong(7, id);
-
-            preparedStatement.executeQuery();
-
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
@@ -121,11 +113,10 @@ public class ArtifactDao implements IDAO<Artifact> {
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
         Connection connection = this.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM artifacts WHERE id = ?");
             preparedStatement.setLong(1, id);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;

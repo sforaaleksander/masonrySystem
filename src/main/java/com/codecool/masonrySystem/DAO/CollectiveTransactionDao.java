@@ -19,7 +19,6 @@ public class CollectiveTransactionDao implements IDAO<CollectiveTransaction> {
         return collectiveTransaction;
     }
 
-
     public List<CollectiveTransaction> getAll() throws ElementNotFoundException, ClassNotFoundException {
         List<CollectiveTransaction> collectiveTransactions = new ArrayList<>();
         Connection connection = this.getConnection();
@@ -63,7 +62,6 @@ public class CollectiveTransactionDao implements IDAO<CollectiveTransaction> {
     @Override
     public boolean insert(CollectiveTransaction collectiveTransaction) throws ClassNotFoundException {
         Connection connection = this.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO collective_transactions" +
                     "(id, transaction_id, user_id, donation_date, amount) VALUES " +
@@ -73,7 +71,7 @@ public class CollectiveTransactionDao implements IDAO<CollectiveTransaction> {
             preparedStatement.setLong(3, collectiveTransaction.getUserId());
             preparedStatement.setDate(4, (Date) collectiveTransaction.getDonationDate());
             preparedStatement.setInt(5, collectiveTransaction.getAmount());
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
@@ -95,7 +93,7 @@ public class CollectiveTransactionDao implements IDAO<CollectiveTransaction> {
             preparedStatement.setDate(3, (Date) collectiveTransaction.getDonationDate());
             preparedStatement.setInt(4, collectiveTransaction.getAmount());
             preparedStatement.setLong(5, id);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
@@ -108,11 +106,10 @@ public class CollectiveTransactionDao implements IDAO<CollectiveTransaction> {
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
         Connection connection = this.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM collective_transactions WHERE id = ?");
             preparedStatement.setLong(1, id);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
