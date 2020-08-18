@@ -11,6 +11,7 @@ public class UserFactory {
         switch (userRole) {
             case 1:
                 MasterMason masterMason = new MasterMason();
+                masterMason.setId(resultSet.getLong("id"));
                 masterMason.setFirstName(resultSet.getString("first_name"));
                 masterMason.setLastName(resultSet.getString("last_name"));
                 masterMason.setEmail(resultSet.getString("email"));
@@ -19,6 +20,7 @@ public class UserFactory {
                 return masterMason;
             case 2:
                 Journeyman journeyman = new Journeyman();
+                journeyman.setId(resultSet.getLong("id"));
                 journeyman.setFirstName(resultSet.getString("first_name"));
                 journeyman.setLastName(resultSet.getString("last_name"));
                 journeyman.setEmail(resultSet.getString("email"));
@@ -27,6 +29,7 @@ public class UserFactory {
                 return journeyman;
             default:
                 Apprentice apprentice = new Apprentice();
+                apprentice.setId(resultSet.getLong("id"));
                 apprentice.setFirstName(resultSet.getString("first_name"));
                 apprentice.setLastName(resultSet.getString("last_name"));
                 apprentice.setEmail(resultSet.getString("email"));
