@@ -6,6 +6,7 @@ import com.codecool.masonrySystem.Exception.InvalidLoginDataException;
 import com.codecool.masonrySystem.Helpers.CookieHelper;
 import com.codecool.masonrySystem.Helpers.HandlerHelper;
 import com.codecool.masonrySystem.Helpers.LoginHelper;
+import com.codecool.masonrySystem.Models.Session;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -19,17 +20,18 @@ import java.util.Optional;
 
 public class LoginHandler implements HttpHandler {
     private static final String SESSION_COOKIE_NAME = "sessionId";
-    private static int counter = 0;
-    private CookieHelper cookieHelper;
-    private HandlerHelper handlerHelper;
-    private UserDao userDao;
-    private LoginHelper loginHelper;
+    private final CookieHelper cookieHelper;
+    private final HandlerHelper handlerHelper;
+    private final LoginHelper loginHelper;
+    private final UserDao userDao;
+    private final SessionDao sessionDao;
 
 
     public LoginHandler(HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
         this.handlerHelper = handlerHelper;
         this.cookieHelper = cookieHelper;
         this.userDao = userDao;
+        this.sessionDao = sessionDao;
         this.loginHelper = new LoginHelper(userDao);
     }
 
@@ -64,14 +66,24 @@ public class LoginHandler implements HttpHandler {
         Map<String, String> inputs = handlerHelper.getInputs(httpExchange);
         try {
             if (loginHelper.areCredentialsValid(inputs)) {
-                String sessionId = loginHelper.getIdGenerator().generateId(18);
-                System.out.println(sessionId);
-                cookieHelper.createCookie(httpExchange, SESSION_COOKIE_NAME, sessionId);
-                redirectHome(httpExchange);
+                login(httpExchange, inputs);
             }
-        } catch (InvalidLoginDataException | ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void login(HttpExchange httpExchange, Map<String, String> inputs) throws ClassNotFoundException, IOException {
+        Session session;
+        String sessionId = loginHelper.getIdGenerator().generateId(18);
+        System.out.println(sessionId);
+        Long userId = userDao.getUserByEmail(inputs.get("email")).getId();
+        session = new Session();
+        session.setSessionId(sessionId);
+        session.setUserId(userId);
+        sessionDao.insert(session);
+        cookieHelper.createCookie(httpExchange, SESSION_COOKIE_NAME, sessionId);
+        redirectHome(httpExchange);
     }
 
     private void redirectHome(HttpExchange httpExchange) throws IOException {

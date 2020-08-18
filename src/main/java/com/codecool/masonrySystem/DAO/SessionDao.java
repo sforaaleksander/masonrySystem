@@ -71,7 +71,7 @@ public class SessionDao implements IDAO<Session> {
                     "(?, ?)");
             preparedStatement.setString(1, session.getSessionId());
             preparedStatement.setLong(2, session.getUserId());
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
@@ -96,7 +96,7 @@ public class SessionDao implements IDAO<Session> {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM sessions WHERE session_id = ?");
             preparedStatement.setString(1, id);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;

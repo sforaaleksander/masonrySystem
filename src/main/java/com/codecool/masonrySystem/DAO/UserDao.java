@@ -146,7 +146,7 @@ public class UserDao implements IDAO<User> {
         return false;
     }
 
-    public User getUserByEmail(String email) throws ClassNotFoundException, InvalidLoginDataException {
+    public User getUserByEmail(String email) throws ClassNotFoundException {
         User user;
         Connection connection = this.getConnection();
         try {
@@ -163,6 +163,6 @@ public class UserDao implements IDAO<User> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new InvalidLoginDataException("Could not login with provided data");
+        throw new ClassNotFoundException("User with given email could not found");
     }
 }

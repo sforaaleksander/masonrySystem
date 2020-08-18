@@ -15,7 +15,7 @@ public class LoginHelper {
         this.idGenerator = new IdGenerator();
     }
 
-    public boolean areCredentialsValid(Map<String, String> inputs) throws InvalidLoginDataException, ClassNotFoundException {
+    public boolean areCredentialsValid(Map<String, String> inputs) throws ClassNotFoundException {
         String email = inputs.get("email");
         String password = inputs.get("password");
         User user = userDao.getUserByEmail(email);
