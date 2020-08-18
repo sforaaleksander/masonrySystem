@@ -45,8 +45,8 @@ public class SessionDao implements IDAO<Session> {
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM sessions WHERE session_id = ?");
-            ResultSet rs = preparedStatement.executeQuery();
             preparedStatement.setString(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 session = create(rs);
                 rs.close();

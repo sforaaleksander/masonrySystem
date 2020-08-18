@@ -2,7 +2,6 @@ package com.codecool.masonrySystem.Handlers;
 
 import com.codecool.masonrySystem.DAO.SessionDao;
 import com.codecool.masonrySystem.DAO.UserDao;
-import com.codecool.masonrySystem.Exception.InvalidLoginDataException;
 import com.codecool.masonrySystem.Helpers.CookieHelper;
 import com.codecool.masonrySystem.Helpers.HandlerHelper;
 import com.codecool.masonrySystem.Helpers.LoginHelper;
@@ -19,7 +18,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public class LoginHandler implements HttpHandler {
-    private static final String SESSION_COOKIE_NAME = "sessionId";
     private final CookieHelper cookieHelper;
     private final HandlerHelper handlerHelper;
     private final LoginHelper loginHelper;
@@ -46,7 +44,7 @@ public class LoginHandler implements HttpHandler {
     }
 
     private void handleGet(HttpExchange httpExchange) throws IOException {
-        Optional<HttpCookie> optionalCookie = cookieHelper.getSessionIdCookie(httpExchange, SESSION_COOKIE_NAME);
+        Optional<HttpCookie> optionalCookie = cookieHelper.getSessionIdCookie(httpExchange, CookieHelper.getSessionCookieName());
         if (optionalCookie.isPresent()) {
             redirectHome(httpExchange);
         } else {
@@ -82,7 +80,7 @@ public class LoginHandler implements HttpHandler {
         session.setSessionId(sessionId);
         session.setUserId(userId);
         sessionDao.insert(session);
-        cookieHelper.createCookie(httpExchange, SESSION_COOKIE_NAME, sessionId);
+        cookieHelper.createCookie(httpExchange, CookieHelper.getSessionCookieName(), sessionId);
         redirectHome(httpExchange);
     }
 

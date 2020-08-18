@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class CookieHelper {
+    private static final String SESSION_COOKIE_NAME = "sessionId";
 
     public List<HttpCookie> parseCookies(String cookieString){
         List<HttpCookie> cookies = new ArrayList<>();
@@ -39,14 +40,17 @@ public class CookieHelper {
         httpExchange.getResponseHeaders().add("Set-Cookie", cookieString);
     }
 
-    public int getSessionIdFromCookie(HttpCookie cookie) {
-        String value = cookie.getValue().replace("\"", "");
-        return Integer.parseInt(value);
+    public String getSessionIdFromCookie(HttpCookie cookie) {
+        return cookie.getValue().replace("\"", "");
     }
 
     public Optional<HttpCookie> getSessionIdCookie(HttpExchange httpExchange, String name) {
         String cookieStr = httpExchange.getRequestHeaders().getFirst("Cookie");
         List<HttpCookie> cookies = parseCookies(cookieStr);
         return findCookieByName(name, cookies);
+    }
+
+    public static String getSessionCookieName() {
+        return SESSION_COOKIE_NAME;
     }
 }
