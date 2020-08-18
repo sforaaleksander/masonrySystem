@@ -3,14 +3,14 @@ package com.codecool.masonrySystem.Models;
 import java.util.Date;
 
 public class Quest {
-    Long id;
-    String name;
-    Integer reward;
-    Rank requiredRank;
-    String description;
-    Boolean isActive;
-    Date expirationDate;
-    Boolean isCollective;
+    private Long id;
+    private String name;
+    private Integer reward;
+    private Rank requiredRank;
+    private String description;
+    private Boolean isActive;
+    private Date expirationDate;
+    private Boolean isCollective;
 
 
     public Long getId() {
