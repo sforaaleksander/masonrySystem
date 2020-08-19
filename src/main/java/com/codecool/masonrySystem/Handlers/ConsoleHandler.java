@@ -54,7 +54,6 @@ public class ConsoleHandler implements HttpHandler {
             Long userId = session.getUserId();
             artifactList = artifactDao.getAllUsedByUserId(userId);
             user = userDao.getById(userId);
-
         } catch (ElementNotFoundException | ClassNotFoundException | CookieNotFoundException e) {
             e.printStackTrace();
         }
