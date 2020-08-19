@@ -27,43 +27,11 @@ public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact>
 
     public List<Artifact> getAll() throws ElementNotFoundException, ClassNotFoundException {
         return getAllElements();
-//        List<Artifact> artifacts = new ArrayList<>();
-//        Connection connection = this.getConnection();
-//        try {
-//            Statement statement = connection.createStatement();
-//            ResultSet rs = statement.executeQuery("SELECT * FROM artifacts;");
-//            while (rs.next()) {
-//                artifacts.add(create(rs));
-//            }
-//            rs.close();
-//            statement.close();
-//            connection.close();
-//            return artifacts;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        throw new ElementNotFoundException("Artifacts not found");
     }
 
     @Override
     public Artifact getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
-        Artifact artifact;
-        Connection connection = this.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM artifacts WHERE id = ?");
-            preparedStatement.setLong(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                artifact = create(rs);
-                rs.close();
-                preparedStatement.close();
-                connection.close();
-                return artifact;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new ElementNotFoundException("Artifacts not found");
+        return getElementById(id);
     }
 
     @Override
@@ -116,18 +84,7 @@ public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact>
 
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
-        Connection connection = this.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM artifacts WHERE id = ?");
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return deleteElement(id);
     }
 
     public List<Artifact> getAllUsedByUserId(Long id) throws ElementNotFoundException, ClassNotFoundException {
