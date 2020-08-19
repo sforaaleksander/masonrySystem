@@ -9,3 +9,9 @@
 .info h4:nth-of-type(n+5) {
     margin-top: 1.875em;
 }
+
+h2 {
+    margin: 2em;
+    font-family: Ruda;
+    color: #EB1717;
+}

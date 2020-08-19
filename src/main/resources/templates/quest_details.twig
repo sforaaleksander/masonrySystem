@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quest details</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/element-details.css">
+    <link rel="stylesheet" href="/static/css/quest-details.css">
+    <link rel="shortcut icon" href="/static/images/masonry-logo_favicon.png">
+    <script src="/static/js/script.js" defer></script>
+</head>
+<body>
+<header>
+    <div class="orange-header">
+        <nav class="menu">
+            <ul>
+                <li> <a href="vessel">Console</a></li>
+                <li> <a href="academy">Academy</a></li>
+                <li> <a href="sanctuary">Sanctuary</a></li>
+                <li> <a href="logout">Log out</a></li>
+            </ul>
+        </nav>
+        <div id="title-with-logo">
+            <h1><a href="index">MASONRY<br /> SYSTEM</a></h1>
+            <img src="/static/images/masonry-logo.png" alt="masonry-logo" />
+        </div>
+    </div>
+</header>
+<main>
+    <div class="sub-container">
+        <h2> {{ quest.name }}</h2>
+        <div class="triangle-box">
+            <div class="purple-triangle">
+            </div>
+            <div class="shadow-triangle">
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="img-with-button">
+            <div class="green-box">
+                <img src="/static/images/illuminati-eye-of-providence-illuminati.png" />
+            </div>
+            <button class="red-button">
+                Submit quest
+            </button>
+        </div>
+        <div class="info">
+            <h4>
+                Required rank: {{ quest.requiredRank.getRankString() }}
+            </h4>
+            <h4>
+                Quest reward: {{ quest.reward}} Spirit Points
+            </h4>
+            <p id="quest-details">
+                {{ quest.description }}
+            </p>
+        </div>
+    </div>
+</main>
+<footer>
+    <div class="red-line">
+        <h5>
+            Masonry System &copy; 2020 made by Rafal Zawodowiec & Sfora Aleksander
+        </h5>
+    </div>
+</footer>
+</body>
+</html>
