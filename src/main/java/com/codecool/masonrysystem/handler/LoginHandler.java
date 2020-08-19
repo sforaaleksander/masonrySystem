@@ -46,10 +46,7 @@ public class LoginHandler extends Handler<User> implements HttpHandler {
     }
 
     private void getForm(HttpExchange httpExchange) throws IOException {
-        String response;
-        JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/login.twig");
-        JtwigModel model = JtwigModel.newModel();
-        response = template.render(model);
+        response = createResponse();
         send200(httpExchange, response);
     }
 
