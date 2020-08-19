@@ -1,8 +1,4 @@
-import com.codecool.masonrySystem.Controllers.RootController;
-import com.codecool.masonrySystem.DAO.ArtifactDao;
-import com.codecool.masonrySystem.Models.Artifact;
-
-import java.util.List;
+import com.codecool.masonrysystem.controller.RootController;
 
 public class Main {
     public static void main(String[] args) {
