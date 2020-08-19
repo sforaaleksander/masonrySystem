@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CollectiveTransactionDao extends PostgresDAO<CollectiveTransaction> implements IDAO<CollectiveTransaction> {
 
-    protected CollectiveTransactionDao() {
+    public CollectiveTransactionDao() {
         super("collective_transactions");
     }
 

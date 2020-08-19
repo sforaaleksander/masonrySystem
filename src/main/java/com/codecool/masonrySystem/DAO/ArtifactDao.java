@@ -13,7 +13,8 @@ public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact>
         super("artifacts");
     }
 
-    Artifact create(ResultSet resultSet) throws SQLException {
+    @Override
+    protected Artifact create(ResultSet resultSet) throws SQLException {
         Artifact artifact = new Artifact();
         artifact.setId(resultSet.getLong("id"));
         artifact.setName(resultSet.getString("name"));

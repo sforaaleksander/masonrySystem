@@ -8,9 +8,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LodgeDao implements IDAO<Lodge> {
+public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
 
-    private Lodge create(ResultSet resultSet) throws SQLException {
+    public LodgeDao() {
+        super("lodges");
+    }
+
+    @Override
+    protected Lodge create(ResultSet resultSet) throws SQLException {
         Journeyman journeyman = null;
         Lodge lodge = new Lodge();
         lodge.setId(resultSet.getLong("id"));
