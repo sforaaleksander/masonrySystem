@@ -1,28 +1,46 @@
-package com.codecool.masonrysystem.helper;
+package com.codecool.masonrysystem.handler;
 
+import com.codecool.masonrysystem.dao.ArtifactDao;
 import com.codecool.masonrysystem.dao.SessionDao;
 import com.codecool.masonrysystem.dao.UserDao;
 import com.codecool.masonrysystem.exception.ElementNotFoundException;
+import com.codecool.masonrysystem.helper.CookieHelper;
+import com.codecool.masonrysystem.helper.HandlerHelper;
+import com.codecool.masonrysystem.model.Quest;
 import com.codecool.masonrysystem.model.Session;
 import com.codecool.masonrysystem.model.User;
 import com.sun.net.httpserver.HttpExchange;
+import org.jtwig.JtwigModel;
+import org.jtwig.JtwigTemplate;
 
 import java.io.*;
 import java.net.HttpCookie;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class HandlerHelper {
-    private final CookieHelper cookieHelper;
-    private final UserDao userDao;
-    private final SessionDao sessionDao;
+public abstract class Handler<T> {
+    protected final String TWIGFILENAME;
+    protected Map<String, Object> modelMap;
+    protected final HandlerHelper handlerHelper;
+    protected final CookieHelper cookieHelper;
+    protected final UserDao userDao;
+    protected final SessionDao sessionDao;
+    protected String response;
+    protected List<T> questList = null;
+    protected User user = null;
 
-    public HandlerHelper(CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
+
+    public Handler(String twigFileName, HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
+        this.TWIGFILENAME = twigFileName;
+        this.modelMap = new HashMap<>();
+        this.handlerHelper = handlerHelper;
         this.cookieHelper = cookieHelper;
         this.userDao = userDao;
         this.sessionDao = sessionDao;
+
     }
 
     public void send200(HttpExchange httpExchange, String response) throws IOException {
@@ -60,5 +78,14 @@ public class HandlerHelper {
         Session session = sessionDao.getById(sessionId);
         Long userId = session.getUserId();
         return userDao.getById(userId);
+    }
+
+    public String createResponse() {
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/" + TWIGFILENAME);
+        JtwigModel model = JtwigModel.newModel();
+        for (Map.Entry<String, Object> entry : modelMap.entrySet()) {
+            model.with(entry.getKey(), entry.getValue());
+        }
+        return template.render(model);
     }
 }

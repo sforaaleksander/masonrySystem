@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public class HttpController {
-    HandlerHelper handlerHelper = new HandlerHelper();
     CookieHelper cookieHelper = new CookieHelper();
     UserDao userDao = new UserDao();
     SessionDao sessionDao = new SessionDao();
+    HandlerHelper handlerHelper = new HandlerHelper(cookieHelper, userDao, sessionDao);
 
     public void init() throws IOException {
         int port = 8001;
