@@ -7,58 +7,28 @@ import com.codecool.masonrySystem.Models.Rank;
 import com.codecool.masonrySystem.Models.UserFactory;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public class UserDao implements IDAO<User> {
+public class UserDao extends PostgresDAO<User> implements IDAO<User> {
     private final UserFactory userFactory;
 
     public UserDao() {
+        super("users");
         this.userFactory = new UserFactory();
     }
 
-    private User create(ResultSet resultSet) throws SQLException {
+    @Override
+    protected User create(ResultSet resultSet) throws SQLException {
         return userFactory.makeUser(resultSet);
     }
     
     public List<User> getAll() throws ElementNotFoundException, ClassNotFoundException {
-        List<User> users = new ArrayList<>();
-        Connection connection = this.getConnection();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM users;");
-            while (rs.next()) {
-                users.add(create(rs));
-            }
-            rs.close();
-            statement.close();
-            connection.close();
-            return users;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new ElementNotFoundException("Users not found");
+        return getAllElements();
     }
 
     @Override
     public User getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
-        User user;
-        Connection connection = this.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
-            preparedStatement.setLong(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                user = (create(rs));
-                rs.close();
-                preparedStatement.close();
-                connection.close();
-                return user;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new ElementNotFoundException("User not found");
+        return getElementById(id);
     }
 
     @Override
@@ -129,18 +99,7 @@ public class UserDao implements IDAO<User> {
 
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
-        Connection connection = this.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE id = ?");
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeQuery();
-            preparedStatement.close();
-            connection.close();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return deleteElement(id);
     }
 
     public User getUserByEmail(String email) throws ClassNotFoundException {
