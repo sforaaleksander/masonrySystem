@@ -1,13 +1,13 @@
-package com.codecool.masonrySystem.Handlers;
+package com.codecool.masonrySystem.handler;
 
-import com.codecool.masonrySystem.dao.ArtifactDao;
+import com.codecool.masonrySystem.dao.QuestDao;
 import com.codecool.masonrySystem.dao.SessionDao;
 import com.codecool.masonrySystem.dao.UserDao;
 import com.codecool.masonrySystem.exception.CookieNotFoundException;
 import com.codecool.masonrySystem.exception.ElementNotFoundException;
 import com.codecool.masonrySystem.Helpers.CookieHelper;
 import com.codecool.masonrySystem.Helpers.HandlerHelper;
-import com.codecool.masonrySystem.Models.Artifact;
+import com.codecool.masonrySystem.Models.Quest;
 import com.codecool.masonrySystem.Models.Session;
 import com.codecool.masonrySystem.Models.User;
 import com.sun.net.httpserver.HttpExchange;
@@ -20,28 +20,29 @@ import java.net.HttpCookie;
 import java.util.List;
 import java.util.Optional;
 
-public class SanctuaryHandler implements HttpHandler {
+public class AcademyHandler implements HttpHandler {
     private final HandlerHelper handlerHelper;
     private final CookieHelper cookieHelper;
     private final UserDao userDao;
-    private final ArtifactDao artifactDao;
+    private final QuestDao questDao;
     private final SessionDao sessionDao;
 
-    public SanctuaryHandler(HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
+
+    public AcademyHandler(HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
         this.handlerHelper = handlerHelper;
         this.cookieHelper = cookieHelper;
         this.userDao = userDao;
         this.sessionDao = sessionDao;
-        this.artifactDao = new ArtifactDao();
+        this.questDao = new QuestDao();
     }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         String response;
-        List<Artifact> artifactList = null;
+        List<Quest> questList = null;
         User user = null;
         try {
-            artifactList = artifactDao.getAll();
+            questList = questDao.getAll();
             Optional<HttpCookie> cookieOptional = cookieHelper.getSessionIdCookie(httpExchange, CookieHelper.getSessionCookieName());
             if (!cookieOptional.isPresent()) {
                 throw new CookieNotFoundException("Expected cookie could not be found");
@@ -54,10 +55,10 @@ public class SanctuaryHandler implements HttpHandler {
         } catch (ElementNotFoundException | ClassNotFoundException | CookieNotFoundException e) {
             e.printStackTrace();
         }
-        JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/sanctuary.twig");
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/academy.twig");
         JtwigModel model = JtwigModel.newModel();
+        model.with("quests", questList);
         model.with("user", user);
-        model.with("artifacts", artifactList);
         response = template.render(model);
         handlerHelper.send200(httpExchange, response);
     }

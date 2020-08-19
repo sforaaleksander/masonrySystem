@@ -1,4 +1,4 @@
-package com.codecool.masonrySystem.Handlers;
+package com.codecool.masonrySystem.handler;
 
 import com.codecool.masonrySystem.dao.SessionDao;
 import com.sun.net.httpserver.Headers;

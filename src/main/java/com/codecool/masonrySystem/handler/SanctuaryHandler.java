@@ -1,4 +1,4 @@
-package com.codecool.masonrySystem.Handlers;
+package com.codecool.masonrySystem.handler;
 
 import com.codecool.masonrySystem.dao.ArtifactDao;
 import com.codecool.masonrySystem.dao.SessionDao;
@@ -20,14 +20,14 @@ import java.net.HttpCookie;
 import java.util.List;
 import java.util.Optional;
 
-public class ConsoleHandler implements HttpHandler {
-    private final CookieHelper cookieHelper;
+public class SanctuaryHandler implements HttpHandler {
     private final HandlerHelper handlerHelper;
+    private final CookieHelper cookieHelper;
     private final UserDao userDao;
-    private final SessionDao sessionDao;
     private final ArtifactDao artifactDao;
+    private final SessionDao sessionDao;
 
-    public ConsoleHandler(HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
+    public SanctuaryHandler(HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
         this.handlerHelper = handlerHelper;
         this.cookieHelper = cookieHelper;
         this.userDao = userDao;
@@ -41,6 +41,7 @@ public class ConsoleHandler implements HttpHandler {
         List<Artifact> artifactList = null;
         User user = null;
         try {
+            artifactList = artifactDao.getAll();
             Optional<HttpCookie> cookieOptional = cookieHelper.getSessionIdCookie(httpExchange, CookieHelper.getSessionCookieName());
             if (!cookieOptional.isPresent()) {
                 throw new CookieNotFoundException("Expected cookie could not be found");
@@ -48,12 +49,12 @@ public class ConsoleHandler implements HttpHandler {
             String sessionId = cookieHelper.getSessionIdFromCookie(cookieOptional.get());
             Session session = sessionDao.getById(sessionId);
             Long userId = session.getUserId();
-            artifactList = artifactDao.getAllUsedByUserId(userId);
             user = userDao.getById(userId);
+
         } catch (ElementNotFoundException | ClassNotFoundException | CookieNotFoundException e) {
             e.printStackTrace();
         }
-        JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/console.twig");
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/sanctuary.twig");
         JtwigModel model = JtwigModel.newModel();
         model.with("user", user);
         model.with("artifacts", artifactList);
