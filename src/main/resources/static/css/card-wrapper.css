@@ -7,26 +7,19 @@
 .card {
     position: static;
     margin: 0.9375em;
-    /*padding: 5%;*/
+    /*padding: 5%; !*original*!*/
     /*width: 9.375em; !*original*!*/
     width: 15em;
     /*height: 15.625em; !*original*!*/
     height: 21em;
     background-color: #657A6E;
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*!*justify-content: center;*!*/
-    /*align-items: center;*/
 }
 
 .image-box {
     background-color: #47FC90;
     position: relative;
-    /*bottom: 2em;*/
-    /*right: 0.5em;*/
     width: 13em;
     height: 16em;
-    /*padding: 5%;*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,11 +34,9 @@
 .info {
     margin: 0;
     position: relative;
-    /*bottom: 2em;*/
 }
 
 .info {
     padding: 0;
-    /*margin: 0.8em;*/
     color: #180427;
 }
