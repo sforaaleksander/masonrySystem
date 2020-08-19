@@ -3,18 +3,18 @@ package com.codecool.masonrySystem.Models;
 import java.util.List;
 
 public class Apprentice extends User{
-    Integer lodgeId;
+    Lodge lodge;
     Integer totalPoints;
     Integer spiritPoints;
     List<Quest> questList;
     List<Artifact> usedArtifacts;
 
-    public Integer getLodgeId() {
-        return lodgeId;
+    public Lodge getLodge() {
+        return lodge;
     }
 
-    public void setLodgeId(Integer lodgeId) {
-        this.lodgeId = lodgeId;
+    public void setLodge(Lodge lodge) {
+        this.lodge = lodge;
     }
 
     public Integer getTotalPoints() {

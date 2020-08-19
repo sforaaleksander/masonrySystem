@@ -1,9 +1,14 @@
 package com.codecool.masonrySystem.Models;
 
+import com.codecool.masonrySystem.DAO.LodgeDao;
+import com.codecool.masonrySystem.Exception.ElementNotFoundException;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserFactory {
+    private LodgeDao lodgeDao = new LodgeDao();
+
 
     public User makeUser(ResultSet resultSet) throws SQLException {
         int userRole = resultSet.getInt("role_id");
@@ -35,7 +40,12 @@ public class UserFactory {
                 apprentice.setEmail(resultSet.getString("email"));
                 apprentice.setPassword(resultSet.getString("password"));
                 apprentice.setSpiritPoints(resultSet.getInt("spirit_points"));
-                apprentice.setLodgeId(resultSet.getInt("lodge_id"));
+                try {
+                    Lodge lodge = lodgeDao.getById(resultSet.getLong("lodge_id"));
+                    apprentice.setLodge(lodge);
+                } catch (ClassNotFoundException | ElementNotFoundException e) {
+                    e.printStackTrace();
+                }
                 apprentice.setRank(Rank.values()[resultSet.getInt("rank_id")]);
                 apprentice.setIsActive(resultSet.getBoolean("is_active"));
                 return apprentice;

@@ -64,7 +64,7 @@ public class UserDao implements IDAO<User> {
     @Override
     public boolean insert(User user) throws ClassNotFoundException {
         Integer spiritPoints = null;
-        Integer lodgeId = null;
+        Long lodgeId = null;
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" +
@@ -78,10 +78,10 @@ public class UserDao implements IDAO<User> {
             if (user.getRank() != Rank.AINSOPHAUR || user.getRank() != Rank.THEILLUMINATI) {
                 Apprentice apprentice = (Apprentice) user;
                 spiritPoints = apprentice.getSpiritPoints();
-                lodgeId = apprentice.getLodgeId();
+                lodgeId = apprentice.getLodge().getId();
             }
             preparedStatement.setInt(6, spiritPoints);
-            preparedStatement.setInt(7, lodgeId);
+            preparedStatement.setLong(7, lodgeId);
             preparedStatement.setInt(8, user.getRank().ordinal()); //TODO check if correct
             preparedStatement.setBoolean(9, user.getIsActive());
             preparedStatement.executeUpdate();
@@ -97,7 +97,7 @@ public class UserDao implements IDAO<User> {
     @Override
     public boolean update(User user) throws ClassNotFoundException {
         Integer spiritPoints = null;
-        Integer lodgeId = null;
+        Long lodgeId = null;
         Connection connection = this.getConnection();
         Long id = user.getId();
         try {
@@ -110,10 +110,10 @@ public class UserDao implements IDAO<User> {
             if (user.getRank() != Rank.AINSOPHAUR || user.getRank() != Rank.THEILLUMINATI) {
                 Apprentice apprentice = (Apprentice) user;
                 spiritPoints = apprentice.getSpiritPoints();
-                lodgeId = apprentice.getLodgeId();
+                lodgeId = apprentice.getLodge().getId();
             }
             preparedStatement.setInt(5, spiritPoints);
-            preparedStatement.setInt(6, lodgeId);
+            preparedStatement.setLong(6, lodgeId);
             preparedStatement.setInt(7, user.getRank().ordinal()); //TODO check if correct
             preparedStatement.setBoolean(8, user.getIsActive());
             preparedStatement.setLong(9, id);
