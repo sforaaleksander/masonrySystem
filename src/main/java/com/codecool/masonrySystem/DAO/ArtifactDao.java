@@ -7,9 +7,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtifactDao implements IDAO<Artifact> {
+public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact> {
 
-    private Artifact create(ResultSet resultSet) throws SQLException {
+    public ArtifactDao() {
+        super("artifacts");
+    }
+
+    Artifact create(ResultSet resultSet) throws SQLException {
         Artifact artifact = new Artifact();
         artifact.setId(resultSet.getLong("id"));
         artifact.setName(resultSet.getString("name"));
@@ -22,22 +26,23 @@ public class ArtifactDao implements IDAO<Artifact> {
     }
 
     public List<Artifact> getAll() throws ElementNotFoundException, ClassNotFoundException {
-        List<Artifact> artifacts = new ArrayList<>();
-        Connection connection = this.getConnection();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM artifacts;");
-            while (rs.next()) {
-                artifacts.add(create(rs));
-            }
-            rs.close();
-            statement.close();
-            connection.close();
-            return artifacts;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new ElementNotFoundException("Artifacts not found");
+        return getAllElements();
+//        List<Artifact> artifacts = new ArrayList<>();
+//        Connection connection = this.getConnection();
+//        try {
+//            Statement statement = connection.createStatement();
+//            ResultSet rs = statement.executeQuery("SELECT * FROM artifacts;");
+//            while (rs.next()) {
+//                artifacts.add(create(rs));
+//            }
+//            rs.close();
+//            statement.close();
+//            connection.close();
+//            return artifacts;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        throw new ElementNotFoundException("Artifacts not found");
     }
 
     @Override
