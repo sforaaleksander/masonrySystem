@@ -1,7 +1,7 @@
 package com.codecool.masonrySystem.handler;
 
 
-import com.codecool.masonrySystem.Helpers.MimeTypeResolver;
+import com.codecool.masonrySystem.helper.MimeTypeResolver;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 

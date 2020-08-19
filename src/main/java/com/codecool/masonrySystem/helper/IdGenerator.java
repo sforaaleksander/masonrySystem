@@ -1,4 +1,4 @@
-package com.codecool.masonrySystem.Helpers;/*
+package com.codecool.masonrySystem.helper;/*
  * Copyright 2005 Joe Walker
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

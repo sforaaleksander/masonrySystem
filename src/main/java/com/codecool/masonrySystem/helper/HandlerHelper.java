@@ -1,4 +1,4 @@
-package com.codecool.masonrySystem.Helpers;
+package com.codecool.masonrySystem.helper;
 
 import com.sun.net.httpserver.HttpExchange;
 

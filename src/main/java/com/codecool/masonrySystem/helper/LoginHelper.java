@@ -1,4 +1,4 @@
-package com.codecool.masonrySystem.Helpers;
+package com.codecool.masonrySystem.helper;
 
 import com.codecool.masonrySystem.dao.UserDao;
 import com.codecool.masonrySystem.Models.User;

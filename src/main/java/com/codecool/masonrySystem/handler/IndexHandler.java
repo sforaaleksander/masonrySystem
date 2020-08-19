@@ -1,7 +1,7 @@
 package com.codecool.masonrySystem.handler;
 
-import com.codecool.masonrySystem.Helpers.CookieHelper;
-import com.codecool.masonrySystem.Helpers.HandlerHelper;
+import com.codecool.masonrySystem.helper.CookieHelper;
+import com.codecool.masonrySystem.helper.HandlerHelper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.jtwig.JtwigModel;

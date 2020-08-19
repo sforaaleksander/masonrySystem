@@ -1,4 +1,4 @@
-package com.codecool.masonrySystem.Helpers;
+package com.codecool.masonrySystem.helper;
 
 import java.io.File;
 import java.util.regex.Matcher;
