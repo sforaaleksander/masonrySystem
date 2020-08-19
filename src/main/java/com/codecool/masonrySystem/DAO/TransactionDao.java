@@ -4,12 +4,16 @@ import com.codecool.masonrySystem.Exception.ElementNotFoundException;
 import com.codecool.masonrySystem.Models.Transaction;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionDao implements IDAO<Transaction> {
+public class TransactionDao extends PostgresDAO<Transaction> implements IDAO<Transaction> {
 
-    private Transaction create(ResultSet resultSet) throws SQLException {
+    public TransactionDao() {
+        super("transactions");
+    }
+
+    @Override
+    protected Transaction create(ResultSet resultSet) throws SQLException {
         Transaction transaction = new Transaction();
         transaction.setId(resultSet.getLong("id"));
         transaction.setUserId(resultSet.getLong("user_id"));
@@ -20,43 +24,12 @@ public class TransactionDao implements IDAO<Transaction> {
     }
 
     public List<Transaction> getAll() throws ElementNotFoundException, ClassNotFoundException {
-        List<Transaction> transactions = new ArrayList<>();
-        Connection connection = this.getConnection();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM transactions;");
-            while (rs.next()) {
-                transactions.add(create(rs));
-            }
-            rs.close();
-            statement.close();
-            connection.close();
-            return transactions;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new ElementNotFoundException("Transactions not found");
+        return getAllElements();
     }
 
     @Override
     public Transaction getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
-        Transaction transaction;
-        Connection connection = this.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM transactions WHERE id = ?");
-            preparedStatement.setLong(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                transaction = create(rs);
-                rs.close();
-                preparedStatement.close();
-                connection.close();
-                return transaction;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new ElementNotFoundException("Transaction not found");
+        return getElementById(id);
     }
 
     @Override
@@ -105,17 +78,6 @@ public class TransactionDao implements IDAO<Transaction> {
 
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
-        Connection connection = this.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM transactions WHERE id = ?");
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return deleteElement(id);
     }
 }
