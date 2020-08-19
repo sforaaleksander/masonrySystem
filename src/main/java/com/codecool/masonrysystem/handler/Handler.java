@@ -11,6 +11,7 @@ import com.codecool.masonrysystem.helper.HandlerHelper;
 import com.codecool.masonrysystem.model.Quest;
 import com.codecool.masonrysystem.model.Session;
 import com.codecool.masonrysystem.model.User;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
@@ -106,5 +107,12 @@ public abstract class Handler<T> {
         }
         response = createResponse();
         send200(httpExchange, response);
+    }
+
+    protected void redirectHome(HttpExchange httpExchange) throws IOException {
+        Headers responseHeaders = httpExchange.getResponseHeaders();
+        responseHeaders.set("Location", "index");
+        httpExchange.sendResponseHeaders(302, -1);
+        httpExchange.close();
     }
 }
