@@ -1,4 +1,4 @@
-import com.codecool.masonrySystem.controller.RootController;
+import com.codecool.masonrysystem.controller.RootController;
 
 public class Main {
     public static void main(String[] args) {
