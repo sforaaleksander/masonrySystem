@@ -4,12 +4,16 @@ import com.codecool.masonrySystem.Exception.ElementNotFoundException;
 import com.codecool.masonrySystem.Models.Session;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public class SessionDao implements IDAO<Session> {
+public class SessionDao extends PostgresDAO<Session> implements IDAO<Session> {
 
-    private Session create(ResultSet resultSet) throws SQLException {
+    public SessionDao() {
+        super("sessions");
+    }
+
+    @Override
+    protected Session create(ResultSet resultSet) throws SQLException {
         Session session = new Session();
         session.setSessionId(resultSet.getString("session_id"));
         session.setUserId(resultSet.getLong("user_id"));
@@ -17,22 +21,7 @@ public class SessionDao implements IDAO<Session> {
     }
 
     public List<Session> getAll() throws ElementNotFoundException, ClassNotFoundException {
-        List<Session> sessions = new ArrayList<>();
-        Connection connection = this.getConnection();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM sessions;");
-            while (rs.next()) {
-                sessions.add(create(rs));
-            }
-            rs.close();
-            statement.close();
-            connection.close();
-            return sessions;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new ElementNotFoundException("Session not found");
+        return getAllElements();
     }
 
     @Override
