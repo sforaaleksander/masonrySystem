@@ -2,13 +2,11 @@ package com.codecool.masonrySystem.Handlers;
 
 import com.codecool.masonrySystem.DAO.ArtifactDao;
 import com.codecool.masonrySystem.DAO.SessionDao;
-import com.codecool.masonrySystem.DAO.TransactionDao;
 import com.codecool.masonrySystem.DAO.UserDao;
 import com.codecool.masonrySystem.Exception.CookieNotFoundException;
 import com.codecool.masonrySystem.Exception.ElementNotFoundException;
 import com.codecool.masonrySystem.Helpers.CookieHelper;
 import com.codecool.masonrySystem.Helpers.HandlerHelper;
-import com.codecool.masonrySystem.Helpers.LoginHelper;
 import com.codecool.masonrySystem.Models.Artifact;
 import com.codecool.masonrySystem.Models.Session;
 import com.codecool.masonrySystem.Models.User;
@@ -28,7 +26,6 @@ public class ConsoleHandler implements HttpHandler {
     private final UserDao userDao;
     private final SessionDao sessionDao;
     private final ArtifactDao artifactDao;
-    private final TransactionDao transactionDao;
 
     public ConsoleHandler(HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
         this.handlerHelper = handlerHelper;
@@ -36,7 +33,6 @@ public class ConsoleHandler implements HttpHandler {
         this.userDao = userDao;
         this.sessionDao = sessionDao;
         this.artifactDao = new ArtifactDao();
-        this.transactionDao = new TransactionDao();
     }
 
     @Override
