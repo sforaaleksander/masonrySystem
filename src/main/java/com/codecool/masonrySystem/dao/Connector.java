@@ -1,4 +1,4 @@
-package com.codecool.masonrySystem.DAO;
+package com.codecool.masonrySystem.dao;
 import java.sql.*;
 public class Connector {
 

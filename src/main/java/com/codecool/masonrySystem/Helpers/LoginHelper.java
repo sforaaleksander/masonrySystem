@@ -1,7 +1,6 @@
 package com.codecool.masonrySystem.Helpers;
 
-import com.codecool.masonrySystem.DAO.UserDao;
-import com.codecool.masonrySystem.Exception.InvalidLoginDataException;
+import com.codecool.masonrySystem.dao.UserDao;
 import com.codecool.masonrySystem.Models.User;
 
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.codecool.masonrySystem.DAO;
+package com.codecool.masonrySystem.dao;
 
 import com.codecool.masonrySystem.Exception.ElementNotFoundException;
 

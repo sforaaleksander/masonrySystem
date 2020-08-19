@@ -1,6 +1,6 @@
-package com.codecool.masonrySystem.Controllers;
-import com.codecool.masonrySystem.DAO.SessionDao;
-import com.codecool.masonrySystem.DAO.UserDao;
+package com.codecool.masonrySystem.controller;
+import com.codecool.masonrySystem.dao.SessionDao;
+import com.codecool.masonrySystem.dao.UserDao;
 import com.codecool.masonrySystem.Handlers.*;
 import com.codecool.masonrySystem.Helpers.CookieHelper;
 import com.codecool.masonrySystem.Helpers.HandlerHelper;

@@ -1,6 +1,5 @@
 package com.codecool.masonrySystem.Handlers;
 
-import com.codecool.masonrySystem.DAO.UserDao;
 import com.codecool.masonrySystem.Helpers.CookieHelper;
 import com.codecool.masonrySystem.Helpers.HandlerHelper;
 import com.sun.net.httpserver.HttpExchange;

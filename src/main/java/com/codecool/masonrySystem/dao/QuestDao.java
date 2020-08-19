@@ -1,11 +1,10 @@
-package com.codecool.masonrySystem.DAO;
+package com.codecool.masonrySystem.dao;
 
 import com.codecool.masonrySystem.Exception.ElementNotFoundException;
 import com.codecool.masonrySystem.Models.Quest;
 import com.codecool.masonrySystem.Models.Rank;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class QuestDao extends PostgresDAO<Quest> implements IDAO<Quest> {

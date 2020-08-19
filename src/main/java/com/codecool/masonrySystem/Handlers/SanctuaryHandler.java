@@ -1,8 +1,8 @@
 package com.codecool.masonrySystem.Handlers;
 
-import com.codecool.masonrySystem.DAO.ArtifactDao;
-import com.codecool.masonrySystem.DAO.SessionDao;
-import com.codecool.masonrySystem.DAO.UserDao;
+import com.codecool.masonrySystem.dao.ArtifactDao;
+import com.codecool.masonrySystem.dao.SessionDao;
+import com.codecool.masonrySystem.dao.UserDao;
 import com.codecool.masonrySystem.Exception.CookieNotFoundException;
 import com.codecool.masonrySystem.Exception.ElementNotFoundException;
 import com.codecool.masonrySystem.Helpers.CookieHelper;

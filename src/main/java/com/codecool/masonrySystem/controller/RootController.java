@@ -1,4 +1,4 @@
-package com.codecool.masonrySystem.Controllers;
+package com.codecool.masonrySystem.controller;
 
 import java.io.IOException;
 

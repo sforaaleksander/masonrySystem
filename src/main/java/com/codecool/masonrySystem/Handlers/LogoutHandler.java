@@ -1,8 +1,6 @@
 package com.codecool.masonrySystem.Handlers;
 
-import com.codecool.masonrySystem.DAO.SessionDao;
-import com.codecool.masonrySystem.Helpers.CookieHelper;
-import com.codecool.masonrySystem.Helpers.HandlerHelper;
+import com.codecool.masonrySystem.dao.SessionDao;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;

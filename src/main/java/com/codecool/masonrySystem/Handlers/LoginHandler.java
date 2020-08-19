@@ -1,7 +1,7 @@
 package com.codecool.masonrySystem.Handlers;
 
-import com.codecool.masonrySystem.DAO.SessionDao;
-import com.codecool.masonrySystem.DAO.UserDao;
+import com.codecool.masonrySystem.dao.SessionDao;
+import com.codecool.masonrySystem.dao.UserDao;
 import com.codecool.masonrySystem.Helpers.CookieHelper;
 import com.codecool.masonrySystem.Helpers.HandlerHelper;
 import com.codecool.masonrySystem.Helpers.LoginHelper;
