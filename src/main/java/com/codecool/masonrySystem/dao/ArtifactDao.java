@@ -1,6 +1,6 @@
 package com.codecool.masonrySystem.dao;
 
-import com.codecool.masonrySystem.Exception.ElementNotFoundException;
+import com.codecool.masonrySystem.exception.ElementNotFoundException;
 import com.codecool.masonrySystem.Models.Artifact;
 
 import java.sql.*;

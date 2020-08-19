@@ -1,7 +1,7 @@
 package com.codecool.masonrySystem.Models;
 
 import com.codecool.masonrySystem.dao.LodgeDao;
-import com.codecool.masonrySystem.Exception.ElementNotFoundException;
+import com.codecool.masonrySystem.exception.ElementNotFoundException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

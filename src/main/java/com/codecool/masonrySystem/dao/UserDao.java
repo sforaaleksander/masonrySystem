@@ -1,6 +1,6 @@
 package com.codecool.masonrySystem.dao;
 
-import com.codecool.masonrySystem.Exception.ElementNotFoundException;
+import com.codecool.masonrySystem.exception.ElementNotFoundException;
 import com.codecool.masonrySystem.Models.Apprentice;
 import com.codecool.masonrySystem.Models.User;
 import com.codecool.masonrySystem.Models.Rank;

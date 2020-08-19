@@ -1,4 +1,4 @@
-package com.codecool.masonrySystem.Exception;
+package com.codecool.masonrySystem.exception;
 
 public class InvalidLoginDataException extends Throwable {
     public InvalidLoginDataException(String s) {
