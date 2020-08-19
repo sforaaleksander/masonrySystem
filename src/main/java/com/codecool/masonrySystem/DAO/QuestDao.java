@@ -8,9 +8,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestDao implements IDAO<Quest> {
+public class QuestDao extends PostgresDAO<Quest> implements IDAO<Quest> {
 
-    private Quest create(ResultSet resultSet) throws SQLException {
+    public QuestDao() {
+        super("quests");
+    }
+
+    @Override
+    protected Quest create(ResultSet resultSet) throws SQLException {
         Quest quest = new Quest();
         quest.setId(resultSet.getLong("id"));
         quest.setName(resultSet.getString("name"));
@@ -23,43 +28,12 @@ public class QuestDao implements IDAO<Quest> {
     }
 
     public List<Quest> getAll() throws ElementNotFoundException, ClassNotFoundException {
-        List<Quest> quests = new ArrayList<>();
-        Connection connection = this.getConnection();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM quests;");
-            while (rs.next()) {
-                quests.add(create(rs));
-            }
-            rs.close();
-            statement.close();
-            connection.close();
-            return quests;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new ElementNotFoundException("Quests not found");
+        return getAllElements();
     }
 
     @Override
     public Quest getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
-        Quest quest;
-        Connection connection = this.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM quests WHERE id = ?");
-            preparedStatement.setLong(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                quest = create(rs);
-                rs.close();
-                preparedStatement.close();
-                connection.close();
-                return quest;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new ElementNotFoundException("Quests not found");
+        return getElementById(id);
     }
 
     @Override
@@ -114,17 +88,6 @@ public class QuestDao implements IDAO<Quest> {
 
     @Override
     public boolean delete(Long id) throws ClassNotFoundException {
-        Connection connection = this.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM quests WHERE id = ?");
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return deleteElement(id);
     }
 }

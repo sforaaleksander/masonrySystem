@@ -9,7 +9,7 @@ import java.util.List;
 public abstract class PostgresDAO<T> implements IDAO<T> {
     protected final String TABLENAME;
 
-    protected PostgresDAO(String tableName) {
+    public PostgresDAO(String tableName) {
         TABLENAME = tableName;
     }
 
