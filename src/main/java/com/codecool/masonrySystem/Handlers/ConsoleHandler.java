@@ -10,6 +10,7 @@ import com.codecool.masonrySystem.Helpers.CookieHelper;
 import com.codecool.masonrySystem.Helpers.HandlerHelper;
 import com.codecool.masonrySystem.Helpers.LoginHelper;
 import com.codecool.masonrySystem.Models.Artifact;
+import com.codecool.masonrySystem.Models.Rank;
 import com.codecool.masonrySystem.Models.Session;
 import com.codecool.masonrySystem.Models.User;
 import com.sun.net.httpserver.HttpExchange;
@@ -57,6 +58,8 @@ public class ConsoleHandler implements HttpHandler {
         } catch (ElementNotFoundException | ClassNotFoundException | CookieNotFoundException e) {
             e.printStackTrace();
         }
+        System.out.println(Rank.AINSOPHAUR.getRankString());
+        System.out.println(user.getRank().getRankString());
         JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/console.twig");
         JtwigModel model = JtwigModel.newModel();
         model.with("user", user);
