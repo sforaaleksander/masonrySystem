@@ -1,8 +1,10 @@
 package com.codecool.masonrysystem.handler;
 
 import com.codecool.masonrysystem.dao.ArtifactDao;
+import com.codecool.masonrysystem.dao.IDAO;
 import com.codecool.masonrysystem.dao.SessionDao;
 import com.codecool.masonrysystem.dao.UserDao;
+import com.codecool.masonrysystem.exception.CookieNotFoundException;
 import com.codecool.masonrysystem.exception.ElementNotFoundException;
 import com.codecool.masonrysystem.helper.CookieHelper;
 import com.codecool.masonrysystem.helper.HandlerHelper;
@@ -20,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public abstract class Handler<T> {
     protected final String TWIGFILENAME;
@@ -29,18 +32,19 @@ public abstract class Handler<T> {
     protected final UserDao userDao;
     protected final SessionDao sessionDao;
     protected String response;
-    protected List<T> questList = null;
+    protected List<T> elementList = null;
     protected User user = null;
+    protected final IDAO<T> dao;
 
 
-    public Handler(String twigFileName, HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
+    public Handler(String twigFileName, HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao, IDAO<T> dao) {
         this.TWIGFILENAME = twigFileName;
         this.modelMap = new HashMap<>();
         this.handlerHelper = handlerHelper;
         this.cookieHelper = cookieHelper;
         this.userDao = userDao;
         this.sessionDao = sessionDao;
-
+        this.dao = dao;
     }
 
     public void send200(HttpExchange httpExchange, String response) throws IOException {
@@ -83,9 +87,26 @@ public abstract class Handler<T> {
     public String createResponse() {
         JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/" + TWIGFILENAME);
         JtwigModel model = JtwigModel.newModel();
+        modelMap.put("elements", elementList);
+        modelMap.put("user", user);
         for (Map.Entry<String, Object> entry : modelMap.entrySet()) {
             model.with(entry.getKey(), entry.getValue());
         }
         return template.render(model);
+    }
+
+    public void superHandle(HttpExchange httpExchange) throws IOException {
+        try {
+            elementList = dao.getAll();
+            Optional<HttpCookie> cookieOptional = cookieHelper.getSessionIdCookie(httpExchange, CookieHelper.getSessionCookieName());
+            if (!cookieOptional.isPresent()) {
+                throw new CookieNotFoundException("Expected cookie could not be found");
+            }
+            user = getUserFromCookie(cookieOptional.get());
+        } catch (ElementNotFoundException | ClassNotFoundException | CookieNotFoundException e) {
+            e.printStackTrace();
+        }
+        response = createResponse();
+        send200(httpExchange, response);
     }
 }
