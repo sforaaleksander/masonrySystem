@@ -62,7 +62,7 @@ public class ArtifactDao implements IDAO<Artifact> {
     }
 
     @Override
-    public boolean insert(Artifact artifact) throws ClassNotFoundException, ElementNotFoundException {
+    public boolean insert(Artifact artifact) throws ClassNotFoundException {
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO artifacts" +
@@ -84,7 +84,6 @@ public class ArtifactDao implements IDAO<Artifact> {
         }
         return false;
     }
-
 
     @Override
     public boolean update(Artifact artifact) throws ClassNotFoundException {
@@ -124,5 +123,26 @@ public class ArtifactDao implements IDAO<Artifact> {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public List<Artifact> getAllUsedByUserId(Long id) throws ElementNotFoundException, ClassNotFoundException {
+        List<Artifact> artifacts = new ArrayList<>();
+        Connection connection = this.getConnection();
+        try {
+            Statement statement = connection.createStatement();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM artifacts LEFT JOIN transactions t on artifacts.id = t.artifact_id WHERE user_id=?");
+            preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                artifacts.add(create(rs));
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+            return artifacts;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new ElementNotFoundException("No artifacts not found");
     }
 }

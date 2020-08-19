@@ -45,7 +45,6 @@ public class ConsoleHandler implements HttpHandler {
         List<Artifact> artifactList = null;
         User user = null;
         try {
-            artifactList = artifactDao.getAll();
             Optional<HttpCookie> cookieOptional = cookieHelper.getSessionIdCookie(httpExchange, CookieHelper.getSessionCookieName());
             if (!cookieOptional.isPresent()) {
                 throw new CookieNotFoundException("Expected cookie could not be found");
@@ -53,6 +52,7 @@ public class ConsoleHandler implements HttpHandler {
             String sessionId = cookieHelper.getSessionIdFromCookie(cookieOptional.get());
             Session session = sessionDao.getById(sessionId);
             Long userId = session.getUserId();
+            artifactList = artifactDao.getAllUsedByUserId(userId);
             user = userDao.getById(userId);
 
         } catch (ElementNotFoundException | ClassNotFoundException | CookieNotFoundException e) {
@@ -60,8 +60,8 @@ public class ConsoleHandler implements HttpHandler {
         }
         JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/console.twig");
         JtwigModel model = JtwigModel.newModel();
-//        model.with("user", user);
-//        model.with("artifacts", artifac   tList);
+        model.with("user", user);
+        model.with("artifacts", artifactList);
         response = template.render(model);
         handlerHelper.send200(httpExchange, response);
     }
