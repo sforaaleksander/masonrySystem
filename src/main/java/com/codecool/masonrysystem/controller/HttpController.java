@@ -3,7 +3,6 @@ import com.codecool.masonrysystem.dao.SessionDao;
 import com.codecool.masonrysystem.dao.UserDao;
 import com.codecool.masonrysystem.handler.*;
 import com.codecool.masonrysystem.helper.CookieHelper;
-import com.codecool.masonrysystem.helper.HandlerHelper;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;

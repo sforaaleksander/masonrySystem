@@ -1,17 +1,14 @@
 package com.codecool.masonrysystem.handler;
 
-import com.codecool.masonrysystem.dao.ArtifactDao;
 import com.codecool.masonrysystem.dao.QuestDao;
 import com.codecool.masonrysystem.dao.SessionDao;
 import com.codecool.masonrysystem.exception.ElementNotFoundException;
 import com.codecool.masonrysystem.helper.CookieHelper;
-import com.codecool.masonrysystem.helper.HandlerHelper;
 import com.codecool.masonrysystem.model.Quest;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
-
 import java.io.IOException;
 
 public class QuestHandler extends Handler<Quest> implements HttpHandler {
