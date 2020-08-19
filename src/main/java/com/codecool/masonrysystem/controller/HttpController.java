@@ -23,8 +23,8 @@ public class HttpController {
         server.createContext("/logout", new LogoutHandler(sessionDao));
         server.createContext("/index", new IndexHandler(handlerHelper, cookieHelper));
         server.createContext("/console", new ConsoleHandler(handlerHelper, cookieHelper, userDao, sessionDao));
-        server.createContext("/academy", new AcademyHandler(handlerHelper, cookieHelper, userDao, sessionDao));
-        server.createContext("/sanctuary", new SanctuaryHandler(handlerHelper, cookieHelper, userDao, sessionDao));
+        server.createContext("/academy", new AcademyHandler(cookieHelper, userDao, sessionDao));
+        server.createContext("/sanctuary", new SanctuaryHandler(cookieHelper, userDao, sessionDao));
         server.createContext("/quest", new QuestHandler(handlerHelper, cookieHelper, sessionDao));
         server.createContext("/static", new Static());
         server.setExecutor(null);

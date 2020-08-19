@@ -27,7 +27,6 @@ import java.util.Optional;
 public abstract class Handler<T> {
     protected final String TWIGFILENAME;
     protected Map<String, Object> modelMap;
-    protected final HandlerHelper handlerHelper;
     protected final CookieHelper cookieHelper;
     protected final UserDao userDao;
     protected final SessionDao sessionDao;
@@ -37,10 +36,9 @@ public abstract class Handler<T> {
     protected final IDAO<T> dao;
 
 
-    public Handler(String twigFileName, HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao, IDAO<T> dao) {
+    public Handler(String twigFileName, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao, IDAO<T> dao) {
         this.TWIGFILENAME = twigFileName;
         this.modelMap = new HashMap<>();
-        this.handlerHelper = handlerHelper;
         this.cookieHelper = cookieHelper;
         this.userDao = userDao;
         this.sessionDao = sessionDao;

@@ -13,8 +13,8 @@ import java.io.IOException;
 
 public class SanctuaryHandler extends Handler<Artifact> implements HttpHandler {
 
-    public SanctuaryHandler(HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
-        super("sanctuary.twig", handlerHelper, cookieHelper, userDao, sessionDao, new ArtifactDao());
+    public SanctuaryHandler(CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
+        super("sanctuary.twig", cookieHelper, userDao, sessionDao, new ArtifactDao());
     }
 
     @Override
