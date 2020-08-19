@@ -16,7 +16,7 @@ public class LodgeDao implements IDAO<Lodge> {
         lodge.setId(resultSet.getLong("id"));
         lodge.setName(resultSet.getString("name"));
         try {
-            journeyman = (Journeyman) new UserDao().getById(resultSet.getLong("id"));
+            journeyman = (Journeyman) new UserDao().getById(resultSet.getLong("owner_id"));
         } catch (ClassNotFoundException | ElementNotFoundException e) {
             e.printStackTrace();
         }
