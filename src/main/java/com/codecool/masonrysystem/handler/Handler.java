@@ -1,14 +1,11 @@
 package com.codecool.masonrysystem.handler;
 
-import com.codecool.masonrysystem.dao.ArtifactDao;
 import com.codecool.masonrysystem.dao.IDAO;
 import com.codecool.masonrysystem.dao.SessionDao;
 import com.codecool.masonrysystem.dao.UserDao;
 import com.codecool.masonrysystem.exception.CookieNotFoundException;
 import com.codecool.masonrysystem.exception.ElementNotFoundException;
 import com.codecool.masonrysystem.helper.CookieHelper;
-import com.codecool.masonrysystem.helper.HandlerHelper;
-import com.codecool.masonrysystem.model.Quest;
 import com.codecool.masonrysystem.model.Session;
 import com.codecool.masonrysystem.model.User;
 import com.sun.net.httpserver.Headers;
@@ -111,7 +108,7 @@ public abstract class Handler<T> {
 
     protected void redirectHome(HttpExchange httpExchange) throws IOException {
         Headers responseHeaders = httpExchange.getResponseHeaders();
-        responseHeaders.set("Location", "index");
+        responseHeaders.set("Location", "console");
         httpExchange.sendResponseHeaders(302, -1);
         httpExchange.close();
     }
