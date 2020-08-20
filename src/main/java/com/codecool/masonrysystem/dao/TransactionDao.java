@@ -23,19 +23,19 @@ public class TransactionDao extends PostgresDAO<Transaction> implements IDAO<Tra
         return transaction;
     }
 
-    public List<Transaction> getAll() throws ElementNotFoundException, ClassNotFoundException {
+    public List<Transaction> getAll() throws ElementNotFoundException {
         return getAllElements();
     }
 
     @Override
-    public Transaction getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
+    public Transaction getById(Long id) throws ElementNotFoundException {
         return getElementById(id);
     }
 
     @Override
-    public boolean insert(Transaction transaction) throws ClassNotFoundException {
-        Connection connection = this.getConnection();
+    public boolean insert(Transaction transaction) {
         try {
+            connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO transactions " +
                             "(id, user_id, artifact_id, open_transaction, close_transaction) VALUES " +
                             "(?, ?, ?, ?, ?)");
@@ -48,17 +48,17 @@ public class TransactionDao extends PostgresDAO<Transaction> implements IDAO<Tra
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return false;
     }
 
     @Override
-    public boolean update(Transaction transaction) throws ClassNotFoundException {
-        Connection connection = this.getConnection();
+    public boolean update(Transaction transaction) {
         Long id = transaction.getId();
         try {
+            connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE transactions SET " +
                     "user_id=?, artifact_id=?, open_transaction=?, close_transaction=? WHERE id = ?");
             preparedStatement.setLong(1, transaction.getUserId());
@@ -70,14 +70,14 @@ public class TransactionDao extends PostgresDAO<Transaction> implements IDAO<Tra
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return false;
     }
 
     @Override
-    public boolean delete(Long id) throws ClassNotFoundException {
+    public boolean delete(Long id) {
         return deleteElement(id);
     }
 }
