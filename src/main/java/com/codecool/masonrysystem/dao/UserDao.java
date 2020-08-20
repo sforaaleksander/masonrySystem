@@ -37,7 +37,7 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         Integer spiritPoints = null;
         Long lodgeId = null;
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" +
                     "(first_name, last_name, email, password, spirit_points, lodge_id, role_id, rank_id, is_active) VALUES " +
                     "(?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -71,7 +71,7 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         Long lodgeId = null;
         Long id = user.getId();
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET " +
                     "first_name=?, last_name=?, email=?, password=?, spirit_points=?, lodge_id=?, role_id=?, rank_id=?, is_active=? WHERE id = ?");
             preparedStatement.setString(1, user.getFirstName());
@@ -131,7 +131,9 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
             preparedStatement.setInt(1, roleId);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                users.add(create(rs));
+                Apprentice user = (Apprentice) create(rs);
+                System.out.println(user.toString());
+                users.add(user);
             }
             rs.close();
             preparedStatement.close();

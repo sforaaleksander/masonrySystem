@@ -38,7 +38,7 @@ public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact>
     @Override
     public boolean insert(Artifact artifact) {
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO artifacts" +
                     "(id, name, price, description, is_collective, is_active, expiration_date) VALUES " +
                     "(?, ?, ?, ?, ?, ?, ?)");
@@ -63,7 +63,7 @@ public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact>
     public boolean update(Artifact artifact) {
         Long id = artifact.getId();
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE artifacts SET " +
                     "name=?, price=?, description=?, is_collective=?, is_active=?, expiration_date=? WHERE id = ?");
             preparedStatement.setString(1, artifact.getName());
@@ -91,7 +91,7 @@ public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact>
     public List<Artifact> getAllUsedByUserId(Long id) throws ElementNotFoundException {
         List<Artifact> artifacts = new ArrayList<>();
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             Statement statement = connection.createStatement();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM artifacts LEFT JOIN transactions t on artifacts.id = t.artifact_id WHERE user_id=?");
             preparedStatement.setLong(1, id);

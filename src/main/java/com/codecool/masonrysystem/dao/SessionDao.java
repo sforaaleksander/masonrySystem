@@ -32,7 +32,7 @@ public class SessionDao extends PostgresDAO<Session> implements IDAO<Session> {
     public Session getById(String id) throws ElementNotFoundException {
         Session session;
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM sessions WHERE session_id = ?");
             preparedStatement.setString(1, id);
             ResultSet rs = preparedStatement.executeQuery();
@@ -52,7 +52,7 @@ public class SessionDao extends PostgresDAO<Session> implements IDAO<Session> {
     @Override
     public boolean insert(Session session) {
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO sessions" +
                     "(session_id, user_id) VALUES " +
                     "(?, ?)");
@@ -80,7 +80,7 @@ public class SessionDao extends PostgresDAO<Session> implements IDAO<Session> {
 
     public boolean delete(String id) {
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM sessions WHERE session_id = ?");
             preparedStatement.setString(1, id);
             preparedStatement.executeUpdate();

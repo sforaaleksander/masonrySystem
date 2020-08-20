@@ -48,4 +48,22 @@ public class Apprentice extends User{
     public void setUsedArtifacts(List<Artifact> usedArtifacts) {
         this.usedArtifacts = usedArtifacts;
     }
+
+    @Override
+    public String toString() {
+        return "Apprentice{" +
+                "lodge=" + lodge +
+                ", totalPoints=" + totalPoints +
+                ", spiritPoints=" + spiritPoints +
+                ", questList=" + questList +
+                ", usedArtifacts=" + usedArtifacts +
+                ", id=" + id +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", rank=" + rank +
+                ", isActive=" + isActive +
+                '}';
+    }
 }

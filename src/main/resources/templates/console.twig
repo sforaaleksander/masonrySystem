@@ -90,39 +90,42 @@
     </div>
     <div class="content">
 
-{#        {% if (artifacts != null) %}#}
-{#        <div class="content-title">#}
-{#            <h4>Used Artifacts:</h4>#}
-{#        </div>#}
-{#        <div class="cards-wrapper">#}
-{#            {% for artifact in artifacts %}#}
-{#                <div class="card">#}
-{#                    <div class="image-box">#}
-{#                        <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>#}
-{#                    </div>#}
-{#                    <div class="info">#}
-{#                        <strong>{{ artifact.name }}</strong> <br/>#}
-{#                        Price: {{ artifact.price }}<br/>#}
-{#                    </div>#}
-{#                </div>#}
-{#            {% endfor %}#}
-{#        </div>#}
-{#    </div>#}
-{#    {% endif %}#}
+        {% if (artifacts != null) %}
+        <div class="content-title">
+            <h4>Used Artifacts:</h4>
+        </div>
+        <div class="cards-wrapper">
+            {% for artifact in artifacts %}
+                <div class="card">
+                    <div class="image-box">
+                        <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>
+                    </div>
+                    <div class="card-info">
+                        <strong>{{ artifact.name }}</strong> <br/>
+                        Price: {{ artifact.price }}<br/>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
 
-{#    {% if (user.rank.getRankString().equals("The Illuminati")) %}#}
-{#        {% for user in elements %}#}
-{#            <div class="card">#}
-{#                <div class="image-box">#}
-{#                    <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>#}
-{#                </div>#}
-{#                <div class="info">#}
-{#                    <strong>{{ user.name }}</strong> <br/>#}
-{#                    {{ user.rank.getRankString() }}<br/>#}
-{#                </div>#}
-{#            </div>#}
-{#        {% endfor %}#}
-{#    {% endif %}#}
+    {% if (user.rank.getRankString().equals("The Illuminati") or user.rank.getRankString().equals("Ain Soph Aur")) %}
+        <div class="cards-wrapper">
+
+            {% for user in elements %}
+                <div class="card">
+                    <div class="image-box">
+                        <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>
+                    </div>
+                    <div class="card-info">
+                        <strong>{{ user.firstName }} {{ user.lastName }}</strong> <br/>
+                        {{ user.rank.getRankString() }}<br/>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
 
 </main>
