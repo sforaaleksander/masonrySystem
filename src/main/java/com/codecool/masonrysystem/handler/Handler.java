@@ -30,6 +30,8 @@ public abstract class Handler<T> {
     protected final SessionDao sessionDao;
     protected String response;
     protected List<T> elementList = null;
+    protected T element = null;
+    protected Long elementId = null;
     protected User user = null;
     protected final IDAO<T> dao;
 
@@ -87,6 +89,7 @@ public abstract class Handler<T> {
     public String createResponse() {
         JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/" + TWIGFILENAME);
         JtwigModel model = JtwigModel.newModel();
+        modelMap.put("element", element);
         modelMap.put("elements", elementList);
         modelMap.put("user", user);
         for (Map.Entry<String, Object> entry : modelMap.entrySet()) {
@@ -95,7 +98,7 @@ public abstract class Handler<T> {
         return template.render(model);
     }
 
-    public void superHandle(HttpExchange httpExchange) throws IOException {
+    public void superHandleGetAll(HttpExchange httpExchange) throws IOException {
         try {
             elementList = dao.getAll();
             Optional<HttpCookie> cookieOptional = cookieHelper.getSessionIdCookie(httpExchange, CookieHelper.getSessionCookieName());
@@ -104,6 +107,18 @@ public abstract class Handler<T> {
             }
             user = getUserFromCookie(cookieOptional.get());
         } catch (ElementNotFoundException | ClassNotFoundException | CookieNotFoundException e) {
+            e.printStackTrace();
+        }
+        response = createResponse();
+        send200(httpExchange, response);
+    }
+
+    public void superHandleGetSingle(HttpExchange httpExchange) throws IOException {
+        String[] elements = httpExchange.getRequestURI().toString().split("/");
+        elementId = Long.parseLong(elements[elements.length - 1]);
+        try {
+            element = dao.getById(elementId);
+        } catch (ClassNotFoundException | ElementNotFoundException e) {
             e.printStackTrace();
         }
         response = createResponse();
