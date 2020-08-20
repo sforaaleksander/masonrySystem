@@ -21,26 +21,26 @@ public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
         lodge.setName(resultSet.getString("name"));
         try {
             journeyman = (Journeyman) new UserDao().getById(resultSet.getLong("owner_id"));
-        } catch (ClassNotFoundException | ElementNotFoundException e) {
+        } catch (ElementNotFoundException e) {
             e.printStackTrace();
         }
         lodge.setOwner(journeyman);
         return lodge;
     }
 
-    public List<Lodge> getAll() throws ElementNotFoundException, ClassNotFoundException {
+    public List<Lodge> getAll() throws ElementNotFoundException {
         return getAllElements();
     }
 
     @Override
-    public Lodge getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
+    public Lodge getById(Long id) throws ElementNotFoundException {
         return getElementById(id);
     }
 
     @Override
-    public boolean insert(Lodge lodge) throws ClassNotFoundException {
-        Connection connection = this.getConnection();
+    public boolean insert(Lodge lodge) {
         try {
+            connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO lodges" +
                     "(id, name, owner_id) VALUES " +
                     "(?, ?, ?)");
@@ -51,17 +51,17 @@ public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return false;
     }
 
     @Override
-    public boolean update(Lodge lodge) throws ClassNotFoundException {
-        Connection connection = this.getConnection();
+    public boolean update(Lodge lodge) {
         Long id = lodge.getId();
         try {
+            connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE lodges SET " +
                     "name=?, owner_id=? WHERE id = ?");
             preparedStatement.setString(1, lodge.getName());
@@ -71,14 +71,14 @@ public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return false;
     }
 
     @Override
-    public boolean delete(Long id) throws ClassNotFoundException {
+    public boolean delete(Long id) {
         return deleteElement(id);
     }
 }

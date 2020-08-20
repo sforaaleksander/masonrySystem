@@ -23,19 +23,19 @@ public class CollectiveTransactionDao extends PostgresDAO<CollectiveTransaction>
         return collectiveTransaction;
     }
 
-    public List<CollectiveTransaction> getAll() throws ElementNotFoundException, ClassNotFoundException {
+    public List<CollectiveTransaction> getAll() throws ElementNotFoundException {
         return getAllElements();
     }
 
     @Override
-    public CollectiveTransaction getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
+    public CollectiveTransaction getById(Long id) throws ElementNotFoundException {
         return getElementById(id);
     }
 
     @Override
-    public boolean insert(CollectiveTransaction collectiveTransaction) throws ClassNotFoundException {
-        Connection connection = this.getConnection();
+    public boolean insert(CollectiveTransaction collectiveTransaction) {
         try {
+            connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO collective_transactions" +
                     "(id, transaction_id, user_id, donation_date, amount) VALUES " +
                     "(?, ?, ?, ?, ?)");
@@ -48,17 +48,17 @@ public class CollectiveTransactionDao extends PostgresDAO<CollectiveTransaction>
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return false;
     }
 
     @Override
-    public boolean update(CollectiveTransaction collectiveTransaction) throws ClassNotFoundException {
-        Connection connection = this.getConnection();
+    public boolean update(CollectiveTransaction collectiveTransaction) {
         Long id = collectiveTransaction.getId();
         try {
+            connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE collective_transactions SET " +
                     "transaction_id=?, user_id=?, donation_date=?, amount=? WHERE id = ?");
             preparedStatement.setLong(1, collectiveTransaction.getTransactionId());
@@ -70,14 +70,14 @@ public class CollectiveTransactionDao extends PostgresDAO<CollectiveTransaction>
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return false;
     }
 
     @Override
-    public boolean delete(Long id) throws ClassNotFoundException {
+    public boolean delete(Long id) {
         return deleteElement(id);
     }
 }

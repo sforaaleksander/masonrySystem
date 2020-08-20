@@ -7,12 +7,15 @@ import java.util.List;
 
 public interface IDAO<T> {
 
-    T getById(Long id) throws ClassNotFoundException, ElementNotFoundException;
-    boolean insert(T t) throws ClassNotFoundException, ElementNotFoundException;
-    boolean update(T t) throws ClassNotFoundException;
-    boolean delete(Long id) throws ClassNotFoundException;
+    T getById(Long id) throws ElementNotFoundException;
 
-    List<T> getAll() throws ElementNotFoundException, ClassNotFoundException;
+    boolean insert(T t) throws ElementNotFoundException;
+
+    boolean update(T t);
+
+    boolean delete(Long id);
+
+    List<T> getAll() throws ElementNotFoundException;
 
     default Connection getConnection() throws ClassNotFoundException {
         Connector connector = new Connector();
