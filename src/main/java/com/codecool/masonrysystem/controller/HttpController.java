@@ -23,6 +23,8 @@ public class HttpController {
         server.createContext("/academy", new AcademyHandler(cookieHelper, userDao, sessionDao));
         server.createContext("/sanctuary", new SanctuaryHandler(cookieHelper, userDao, sessionDao));
         server.createContext("/quest-details", new QuestViewHandler(cookieHelper, sessionDao, userDao));
+        server.createContext("/add-quest", new QuestAddHandler(cookieHelper, sessionDao, userDao));
+        server.createContext("/add-artifact", new ArtifactAddHandler(cookieHelper, sessionDao, userDao));
         server.createContext("/artifact-details", new ArtifactViewHandler(cookieHelper, sessionDao, userDao));
         server.createContext("/static", new Static());
         server.setExecutor(null);

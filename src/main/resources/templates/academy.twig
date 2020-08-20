@@ -31,7 +31,14 @@
     <div class="sub-container">
         <div class="header-box">
             <h2 class="subpage-header">ACADEMY</h2>
-            <h4>Your rank: {{ user.rank.getRankString() }}</h4>
+            <h4>Your rank: {{ user.rank.getRankString() }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {% if (user.rank.getRankString().equals("The Illuminati")) %}
+                    <a href="add-quest">
+                        <button class="red-button">
+                            Add new quest
+                        </button>
+                    </a>
+                {% endif %}</h4>
         </div>
         <div class="triangle-box">
             <div class="purple-triangle">
