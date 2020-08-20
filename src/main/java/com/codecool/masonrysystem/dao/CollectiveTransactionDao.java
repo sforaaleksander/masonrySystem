@@ -35,7 +35,7 @@ public class CollectiveTransactionDao extends PostgresDAO<CollectiveTransaction>
     @Override
     public boolean insert(CollectiveTransaction collectiveTransaction) {
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO collective_transactions" +
                     "(id, transaction_id, user_id, donation_date, amount) VALUES " +
                     "(?, ?, ?, ?, ?)");
@@ -58,7 +58,7 @@ public class CollectiveTransactionDao extends PostgresDAO<CollectiveTransaction>
     public boolean update(CollectiveTransaction collectiveTransaction) {
         Long id = collectiveTransaction.getId();
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE collective_transactions SET " +
                     "transaction_id=?, user_id=?, donation_date=?, amount=? WHERE id = ?");
             preparedStatement.setLong(1, collectiveTransaction.getTransactionId());

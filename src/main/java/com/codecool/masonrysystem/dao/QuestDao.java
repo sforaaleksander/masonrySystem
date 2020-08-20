@@ -38,7 +38,7 @@ public class QuestDao extends PostgresDAO<Quest> implements IDAO<Quest> {
     @Override
     public boolean insert(Quest quest) throws ElementNotFoundException {
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO quests" +
                     "(id, name, reward, required_rank, description, is_active, expiration_date, is_collective) VALUES " +
                     "(?, ?, ?, ?, ?, ?, ?, ?)");
@@ -64,7 +64,7 @@ public class QuestDao extends PostgresDAO<Quest> implements IDAO<Quest> {
     public boolean update(Quest quest) {
         Long id = quest.getId();
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE quests SET " +
                     "name=?, reward=?, required_rank=?, description=?, is_active=?, expiration_date=?, is_collective=? WHERE id = ?");
             preparedStatement.setString(1, quest.getName());

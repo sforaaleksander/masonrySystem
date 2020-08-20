@@ -35,7 +35,7 @@ public class TransactionDao extends PostgresDAO<Transaction> implements IDAO<Tra
     @Override
     public boolean insert(Transaction transaction) {
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO transactions " +
                             "(id, user_id, artifact_id, open_transaction, close_transaction) VALUES " +
                             "(?, ?, ?, ?, ?)");
@@ -58,7 +58,7 @@ public class TransactionDao extends PostgresDAO<Transaction> implements IDAO<Tra
     public boolean update(Transaction transaction) {
         Long id = transaction.getId();
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE transactions SET " +
                     "user_id=?, artifact_id=?, open_transaction=?, close_transaction=? WHERE id = ?");
             preparedStatement.setLong(1, transaction.getUserId());

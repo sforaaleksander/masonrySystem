@@ -40,7 +40,7 @@ public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
     @Override
     public boolean insert(Lodge lodge) {
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO lodges" +
                     "(id, name, owner_id) VALUES " +
                     "(?, ?, ?)");
@@ -61,7 +61,7 @@ public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
     public boolean update(Lodge lodge) {
         Long id = lodge.getId();
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE lodges SET " +
                     "name=?, owner_id=? WHERE id = ?");
             preparedStatement.setString(1, lodge.getName());

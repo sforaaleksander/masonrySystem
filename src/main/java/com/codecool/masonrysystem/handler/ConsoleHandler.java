@@ -1,42 +1,37 @@
 package com.codecool.masonrysystem.handler;
 
-import com.codecool.masonrysystem.dao.ArtifactDao;
 import com.codecool.masonrysystem.dao.SessionDao;
 import com.codecool.masonrysystem.dao.UserDao;
-import com.codecool.masonrysystem.exception.CookieNotFoundException;
-import com.codecool.masonrysystem.exception.ElementNotFoundException;
 import com.codecool.masonrysystem.helper.CookieHelper;
-import com.codecool.masonrysystem.model.Artifact;
-import com.codecool.masonrysystem.model.Session;
+import com.codecool.masonrysystem.model.Rank;
+import com.codecool.masonrysystem.model.User;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
-import java.net.HttpCookie;
-import java.util.Optional;
 
-public class ConsoleHandler extends Handler<Artifact> implements HttpHandler {
-    private final ArtifactDao artifactDao;
+public class ConsoleHandler extends Handler<User> implements HttpHandler {
+    private final ApprenticeConsoleHandler apprenticeConsoleHandler;
+    private final UserManagerConsoleHandler userManagerConsoleHandler;
 
     public ConsoleHandler(CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
         super("console.twig", cookieHelper, userDao, sessionDao, null);
-        artifactDao = new ArtifactDao();
+        this.apprenticeConsoleHandler = new ApprenticeConsoleHandler(cookieHelper, userDao, sessionDao);
+        this.userManagerConsoleHandler = new UserManagerConsoleHandler(cookieHelper, userDao, sessionDao);
     }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         try {
-            Optional<HttpCookie> cookieOptional = cookieHelper.getSessionIdCookie(httpExchange, CookieHelper.getSessionCookieName());
-            if (!cookieOptional.isPresent()) {
-                throw new CookieNotFoundException("Expected cookie could not be found");
-            }
-            Long userId = getUserIdFromCookie(cookieOptional.get());
-            elementList = artifactDao.getAllUsedByUserId(userId);
-            user = userDao.getById(userId);
-        } catch (ElementNotFoundException | ClassNotFoundException | CookieNotFoundException e) {
+            user = getUserFromOptionalCookie(httpExchange);
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        response = createResponse();
-        send200(httpExchange, response);
+
+        if (user.getRank().equals(Rank.AINSOPHAUR) || user.getRank().equals(Rank.THEILLUMINATI)) {
+            userManagerConsoleHandler.handle(httpExchange);
+        } else {
+            apprenticeConsoleHandler.handle(httpExchange);
+        }
     }
 }

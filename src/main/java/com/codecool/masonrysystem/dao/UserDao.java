@@ -7,6 +7,7 @@ import com.codecool.masonrysystem.model.Rank;
 import com.codecool.masonrysystem.model.UserFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao extends PostgresDAO<User> implements IDAO<User> {
@@ -36,7 +37,7 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         Integer spiritPoints = null;
         Long lodgeId = null;
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" +
                     "(first_name, last_name, email, password, spirit_points, lodge_id, role_id, rank_id, is_active) VALUES " +
                     "(?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -70,7 +71,7 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         Long lodgeId = null;
         Long id = user.getId();
         try {
-            connection = this.getConnection();
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET " +
                     "first_name=?, last_name=?, email=?, password=?, spirit_points=?, lodge_id=?, role_id=?, rank_id=?, is_active=? WHERE id = ?");
             preparedStatement.setString(1, user.getFirstName());
@@ -120,5 +121,25 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
             e.printStackTrace();
         }
         throw new ElementNotFoundException("User with given email could not be found");
+    }
+
+    public List<User> getUsersByRole(int roleId) throws ElementNotFoundException {
+        List<User> users = new ArrayList<>();
+        try {
+            Connection connection = this.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE role_id=?");
+            preparedStatement.setInt(1, roleId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                users.add(create(rs));
+            }
+            rs.close();
+            preparedStatement.close();
+            connection.close();
+            return users;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        throw new ElementNotFoundException("User with given rank could not be found");
     }
 }

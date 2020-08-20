@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/card-wrapper.css">
     <link rel="stylesheet" href="/static/css/vessel.css">
+    <link rel="stylesheet" href="/static/css/element-details.css">
     <link rel="shortcut icon" href="/static/images/masonry-logo_favicon.png">
     <script src="/static/js/script.js" defer></script>
 </head>
@@ -33,20 +34,18 @@
             <h4>
                 {{ user.firstName }} {{ user.lastName }}'s Vessel
             </h4>
-            <h4>
-                Lodge: {{ user.lodge.name }}
-                <svg width="24" height="22" viewBox="0 0 45 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                            d="M22.0669 0L27.2458 14.9269H44.0049L30.4465 24.1522L35.6253 39.079L22.0669 29.8537L8.50853 39.079L13.6874 24.1522L0.128975 14.9269H16.8881L22.0669 0Z"
-                            fill="#FFE60A"/>
-                </svg>
-                <svg width="24" height="22" viewBox="0 0 45 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                            d="M22.0669 0L27.2458 14.9269H44.0049L30.4465 24.1522L35.6253 39.079L22.0669 29.8537L8.50853 39.079L13.6874 24.1522L0.128975 14.9269H16.8881L22.0669 0Z"
-                            fill="#FFE60A"/>
-                </svg>
-
-            </h4>
+            {% if not (user.rank.getRankString().equals("Ain Soph Aur") or user.rank.getRankString().equals("The Illuminati")) %}
+                <h4>
+                    Lodge: {{ user.lodge.name }}
+                    {% for i in [1..user.lodge.id] %}
+                        <svg width="24" height="22" viewBox="0 0 45 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                    d="M22.0669 0L27.2458 14.9269H44.0049L30.4465 24.1522L35.6253 39.079L22.0669 29.8537L8.50853 39.079L13.6874 24.1522L0.128975 14.9269H16.8881L22.0669 0Z"
+                                    fill="#FFE60A"/>
+                        </svg>
+                    {% endfor %}
+                </h4>
+            {% endif %}
             <h4>
                 Rank: {{ user.rank.getRankString() }}
             </h4>
@@ -89,23 +88,49 @@
         </div>
     </div>
     <div class="content">
+
+        {% if (artifacts != null) %}
         <div class="content-title">
             <h4>Used Artifacts:</h4>
         </div>
         <div class="cards-wrapper">
             {% for artifact in artifacts %}
-                <div class="card">
-                    <div class="image-box">
-                        <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>
+                <a href="artifact-details/{{ artifact.id }}">
+                    <div class="card">
+                        <div class="image-box">
+                            <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>
+                        </div>
+                        <div class="card-info">
+                            <strong>{{ artifact.name }}</strong> <br/>
+                            Price: {{ artifact.price }}<br/>
+                        </div>
                     </div>
-                    <div class="info">
-                        <strong>{{ artifact.name }}</strong> <br/>
-                        Price: {{ artifact.price }}<br/>
-                    </div>
-                </div>
+                </a>
             {% endfor %}
         </div>
     </div>
+    {% endif %}
+
+    {% if (user.rank.getRankString().equals("The Illuminati") or user.rank.getRankString().equals("Ain Soph Aur")) %}
+        <div class="cards-wrapper">
+
+            {% for user in elements %}
+                <a href="user-details/{{ user.id }}">
+                    <div class="card">
+                        <div class="image-box">
+                            <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>
+                        </div>
+                        <div class="card-info">
+                            <strong>{{ user.firstName }} {{ user.lastName }}</strong> <br/>
+                            {{ user.rank.getRankString() }}<br/>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
 </main>
 <footer>
     <div class="red-line">
