@@ -4,11 +4,10 @@ import com.codecool.masonrysystem.dao.SessionDao;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-
 import java.io.IOException;
 
 public class LogoutHandler implements HttpHandler {
-    private SessionDao sessionDao;
+    private final SessionDao sessionDao;
 
     public LogoutHandler(SessionDao sessionDao) {
         this.sessionDao = sessionDao;
@@ -16,9 +15,6 @@ public class LogoutHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        String requestURI = exchange.getRequestURI().toString();
-        System.out.println(requestURI);
-
         String sessionId = exchange.getRequestHeaders().getFirst("Cookie")
                 .replace("\"", "")
                 .replace("sessionId=", "");
@@ -29,14 +25,20 @@ public class LogoutHandler implements HttpHandler {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        String cookie = exchange.getRequestHeaders().getFirst("Cookie") + ";Max-age=0";
-        exchange.getResponseHeaders().set("Set-Cookie", cookie);
-        System.out.println("removed cookie");
+        removeCookie(exchange);
+        redirectToLoginPage(exchange);
+    }
 
+    private void redirectToLoginPage(HttpExchange exchange) throws IOException {
         Headers responseHeaders = exchange.getResponseHeaders();
         responseHeaders.add("Location", "login");
         exchange.sendResponseHeaders(302, -1);
         exchange.close();
+    }
+
+    private void removeCookie(HttpExchange exchange) {
+        String cookie = exchange.getRequestHeaders().getFirst("Cookie") + ";Max-age=0";
+        exchange.getResponseHeaders().set("Set-Cookie", cookie);
     }
 }
 

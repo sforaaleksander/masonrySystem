@@ -3,34 +3,24 @@ package com.codecool.masonrysystem.handler;
 import com.codecool.masonrysystem.dao.SessionDao;
 import com.codecool.masonrysystem.dao.UserDao;
 import com.codecool.masonrysystem.helper.CookieHelper;
-import com.codecool.masonrysystem.helper.HandlerHelper;
 import com.codecool.masonrysystem.helper.LoginHelper;
 import com.codecool.masonrysystem.model.Session;
-import com.sun.net.httpserver.Headers;
+import com.codecool.masonrysystem.model.User;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.jtwig.JtwigModel;
-import org.jtwig.JtwigTemplate;
 
 import java.io.IOException;
 import java.net.HttpCookie;
 import java.util.Map;
 import java.util.Optional;
 
-public class LoginHandler implements HttpHandler {
-    private final CookieHelper cookieHelper;
-    private final HandlerHelper handlerHelper;
+public class LoginHandler extends Handler<User> implements HttpHandler {
     private final LoginHelper loginHelper;
-    private final UserDao userDao;
-    private final SessionDao sessionDao;
 
 
-    public LoginHandler(HandlerHelper handlerHelper, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
-        this.handlerHelper = handlerHelper;
-        this.cookieHelper = cookieHelper;
-        this.userDao = userDao;
-        this.sessionDao = sessionDao;
-        this.loginHelper = new LoginHelper(userDao);
+    public LoginHandler(CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
+        super("login.twig", cookieHelper, userDao, sessionDao, null);
+        loginHelper = new LoginHelper(userDao);
     }
 
     @Override
@@ -53,15 +43,12 @@ public class LoginHandler implements HttpHandler {
     }
 
     private void getForm(HttpExchange httpExchange) throws IOException {
-        String response;
-        JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/login.twig");
-        JtwigModel model = JtwigModel.newModel();
-        response = template.render(model);
-        handlerHelper.send200(httpExchange, response);
+        response = createResponse();
+        send200(httpExchange, response);
     }
 
     private void postForm(HttpExchange httpExchange) throws IOException {
-        Map<String, String> inputs = handlerHelper.getInputs(httpExchange);
+        Map<String, String> inputs = getInputs(httpExchange);
         try {
             if (loginHelper.areCredentialsValid(inputs)) {
                 login(httpExchange, inputs);
@@ -82,12 +69,5 @@ public class LoginHandler implements HttpHandler {
         sessionDao.insert(session);
         cookieHelper.createCookie(httpExchange, CookieHelper.getSessionCookieName(), sessionId);
         redirectHome(httpExchange);
-    }
-
-    private void redirectHome(HttpExchange httpExchange) throws IOException {
-        Headers responseHeaders = httpExchange.getResponseHeaders();
-        responseHeaders.set("Location", "index");
-        httpExchange.sendResponseHeaders(302, -1);
-        httpExchange.close();
     }
 }
