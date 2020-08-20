@@ -1,16 +1,19 @@
 package com.codecool.masonrysystem.handler;
 
 import com.codecool.masonrysystem.dao.SessionDao;
-import com.sun.net.httpserver.Headers;
+import com.codecool.masonrysystem.helper.LoginHelper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 
 public class LogoutHandler implements HttpHandler {
     private final SessionDao sessionDao;
+    private final LoginHelper loginHelper;
 
-    public LogoutHandler(SessionDao sessionDao) {
+    public LogoutHandler(SessionDao sessionDao, LoginHelper loginHelper) {
+
         this.sessionDao = sessionDao;
+        this.loginHelper = loginHelper;
     }
 
     @Override
@@ -26,14 +29,7 @@ public class LogoutHandler implements HttpHandler {
             e.printStackTrace();
         }
         removeCookie(exchange);
-        redirectToLoginPage(exchange);
-    }
-
-    private void redirectToLoginPage(HttpExchange exchange) throws IOException {
-        Headers responseHeaders = exchange.getResponseHeaders();
-        responseHeaders.set("Location", "login");
-        exchange.sendResponseHeaders(302, -1);
-        exchange.close();
+        loginHelper.redirectToLoginPage(exchange);
     }
 
     private void removeCookie(HttpExchange exchange) {

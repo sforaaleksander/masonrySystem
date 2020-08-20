@@ -2,7 +2,10 @@ package com.codecool.masonrysystem.helper;
 
 import com.codecool.masonrysystem.dao.UserDao;
 import com.codecool.masonrysystem.model.User;
+import com.sun.net.httpserver.Headers;
+import com.sun.net.httpserver.HttpExchange;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class LoginHelper {
@@ -19,6 +22,13 @@ public class LoginHelper {
         String password = inputs.get("password");
         User user = userDao.getUserByEmail(email);
         return user.getPassword().equals(password);
+    }
+
+    public void redirectToLoginPage(HttpExchange exchange) throws IOException {
+        Headers responseHeaders = exchange.getResponseHeaders();
+        responseHeaders.set("Location", "login");
+        exchange.sendResponseHeaders(302, -1);
+        exchange.close();
     }
 
     public IdGenerator getIdGenerator() {
