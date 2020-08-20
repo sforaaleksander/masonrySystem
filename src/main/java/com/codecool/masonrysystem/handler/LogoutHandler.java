@@ -4,6 +4,7 @@ import com.codecool.masonrysystem.dao.SessionDao;
 import com.codecool.masonrysystem.helper.LoginHelper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+
 import java.io.IOException;
 
 public class LogoutHandler implements HttpHandler {
@@ -22,12 +23,8 @@ public class LogoutHandler implements HttpHandler {
                 .replace("\"", "")
                 .replace("sessionId=", "");
         System.out.println(sessionId);
-        try {
-            sessionDao.delete(sessionId);
-            System.out.println("session successfully ended");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        sessionDao.delete(sessionId);
+        System.out.println("session successfully ended");
         removeCookie(exchange);
         loginHelper.redirectToLoginPage(exchange);
     }

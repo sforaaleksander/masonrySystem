@@ -26,19 +26,19 @@ public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact>
         return artifact;
     }
 
-    public List<Artifact> getAll() throws ElementNotFoundException, ClassNotFoundException {
+    public List<Artifact> getAll() throws ElementNotFoundException {
         return getAllElements();
     }
 
     @Override
-    public Artifact getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
+    public Artifact getById(Long id) throws ElementNotFoundException {
         return getElementById(id);
     }
 
     @Override
-    public boolean insert(Artifact artifact) throws ClassNotFoundException {
-        Connection connection = this.getConnection();
+    public boolean insert(Artifact artifact) {
         try {
+            connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO artifacts" +
                     "(id, name, price, description, is_collective, is_active, expiration_date) VALUES " +
                     "(?, ?, ?, ?, ?, ?, ?)");
@@ -53,17 +53,17 @@ public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact>
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return false;
     }
 
     @Override
-    public boolean update(Artifact artifact) throws ClassNotFoundException {
-        Connection connection = this.getConnection();
+    public boolean update(Artifact artifact) {
         Long id = artifact.getId();
         try {
+            connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE artifacts SET " +
                     "name=?, price=?, description=?, is_collective=?, is_active=?, expiration_date=? WHERE id = ?");
             preparedStatement.setString(1, artifact.getName());
@@ -77,21 +77,21 @@ public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact>
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return false;
     }
 
     @Override
-    public boolean delete(Long id) throws ClassNotFoundException {
+    public boolean delete(Long id) {
         return deleteElement(id);
     }
 
-    public List<Artifact> getAllUsedByUserId(Long id) throws ElementNotFoundException, ClassNotFoundException {
+    public List<Artifact> getAllUsedByUserId(Long id) throws ElementNotFoundException {
         List<Artifact> artifacts = new ArrayList<>();
-        Connection connection = this.getConnection();
         try {
+            connection = this.getConnection();
             Statement statement = connection.createStatement();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM artifacts LEFT JOIN transactions t on artifacts.id = t.artifact_id WHERE user_id=?");
             preparedStatement.setLong(1, id);
@@ -103,7 +103,7 @@ public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact>
             statement.close();
             connection.close();
             return artifacts;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         throw new ElementNotFoundException("No artifacts not found");

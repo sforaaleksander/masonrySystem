@@ -22,21 +22,21 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         return userFactory.makeUser(resultSet);
     }
     
-    public List<User> getAll() throws ElementNotFoundException, ClassNotFoundException {
+    public List<User> getAll() throws ElementNotFoundException {
         return getAllElements();
     }
 
     @Override
-    public User getById(Long id) throws ClassNotFoundException, ElementNotFoundException {
+    public User getById(Long id) throws ElementNotFoundException {
         return getElementById(id);
     }
 
     @Override
-    public boolean insert(User user) throws ClassNotFoundException {
+    public boolean insert(User user) {
         Integer spiritPoints = null;
         Long lodgeId = null;
-        Connection connection = this.getConnection();
         try {
+            connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" +
                     "(first_name, last_name, email, password, spirit_points, lodge_id, role_id, rank_id, is_active) VALUES " +
                     "(?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -58,19 +58,19 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return false;
     }
 
     @Override
-    public boolean update(User user) throws ClassNotFoundException {
+    public boolean update(User user) {
         Integer spiritPoints = null;
         Long lodgeId = null;
-        Connection connection = this.getConnection();
         Long id = user.getId();
         try {
+            connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET " +
                     "first_name=?, last_name=?, email=?, password=?, spirit_points=?, lodge_id=?, role_id=?, rank_id=?, is_active=? WHERE id = ?");
             preparedStatement.setString(1, user.getFirstName());
@@ -91,14 +91,14 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return false;
     }
 
     @Override
-    public boolean delete(Long id) throws ClassNotFoundException {
+    public boolean delete(Long id) {
         return deleteElement(id);
     }
 
