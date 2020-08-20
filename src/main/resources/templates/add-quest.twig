@@ -4,11 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add artifact</title>
+    <title>Add quest</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/add-element.css">
-    <link rel="shortcut icon" href="/static/images/masonry-logo_favicon.png">
+    <link rel="stylesheet" href="/static/css/add-quest.css">
+
     <script src="/static/js/script.js" defer></script>
+
+
 </head>
 
 <body>
@@ -31,7 +34,7 @@
 <main>
     <div class="sub-container">
         <h2 class="subpage-header">
-            ADD ARTIFACT
+            ADD QUEST
         </h2>
         <div class="triangle-box">
             <div class="purple-triangle">
@@ -44,12 +47,13 @@
     </div>
     <div class="content">
         <form class="justify-center" method="POST">
-            <input name="artifact-name" type="text" placeholder="Artifact name"/>
-            <input name="artifact-price" type="text" placeholder="Artifact price"/>
-            <textarea name="artifact-description" type="text" placeholder="">Artifact description</textarea>
-            <input type="file" id="artifact-image">
+            <input name="quest-name" type="text" placeholder="Quest name"/>
+            <input name="quest-requirement" type="text" placeholder="Minimal rank to submit quest"/>
+            <input name="quest-reward" type="text" placeholder="Quest reward"/>
+            <textarea name="quest-description" type="text" placeholder="">Quest description</textarea>
+            <input type="file" id="quest-image">
             <button class="red-button">
-                Submit artifact
+                Submit quest
             </button>
         </form>
     </div>
@@ -62,4 +66,5 @@
     </div>
 </footer>
 </body>
+
 </html>
