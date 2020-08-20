@@ -89,6 +89,8 @@
         </div>
     </div>
     <div class="content">
+
+        {% if (artifacts != null) %}
         <div class="content-title">
             <h4>Used Artifacts:</h4>
         </div>
@@ -106,6 +108,18 @@
             {% endfor %}
         </div>
     </div>
+    {% endif %}
+
+    {% if (user.rank.getRankString().equals("The Illuminati")) %}
+<ul class="console-options">
+    <li><a href="new-apprentice">Add new apprentice</a></li>
+    <li><a href="new-quest">Add new quest</a></li>
+    <li><a href="new-artifact">Add new artifact</a></li>
+</ul>
+    }}    {% endif %}
+
+
+
 </main>
 <footer>
     <div class="red-line">

@@ -13,25 +13,30 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 import java.net.HttpCookie;
+import java.util.Collections;
 import java.util.Optional;
 
-public class ConsoleHandler extends Handler<Artifact> implements HttpHandler {
+public class ConsoleHandler extends Handler<Object> implements HttpHandler {
     private final ArtifactDao artifactDao;
 
     public ConsoleHandler(CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
-        super("console.twig", cookieHelper, userDao, sessionDao, null);
+        super("console.twig", cookieHelper, userDao, sessionDao, userDao);
         artifactDao = new ArtifactDao();
     }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
+        handleApprenticeView(httpExchange);
+    }
+
+    private void handleApprenticeView(HttpExchange httpExchange) throws IOException {
         try {
             Optional<HttpCookie> cookieOptional = cookieHelper.getSessionIdCookie(httpExchange, CookieHelper.getSessionCookieName());
             if (!cookieOptional.isPresent()) {
                 throw new CookieNotFoundException("Expected cookie could not be found");
             }
             Long userId = getUserIdFromCookie(cookieOptional.get());
-            elementList = artifactDao.getAllUsedByUserId(userId);
+            elementList = Collections.singletonList((Artifact) artifactDao.getAllUsedByUserId(userId));
             user = userDao.getById(userId);
         } catch (ElementNotFoundException | ClassNotFoundException | CookieNotFoundException e) {
             e.printStackTrace();
