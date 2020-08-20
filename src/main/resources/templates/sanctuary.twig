@@ -50,17 +50,22 @@
         </div>
     </div>
     <div class="cards-wrapper">
+
         {% for artifact in elements %}
             <div class="card">
-                <div class="image-box">
-                    <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>
-                </div>
-                <div class="info">
-                    <strong>{{ artifact.name }}</strong> <br/>
-                    Price: {{ artifact.price }}<br/>
-                </div>
+                <a href="artifact-details/{{ artifact.id }}">
+
+                    <div class="image-box">
+                        <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>
+                    </div>
+                    <div class="info">
+                        <strong>{{ artifact.name }}</strong> <br/>
+                        Price: {{ artifact.price }}<br/>
+                    </div>
+                </a>
             </div>
         {% endfor %}
+        
     </div>
 </main>
 <footer>
