@@ -21,9 +21,9 @@ public class LoginHandler extends Handler<User> implements HttpHandler {
     private final LoginHelper loginHelper;
 
 
-    public LoginHandler(CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao) {
+    public LoginHandler(CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao, LoginHelper loginHelper) {
         super("login.twig", cookieHelper, userDao, sessionDao, null);
-        loginHelper = new LoginHelper(userDao);
+        this.loginHelper = loginHelper;
     }
 
     @Override
@@ -55,9 +55,9 @@ public class LoginHandler extends Handler<User> implements HttpHandler {
         try {
             if (loginHelper.areCredentialsValid(inputs)) {
                 login(httpExchange, inputs);
+            } else {
+                throw new InvalidPasswordException("Invalid password!");
             }
-            else {
-                throw new InvalidPasswordException("Invalid password!");           }
         } catch (ElementNotFoundException | InvalidPasswordException e) {
             e.printStackTrace();
             loginHelper.redirectToLoginPage(httpExchange);
@@ -72,11 +72,7 @@ public class LoginHandler extends Handler<User> implements HttpHandler {
         session = new Session();
         session.setSessionId(sessionId);
         session.setUserId(userId);
-        try {
-            sessionDao.insert(session);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        sessionDao.insert(session);
         cookieHelper.createCookie(httpExchange, CookieHelper.getSessionCookieName(), sessionId);
         redirectHome(httpExchange);
     }

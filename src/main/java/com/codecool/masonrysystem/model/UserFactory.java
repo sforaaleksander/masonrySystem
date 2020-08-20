@@ -43,7 +43,7 @@ public class UserFactory {
                 try {
                     Lodge lodge = lodgeDao.getById(resultSet.getLong("lodge_id"));
                     apprentice.setLodge(lodge);
-                } catch (ClassNotFoundException | ElementNotFoundException e) {
+                } catch (ElementNotFoundException e) {
                     e.printStackTrace();
                 }
                 apprentice.setRank(Rank.values()[resultSet.getInt("rank_id")]);
