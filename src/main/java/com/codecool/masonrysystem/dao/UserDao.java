@@ -119,6 +119,6 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new ClassNotFoundException("User with given email could not found");
+        throw new ClassNotFoundException("User with given email could not be found");
     }
 }
