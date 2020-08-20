@@ -31,7 +31,7 @@ public class LogoutHandler implements HttpHandler {
 
     private void redirectToLoginPage(HttpExchange exchange) throws IOException {
         Headers responseHeaders = exchange.getResponseHeaders();
-        responseHeaders.add("Location", "login");
+        responseHeaders.set("Location", "login");
         exchange.sendResponseHeaders(302, -1);
         exchange.close();
     }
