@@ -36,14 +36,10 @@ public class UserManagerConsoleHandler extends Handler<User> implements HttpHand
         }
     }
 
-    private void getConsoleViewForUserManager(HttpExchange httpExchange, int rankId) throws IOException {
+    private void getConsoleViewForUserManager(HttpExchange httpExchange, int roleId) throws IOException {
         try {
-            Optional<HttpCookie> cookieOptional = cookieHelper.getSessionIdCookie(httpExchange, CookieHelper.getSessionCookieName());
-            if (!cookieOptional.isPresent()) {
-                throw new CookieNotFoundException("Expected cookie could not be found");
-            }
-            elementList = userDao.getUsersByRole(rankId);
-        } catch (ElementNotFoundException | CookieNotFoundException e) {
+            elementList = userDao.getUsersByRole(roleId);
+        } catch (ElementNotFoundException e) {
             e.printStackTrace();
         }
         response = createResponse();

@@ -90,34 +90,39 @@
     </div>
     <div class="content">
 
-        {% if (artifacts != null) %}
-        <div class="content-title">
-            <h4>Used Artifacts:</h4>
-        </div>
-        <div class="cards-wrapper">
-            {% for artifact in artifacts %}
-                <div class="card">
-                    <div class="image-box">
-                        <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>
-                    </div>
-                    <div class="info">
-                        <strong>{{ artifact.name }}</strong> <br/>
-                        Price: {{ artifact.price }}<br/>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
+{#        {% if (artifacts != null) %}#}
+{#        <div class="content-title">#}
+{#            <h4>Used Artifacts:</h4>#}
+{#        </div>#}
+{#        <div class="cards-wrapper">#}
+{#            {% for artifact in artifacts %}#}
+{#                <div class="card">#}
+{#                    <div class="image-box">#}
+{#                        <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>#}
+{#                    </div>#}
+{#                    <div class="info">#}
+{#                        <strong>{{ artifact.name }}</strong> <br/>#}
+{#                        Price: {{ artifact.price }}<br/>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    </div>#}
+{#    {% endif %}#}
 
-    {% if (user.rank.getRankString().equals("The Illuminati")) %}
-<ul class="console-options">
-    <li><a href="new-apprentice">Add new apprentice</a></li>
-    <li><a href="new-quest">Add new quest</a></li>
-    <li><a href="new-artifact">Add new artifact</a></li>
-</ul>
-    }}    {% endif %}
-
+{#    {% if (user.rank.getRankString().equals("The Illuminati")) %}#}
+{#        {% for user in elements %}#}
+{#            <div class="card">#}
+{#                <div class="image-box">#}
+{#                    <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>#}
+{#                </div>#}
+{#                <div class="info">#}
+{#                    <strong>{{ user.name }}</strong> <br/>#}
+{#                    {{ user.rank.getRankString() }}<br/>#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    {% endif %}#}
 
 
 </main>

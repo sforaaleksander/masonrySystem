@@ -127,7 +127,7 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         List<User> users = new ArrayList<>();
         try {
             Connection connection = this.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE roleId=?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE role_id=?");
             preparedStatement.setInt(1, roleId);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
