@@ -15,21 +15,21 @@
     <div class="orange-header">
         <nav class="menu">
             <ul>
-                <li> <a href="vessel">Console</a></li>
-                <li> <a href="academy">Academy</a></li>
-                <li> <a href="sanctuary">Sanctuary</a></li>
-                <li> <a href="logout">Log out</a></li>
+                <li><a href="vessel">Console</a></li>
+                <li><a href="academy">Academy</a></li>
+                <li><a href="sanctuary">Sanctuary</a></li>
+                <li><a href="logout">Log out</a></li>
             </ul>
         </nav>
         <div id="title-with-logo">
-            <h1><a href="index">MASONRY<br /> SYSTEM</a></h1>
-            <img src="/static/images/masonry-logo.png" alt="masonry-logo" />
+            <h1><a href="index">MASONRY<br/> SYSTEM</a></h1>
+            <img src="/static/images/masonry-logo.png" alt="masonry-logo"/>
         </div>
     </div>
 </header>
 <main>
     <div class="sub-container">
-        <h2> {{ quest.name }}</h2>
+        <h2> {{ element.name }}</h2>
         <div class="triangle-box">
             <div class="purple-triangle">
             </div>
@@ -40,22 +40,39 @@
     <div class="content">
         <div class="img-with-button">
             <div class="green-box">
-                <img src="/static/images/illuminati-eye-of-providence-illuminati.png" />
+                <img src="/static/images/illuminati-eye-of-providence-illuminati.png"/>
             </div>
             <button class="red-button">
-                Submit quest
+
+                {% if element.reward %}
+                    Submit quest
+                {% else %}
+                    Purchase artifact
+                {% endif %}
+
             </button>
         </div>
         <div class="info">
-            <h4>
-                Required rank: {{ quest.requiredRank.getRankString() }}
-            </h4>
-            <h4>
-                Quest reward: {{ quest.reward}} Spirit Points
-            </h4>
-            <p id="quest-details">
-                {{ quest.description }}
-            </p>
+
+            {% if element.reward %}
+                <h4>
+                    Required rank: {{ element.requiredRank.getRankString() }}
+                </h4>
+                <h4>
+                    Quest reward: {{ element.reward }} Spirit Points
+                </h4>
+                <p>
+                    {{ element.description }}
+                </p>
+            {% else %}
+                <h4>
+                    Price: {{ element.reward }} Spirit Points
+                </h4>
+                <p>
+                    {{ element.description }}
+                </p>
+            {% endif %}
+
         </div>
     </div>
 </main>
