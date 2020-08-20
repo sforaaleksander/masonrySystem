@@ -86,6 +86,14 @@ public abstract class Handler<T> {
         return session.getUserId();
     }
 
+    private User getUserFromOptionalCookie(HttpExchange httpExchange) throws CookieNotFoundException, ElementNotFoundException, ClassNotFoundException {
+        Optional<HttpCookie> cookieOptional = cookieHelper.getSessionIdCookie(httpExchange, CookieHelper.getSessionCookieName());
+        if (!cookieOptional.isPresent()) {
+            throw new CookieNotFoundException("Expected cookie could not be found");
+        }
+        return getUserFromCookie(cookieOptional.get());
+    }
+
     public String createResponse() {
         JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/" + TWIGFILENAME);
         JtwigModel model = JtwigModel.newModel();
@@ -101,11 +109,7 @@ public abstract class Handler<T> {
     public void superHandleGetAll(HttpExchange httpExchange) throws IOException {
         try {
             elementList = dao.getAll();
-            Optional<HttpCookie> cookieOptional = cookieHelper.getSessionIdCookie(httpExchange, CookieHelper.getSessionCookieName());
-            if (!cookieOptional.isPresent()) {
-                throw new CookieNotFoundException("Expected cookie could not be found");
-            }
-            user = getUserFromCookie(cookieOptional.get());
+            getUserFromOptionalCookie(httpExchange);
         } catch (ElementNotFoundException | ClassNotFoundException | CookieNotFoundException e) {
             e.printStackTrace();
         }
@@ -118,7 +122,8 @@ public abstract class Handler<T> {
         elementId = Long.parseLong(elements[elements.length - 1]);
         try {
             element = dao.getById(elementId);
-        } catch (ClassNotFoundException | ElementNotFoundException e) {
+            user = getUserFromOptionalCookie(httpExchange);
+        } catch (ClassNotFoundException | ElementNotFoundException | CookieNotFoundException e) {
             e.printStackTrace();
         }
         response = createResponse();
