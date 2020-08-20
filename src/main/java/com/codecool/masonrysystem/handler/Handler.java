@@ -112,7 +112,7 @@ public abstract class Handler<T> {
     public void superHandleGetAll(HttpExchange httpExchange) throws IOException {
         try {
             elementList = dao.getAll();
-            getUserFromOptionalCookie(httpExchange);
+            user = getUserFromOptionalCookie(httpExchange);
         } catch (ElementNotFoundException | ClassNotFoundException | CookieNotFoundException e) {
             e.printStackTrace();
         }
