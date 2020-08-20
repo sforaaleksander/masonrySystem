@@ -42,16 +42,18 @@
     </div>
     <div class="cards-wrapper">
         {% for quest in elements %}
-        <div class="card">
-            <div class="image-box">
-                <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>
+            <div class="card">
+                <a href="quest-details/{{ quest.id }}">
+                    <div class="image-box">
+                        <img src="/static/images/illuminati-eye-of-providence-illuminati.png" alt="illuminati-eye"/>
+                    </div>
+                    <div class="info">
+                        <strong>{{ quest.name }}</strong> <br/>
+                        Required rank: {{ quest.requiredRank.getRankString() }}<br/>
+                        Reward: {{ quest.reward }}<br/>
+                    </div>
+                </a>
             </div>
-            <div class="info">
-                <strong>{{ quest.name }}</strong> <br/>
-                Required rank: {{ quest.requiredRank.getRankString() }}<br/>
-                Reward: {{ quest.reward }}<br/>
-            </div>
-        </div>
         {% endfor %}
     </div>
 </main>
