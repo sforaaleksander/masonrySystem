@@ -22,7 +22,7 @@ public class HttpController {
         server.createContext("/console", new ConsoleHandler(cookieHelper, userDao, sessionDao));
         server.createContext("/academy", new AcademyHandler(cookieHelper, userDao, sessionDao));
         server.createContext("/sanctuary", new SanctuaryHandler(cookieHelper, userDao, sessionDao));
-        server.createContext("/quest", new QuestHandler(cookieHelper, sessionDao));
+        server.createContext("/quest", new QuestViewHandler(cookieHelper, sessionDao));
         server.createContext("/static", new Static());
         server.setExecutor(null);
         server.start();

@@ -18,6 +18,6 @@ public class SanctuaryHandler extends Handler<Artifact> implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        superHandle(httpExchange);
+        superHandleGetAll(httpExchange);
     }
 }
