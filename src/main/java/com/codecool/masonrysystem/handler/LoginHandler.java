@@ -2,6 +2,8 @@ package com.codecool.masonrysystem.handler;
 
 import com.codecool.masonrysystem.dao.SessionDao;
 import com.codecool.masonrysystem.dao.UserDao;
+import com.codecool.masonrysystem.exception.ElementNotFoundException;
+import com.codecool.masonrysystem.exception.InvalidPasswordException;
 import com.codecool.masonrysystem.helper.CookieHelper;
 import com.codecool.masonrysystem.helper.LoginHelper;
 import com.codecool.masonrysystem.model.Session;
@@ -55,14 +57,14 @@ public class LoginHandler extends Handler<User> implements HttpHandler {
                 login(httpExchange, inputs);
             }
             else {
-                throw new ClassNotFoundException("Invalid password!");           }
-        } catch (ClassNotFoundException e) {
+                throw new InvalidPasswordException("Invalid password!");           }
+        } catch (ElementNotFoundException | InvalidPasswordException e) {
             e.printStackTrace();
             loginHelper.redirectToLoginPage(httpExchange);
         }
     }
 
-    private void login(HttpExchange httpExchange, Map<String, String> inputs) throws ClassNotFoundException, IOException {
+    private void login(HttpExchange httpExchange, Map<String, String> inputs) throws IOException {
         Session session;
         String sessionId = loginHelper.getIdGenerator().generateId(18);
         System.out.println(sessionId);
@@ -70,7 +72,11 @@ public class LoginHandler extends Handler<User> implements HttpHandler {
         session = new Session();
         session.setSessionId(sessionId);
         session.setUserId(userId);
-        sessionDao.insert(session);
+        try {
+            sessionDao.insert(session);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         cookieHelper.createCookie(httpExchange, CookieHelper.getSessionCookieName(), sessionId);
         redirectHome(httpExchange);
     }

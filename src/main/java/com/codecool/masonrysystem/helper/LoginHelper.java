@@ -1,6 +1,7 @@
 package com.codecool.masonrysystem.helper;
 
 import com.codecool.masonrysystem.dao.UserDao;
+import com.codecool.masonrysystem.exception.ElementNotFoundException;
 import com.codecool.masonrysystem.model.User;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -17,7 +18,7 @@ public class LoginHelper {
         this.idGenerator = new IdGenerator();
     }
 
-    public boolean areCredentialsValid(Map<String, String> inputs) throws ClassNotFoundException {
+    public boolean areCredentialsValid(Map<String, String> inputs) throws ElementNotFoundException {
         String email = inputs.get("email");
         String password = inputs.get("password");
         User user = userDao.getUserByEmail(email);

@@ -102,10 +102,10 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         return deleteElement(id);
     }
 
-    public User getUserByEmail(String email) throws ClassNotFoundException {
+    public User getUserByEmail(String email) throws ElementNotFoundException {
         User user;
-        Connection connection = this.getConnection();
         try {
+            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE email=?");
             preparedStatement.setString(1, email);
             ResultSet rs = preparedStatement.executeQuery();
@@ -116,9 +116,9 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
                 connection.close();
                 return user;
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        throw new ClassNotFoundException("User with given email could not be found");
+        throw new ElementNotFoundException("User with given email could not be found");
     }
 }
