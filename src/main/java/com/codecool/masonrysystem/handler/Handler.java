@@ -6,6 +6,7 @@ import com.codecool.masonrysystem.dao.UserDao;
 import com.codecool.masonrysystem.exception.CookieNotFoundException;
 import com.codecool.masonrysystem.exception.ElementNotFoundException;
 import com.codecool.masonrysystem.helper.CookieHelper;
+import com.codecool.masonrysystem.model.Rank;
 import com.codecool.masonrysystem.model.Session;
 import com.codecool.masonrysystem.model.User;
 import com.sun.net.httpserver.Headers;
@@ -101,7 +102,9 @@ public abstract class Handler<T> {
         modelMap.put("elements", elementList);
         modelMap.put("user", user);
         for (Map.Entry<String, Object> entry : modelMap.entrySet()) {
-            model.with(entry.getKey(), entry.getValue());
+            if (entry.getValue() != null) {
+                model.with(entry.getKey(), entry.getValue());
+            }
         }
         return template.render(model);
     }
@@ -123,6 +126,7 @@ public abstract class Handler<T> {
         try {
             element = dao.getById(elementId);
             user = getUserFromOptionalCookie(httpExchange);
+            System.out.println(user.getRank().getRankString());
         } catch (ClassNotFoundException | ElementNotFoundException | CookieNotFoundException e) {
             e.printStackTrace();
         }

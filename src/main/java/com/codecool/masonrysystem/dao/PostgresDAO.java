@@ -10,6 +10,7 @@ public abstract class PostgresDAO<T> implements IDAO<T> {
     protected final String TABLENAME;
 
     public PostgresDAO(String tableName) {
+
         TABLENAME = tableName;
     }
 

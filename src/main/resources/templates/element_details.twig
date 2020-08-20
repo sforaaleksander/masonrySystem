@@ -42,19 +42,39 @@
             <div class="green-box">
                 <img src="/static/images/illuminati-eye-of-providence-illuminati.png"/>
             </div>
-            <button class="red-button">
 
-                {% if element.reward %}
-                    Submit quest
+            {% if (user.rank.getRankString().equals("The Illuminati")) %}
+                {% if (element.reward) %}
+                    <button class="red-button">
+                        Edit quest
+                    </button>
+                    <button class="red-button">
+                        Delete quest
+                    </button>
                 {% else %}
-                    Purchase artifact
+                    <button class="red-button">
+                        Edit quest
+                    </button>
+                    <button class="red-button">
+                        Delete quest
+                    </button>
                 {% endif %}
+            {% elseif (not (user.rank.getRankString().equals("Ain Soph Aur"))) %}
+                {% if (element.reward) %}
+                    <button class="red-button">
+                        Submit quest
+                    </button>
+                {% else %}
+                    <button class="red-button">
+                        Purchase artifact
+                    </button>
+                {% endif %}
+            {% endif %}
 
-            </button>
         </div>
         <div class="info">
 
-            {% if element.reward %}
+            {% if (element.reward) %}
                 <h4>
                     Required rank: {{ element.requiredRank.getRankString() }}
                 </h4>
