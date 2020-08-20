@@ -11,7 +11,7 @@ import java.io.IOException;
 public class ArtifactViewHandler extends Handler<Artifact> implements HttpHandler {
 
     public ArtifactViewHandler(CookieHelper cookieHelper, SessionDao sessionDao) {
-        super("artifact_details.twig", cookieHelper, null, sessionDao, new ArtifactDao());
+        super("element_details.twig", cookieHelper, null, sessionDao, new ArtifactDao());
     }
 
     @Override
