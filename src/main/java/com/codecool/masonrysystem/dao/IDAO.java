@@ -7,9 +7,12 @@ import java.util.List;
 
 public interface IDAO<T> {
 
-    T getById(Long id) throws  ElementNotFoundException;
+    T getById(Long id) throws ElementNotFoundException;
+
     boolean insert(T t) throws ElementNotFoundException;
+
     boolean update(T t);
+
     boolean delete(Long id);
 
     List<T> getAll() throws ElementNotFoundException;
