@@ -11,7 +11,7 @@ import java.io.IOException;
 public class QuestViewHandler extends Handler<Quest> implements HttpHandler {
 
     public QuestViewHandler(CookieHelper cookieHelper, SessionDao sessionDao) {
-        super("quest_details.twig", cookieHelper, null, sessionDao, new QuestDao());
+        super("element_details.twig", cookieHelper, null, sessionDao, new QuestDao());
     }
 
     @Override
