@@ -87,7 +87,7 @@ public abstract class Handler<T> {
         return session.getUserId();
     }
 
-    private User getUserFromOptionalCookie(HttpExchange httpExchange) throws CookieNotFoundException, ElementNotFoundException, ClassNotFoundException {
+    public User getUserFromOptionalCookie(HttpExchange httpExchange) throws CookieNotFoundException, ElementNotFoundException, ClassNotFoundException {
         Optional<HttpCookie> cookieOptional = cookieHelper.getSessionIdCookie(httpExchange, CookieHelper.getSessionCookieName());
         if (!cookieOptional.isPresent()) {
             throw new CookieNotFoundException("Expected cookie could not be found");
