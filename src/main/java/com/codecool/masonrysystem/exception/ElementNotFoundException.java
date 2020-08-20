@@ -1,6 +1,6 @@
 package com.codecool.masonrysystem.exception;
 
-public class ElementNotFoundException extends Throwable {
+public class ElementNotFoundException extends RuntimeException {
     public ElementNotFoundException(String element_not_found) {
     }
 }
