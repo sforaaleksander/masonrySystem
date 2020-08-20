@@ -74,10 +74,14 @@ public abstract class Handler<T> {
     }
 
     public User getUserFromCookie(HttpCookie cookie) throws ElementNotFoundException, ClassNotFoundException {
+        Long userId = getUserIdFromCookie(cookie);
+        return userDao.getById(userId);
+    }
+
+    public Long getUserIdFromCookie(HttpCookie cookie) throws ClassNotFoundException, ElementNotFoundException {
         String sessionId = cookieHelper.getSessionIdFromCookie(cookie);
         Session session = sessionDao.getById(sessionId);
-        Long userId = session.getUserId();
-        return userDao.getById(userId);
+        return session.getUserId();
     }
 
     public String createResponse() {

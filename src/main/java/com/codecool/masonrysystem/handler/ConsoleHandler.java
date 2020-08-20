@@ -30,9 +30,7 @@ public class ConsoleHandler extends Handler<Artifact> implements HttpHandler {
             if (!cookieOptional.isPresent()) {
                 throw new CookieNotFoundException("Expected cookie could not be found");
             }
-            String sessionId = cookieHelper.getSessionIdFromCookie(cookieOptional.get());
-            Session session = sessionDao.getById(sessionId);
-            Long userId = session.getUserId();
+            Long userId = getUserIdFromCookie(cookieOptional.get());
             elementList = artifactDao.getAllUsedByUserId(userId);
             user = userDao.getById(userId);
         } catch (ElementNotFoundException | ClassNotFoundException | CookieNotFoundException e) {
