@@ -6,6 +6,7 @@ import com.codecool.masonrysystem.helper.CookieHelper;
 import com.codecool.masonrysystem.helper.LoginHelper;
 import com.codecool.masonrysystem.model.Session;
 import com.codecool.masonrysystem.model.User;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -53,8 +54,11 @@ public class LoginHandler extends Handler<User> implements HttpHandler {
             if (loginHelper.areCredentialsValid(inputs)) {
                 login(httpExchange, inputs);
             }
+            else {
+                throw new ClassNotFoundException("Invalid password!");           }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            loginHelper.redirectToLoginPage(httpExchange);
         }
     }
 
