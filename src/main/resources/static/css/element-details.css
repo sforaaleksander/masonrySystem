@@ -31,3 +31,16 @@
     color: #EB1717;
     font-size: 18px;
 }
+
+h2 {
+    margin: 2em;
+    font-family: Ruda;
+    color: #EB1717;
+}
+
+.two-buttons {
+    width: 18.75em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

@@ -15,9 +15,9 @@
     <div class="orange-header">
         <nav class="menu">
             <ul>
-                <li><a href="vessel">Console</a></li>
-                <li><a href="academy">Academy</a></li>
-                <li><a href="sanctuary">Sanctuary</a></li>
+                <li><a href="../console">Console</a></li>
+                <li><a href="../academy">Academy</a></li>
+                <li><a href="../sanctuary">Sanctuary</a></li>
                 <li><a href="../logout">Log out</a></li>
             </ul>
         </nav>
@@ -44,21 +44,25 @@
             </div>
 
             {% if (user.rank.getRankString().equals("The Illuminati")) %}
-                {% if (element.reward) %}
-                    <button class="red-button">
-                        Edit quest
-                    </button>
-                    <button class="red-button">
-                        Delete quest
-                    </button>
-                {% else %}
-                    <button class="red-button">
-                        Edit quest
-                    </button>
-                    <button class="red-button">
-                        Delete quest
-                    </button>
-                {% endif %}
+
+                <div class="two-buttons">
+                    {% if (element.reward) %}
+
+                        <button class="red-button">
+                            Edit quest
+                        </button>
+                        <button class="red-button">
+                            Delete quest
+                        </button>
+                    {% else %}
+                        <button class="red-button">
+                            Edit quest
+                        </button>
+                        <button class="red-button">
+                            Delete quest
+                        </button>
+                    {% endif %}
+                </div>
             {% elseif (not (user.rank.getRankString().equals("Ain Soph Aur"))) %}
                 {% if (element.reward) %}
                     <button class="red-button">
