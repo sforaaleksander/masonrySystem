@@ -131,9 +131,7 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
             preparedStatement.setInt(1, roleId);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                Apprentice user = (Apprentice) create(rs);
-                System.out.println(user.toString());
-                users.add(user);
+                users.add(create(rs));
             }
             rs.close();
             preparedStatement.close();
