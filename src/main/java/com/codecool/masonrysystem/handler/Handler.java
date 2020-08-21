@@ -1,6 +1,7 @@
 package com.codecool.masonrysystem.handler;
 
 import com.codecool.masonrysystem.dao.IDAO;
+import com.codecool.masonrysystem.dao.PostgresDAO;
 import com.codecool.masonrysystem.dao.SessionDao;
 import com.codecool.masonrysystem.dao.UserDao;
 import com.codecool.masonrysystem.exception.CookieNotFoundException;
@@ -33,10 +34,10 @@ public abstract class Handler<T> {
     protected T element = null;
     protected Long elementId = null;
     protected User user = null;
-    protected final IDAO<T> dao;
+    protected final PostgresDAO<T> dao;
 
 
-    public Handler(String twigFileName, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao, IDAO<T> dao) {
+    public Handler(String twigFileName, CookieHelper cookieHelper, UserDao userDao, SessionDao sessionDao, PostgresDAO<T> dao) {
         this.TWIGFILENAME = twigFileName;
         this.modelMap = new HashMap<>();
         this.cookieHelper = cookieHelper;
