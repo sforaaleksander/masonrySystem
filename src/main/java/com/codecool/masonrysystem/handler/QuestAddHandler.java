@@ -33,9 +33,10 @@ public class QuestAddHandler extends Handler<Quest> implements HttpHandler {
     private void postForm(HttpExchange httpExchange) throws IOException {
         Map<String, String> inputs = getInputs(httpExchange);
         Quest quest = new Quest();
-//        Long id = dao.getHighest
+        Long id = dao.getHighestIdElement().getId() + 1;
+        quest.setId(id);
         quest.setName(inputs.get("quest-name"));
-//        quest.setReward(Integer.valueOf(inputs.get("quest-reward")));
+        quest.setReward(Integer.valueOf(inputs.get("quest-reward")));
         quest.setRequiredRank(Rank.THEILLUMINATI);
         quest.setDescription(inputs.get("quest-description"));
         quest.setExpirationDate(null);

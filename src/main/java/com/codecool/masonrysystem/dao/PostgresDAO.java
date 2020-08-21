@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class PostgresDAO<T> implements IDAO<T> {
-    protected final String TABLENAME;
+    public final String TABLENAME;
 
     public PostgresDAO(String tableName) {
 
         TABLENAME = tableName;
     }
 
-    protected List<T> getAllElements() throws ElementNotFoundException {
+    public List<T> getAllElements() throws ElementNotFoundException {
         List<T> elements = new ArrayList<>();
         try {
             Connection connection = this.getConnection();
@@ -33,7 +33,7 @@ public abstract class PostgresDAO<T> implements IDAO<T> {
         throw new ElementNotFoundException(TABLENAME + " could not be found");
     }
 
-    protected T getElementById(Long id) throws ElementNotFoundException {
+    public T getElementById(Long id) throws ElementNotFoundException {
         T element;
         try {
             Connection connection = this.getConnection();
@@ -53,13 +53,12 @@ public abstract class PostgresDAO<T> implements IDAO<T> {
         throw new ElementNotFoundException(this.TABLENAME + " not found");
     }
 
-    protected T getHighestIdElement(Long id) throws ElementNotFoundException {
+    public T getHighestIdElement() throws ElementNotFoundException {
         T element;
         try {
             Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * " +
-                    "FROM ? order by id desc limit 1");
-            preparedStatement.setString(1, this.TABLENAME);
+                    "FROM " + this.TABLENAME+ " order by id desc limit 1");
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 element = create(rs);
@@ -74,7 +73,7 @@ public abstract class PostgresDAO<T> implements IDAO<T> {
         throw new ElementNotFoundException(this.TABLENAME + " not found");
     }
 
-    protected boolean deleteElement(Long id)  {
+    public boolean deleteElement(Long id)  {
         try {
             Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + this.TABLENAME + " WHERE id = ?");
