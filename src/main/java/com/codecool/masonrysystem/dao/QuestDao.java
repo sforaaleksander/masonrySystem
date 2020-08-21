@@ -45,8 +45,7 @@ public class QuestDao extends PostgresDAO<Quest> {
             preparedStatement.setLong(1, quest.getId());
             preparedStatement.setString(2, quest.getName());
             preparedStatement.setInt(3, quest.getReward());
-//            preparedStatement.setInt(4, quest.getRequiredRank().ordinal()); //TODO check if correct
-            preparedStatement.setInt(4, 4);
+            preparedStatement.setInt(4, quest.getRequiredRank().ordinal()); //TODO check if correct
             preparedStatement.setString(5, quest.getDescription());
             preparedStatement.setBoolean(6, quest.getIsActive());
             preparedStatement.setDate(7, (Date) quest.getExpirationDate());

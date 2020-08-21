@@ -37,7 +37,8 @@ public class QuestAddHandler extends Handler<Quest> implements HttpHandler {
         quest.setId(id);
         quest.setName(inputs.get("quest-name"));
         quest.setReward(Integer.valueOf(inputs.get("quest-reward")));
-        quest.setRequiredRank(Rank.THEILLUMINATI);
+        quest.setRequiredRank(Rank.THEILLUMINATI); //TODO
+//        quest.setRequiredRank(Rank.valueOf(inputs.get("quest-requirement")));
         quest.setDescription(inputs.get("quest-description"));
         quest.setExpirationDate(null);
         quest.setIsActive(true);
