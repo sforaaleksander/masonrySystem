@@ -21,11 +21,7 @@ public class UserManagerConsoleHandler extends Handler<User> implements HttpHand
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        try {
-            user = getUserFromOptionalCookie(httpExchange);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        user = getUserFromOptionalCookie(httpExchange);
         if (user.getRank().equals(Rank.AINSOPHAUR)) {
             getConsoleViewForUserManager(httpExchange, JOURNEYMAN_ROLE_ID);
         } else {

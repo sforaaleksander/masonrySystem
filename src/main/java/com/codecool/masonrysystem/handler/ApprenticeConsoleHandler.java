@@ -32,7 +32,7 @@ public class ApprenticeConsoleHandler extends Handler<Artifact> implements HttpH
             Long userId = getUserIdFromCookie(cookieOptional.get());
             elementList = artifactDao.getAllUsedByUserId(userId);
             user = userDao.getById(userId);
-        } catch (ElementNotFoundException | ClassNotFoundException | CookieNotFoundException e) {
+        } catch (ElementNotFoundException | CookieNotFoundException e) {
             e.printStackTrace();
         }
         response = createResponse();

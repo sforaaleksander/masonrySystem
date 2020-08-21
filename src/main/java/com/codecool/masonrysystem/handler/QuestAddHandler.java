@@ -41,7 +41,7 @@ public class QuestAddHandler extends Handler<Quest> implements HttpHandler {
         quest.setExpirationDate(null);
         quest.setIsActive(true);
         quest.setIsCollective(false);
-        new QuestDao().insert(quest);
+        dao.insert(quest);
         System.out.println("inserted quest to db");
         Headers responseHeaders = httpExchange.getResponseHeaders();
         responseHeaders.set("Location", "academy");

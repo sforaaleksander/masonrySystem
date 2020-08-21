@@ -22,11 +22,7 @@ public class ConsoleHandler extends Handler<User> implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        try {
-            user = getUserFromOptionalCookie(httpExchange);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        user = getUserFromOptionalCookie(httpExchange);
 
         if (user.getRank().equals(Rank.AINSOPHAUR) || user.getRank().equals(Rank.THEILLUMINATI)) {
             userManagerConsoleHandler.handle(httpExchange);
