@@ -33,14 +33,15 @@ public class QuestAddHandler extends Handler<Quest> implements HttpHandler {
     private void postForm(HttpExchange httpExchange) throws IOException {
         Map<String, String> inputs = getInputs(httpExchange);
         Quest quest = new Quest();
+//        Long id = dao.getHighest
         quest.setName(inputs.get("quest-name"));
-        quest.setReward(Integer.valueOf(inputs.get("quest-reward")));
+//        quest.setReward(Integer.valueOf(inputs.get("quest-reward")));
         quest.setRequiredRank(Rank.THEILLUMINATI);
         quest.setDescription(inputs.get("quest-description"));
         quest.setExpirationDate(null);
         quest.setIsActive(true);
         quest.setIsCollective(false);
-        dao.insert(quest);
+        new QuestDao().insert(quest);
         System.out.println("inserted quest to db");
         Headers responseHeaders = httpExchange.getResponseHeaders();
         responseHeaders.set("Location", "academy");

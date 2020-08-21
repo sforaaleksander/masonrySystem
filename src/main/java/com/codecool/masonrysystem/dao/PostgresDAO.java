@@ -53,6 +53,27 @@ public abstract class PostgresDAO<T> implements IDAO<T> {
         throw new ElementNotFoundException(this.TABLENAME + " not found");
     }
 
+    protected T getHighestIdElement(Long id) throws ElementNotFoundException {
+        T element;
+        try {
+            Connection connection = this.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * " +
+                    "FROM ? order by id desc limit 1");
+            preparedStatement.setString(1, this.TABLENAME);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                element = create(rs);
+                rs.close();
+                preparedStatement.close();
+                connection.close();
+                return element;
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        throw new ElementNotFoundException(this.TABLENAME + " not found");
+    }
+
     protected boolean deleteElement(Long id)  {
         try {
             Connection connection = this.getConnection();
