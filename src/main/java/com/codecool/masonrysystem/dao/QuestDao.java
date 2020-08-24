@@ -36,9 +36,9 @@ public class QuestDao extends PostgresDAO<Quest> {
     }
 
     @Override
-    public boolean insert(Quest quest) throws ElementNotFoundException {
+    public boolean insert(Quest quest) throws ElementNotFoundException, ClassNotFoundException, SQLException {
+        Connection connection = this.getConnection();
         try {
-            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO quests" +
                     "(id, name, reward, required_rank, description, is_active, expiration_date, is_collective) VALUES " +
                     "(?, ?, ?, ?, ?, ?, ?, ?)");
@@ -54,17 +54,18 @@ public class QuestDao extends PostgresDAO<Quest> {
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            connection.close();
             e.printStackTrace();
         }
         return false;
     }
 
     @Override
-    public boolean update(Quest quest) {
+    public boolean update(Quest quest) throws ClassNotFoundException, SQLException {
         Long id = quest.getId();
+        Connection connection = this.getConnection();
         try {
-            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE quests SET " +
                     "name=?, reward=?, required_rank=?, description=?, is_active=?, expiration_date=?, is_collective=? WHERE id = ?");
             preparedStatement.setString(1, quest.getName());
@@ -79,7 +80,8 @@ public class QuestDao extends PostgresDAO<Quest> {
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            connection.close();
             e.printStackTrace();
         }
         return false;

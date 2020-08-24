@@ -7,6 +7,7 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 
 public class LoginHelper {
@@ -18,7 +19,7 @@ public class LoginHelper {
         this.idGenerator = new IdGenerator();
     }
 
-    public boolean areCredentialsValid(Map<String, String> inputs) throws ElementNotFoundException {
+    public boolean areCredentialsValid(Map<String, String> inputs) throws ElementNotFoundException, SQLException, ClassNotFoundException {
         String email = inputs.get("email");
         String password = inputs.get("password");
         User user = userDao.getUserByEmail(email);

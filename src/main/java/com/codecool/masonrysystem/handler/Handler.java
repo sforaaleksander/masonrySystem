@@ -18,6 +18,7 @@ import java.io.*;
 import java.net.HttpCookie;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +84,12 @@ public abstract class Handler<T> {
 
     public Long getUserIdFromCookie(HttpCookie cookie) throws ElementNotFoundException {
         String sessionId = cookieHelper.getSessionIdFromCookie(cookie);
-        Session session = sessionDao.getById(sessionId);
+        Session session = null;
+        try {
+            session = sessionDao.getById(sessionId);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         return session.getUserId();
     }
 

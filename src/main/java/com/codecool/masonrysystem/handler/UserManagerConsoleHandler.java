@@ -10,6 +10,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class UserManagerConsoleHandler extends Handler<User> implements HttpHandler {
     private final int APPRENTICE_ROLE_ID = 3;
@@ -32,7 +33,7 @@ public class UserManagerConsoleHandler extends Handler<User> implements HttpHand
     private void getConsoleViewForUserManager(HttpExchange httpExchange, int roleId) throws IOException {
         try {
             elementList = userDao.getUsersByRole(roleId);
-        } catch (ElementNotFoundException e) {
+        } catch (ElementNotFoundException | ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         response = createResponse();

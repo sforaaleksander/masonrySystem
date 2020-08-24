@@ -11,6 +11,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 
 public class QuestAddHandler extends Handler<Quest> implements HttpHandler {
@@ -26,11 +27,15 @@ public class QuestAddHandler extends Handler<Quest> implements HttpHandler {
             send200(httpExchange, response);
         } else {
             System.out.println("posting");
-            postForm(httpExchange);
+            try {
+                postForm(httpExchange);
+            } catch (SQLException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void postForm(HttpExchange httpExchange) throws IOException {
+    private void postForm(HttpExchange httpExchange) throws IOException, SQLException, ClassNotFoundException {
         Map<String, String> inputs = getInputs(httpExchange);
         Quest quest = new Quest();
         Long id = dao.getHighestIdElement().getId() + 1;
