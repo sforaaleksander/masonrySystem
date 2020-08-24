@@ -17,7 +17,7 @@ public abstract class PostgresDAO<T> implements IDAO<T> {
     public List<T> getAllElements() throws ElementNotFoundException {
         List<T> elements = new ArrayList<>();
         try {
-            Connection connection = this.getConnection();
+            Connection connection = this.getConnection("getAllElements");
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM " + this.TABLENAME + ";");
             while (rs.next()) {
@@ -36,7 +36,7 @@ public abstract class PostgresDAO<T> implements IDAO<T> {
     public T getElementById(Long id) throws ElementNotFoundException {
         T element;
         try {
-            Connection connection = this.getConnection();
+            Connection connection = this.getConnection("getElementById");
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + this.TABLENAME + " WHERE id = ?");
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();

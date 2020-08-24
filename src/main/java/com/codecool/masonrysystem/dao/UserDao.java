@@ -36,7 +36,7 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
     public boolean insert(User user) throws ClassNotFoundException, SQLException {
         Integer spiritPoints = null;
         Long lodgeId = null;
-        Connection connection = this.getConnection();
+        Connection connection = this.getConnection("insert");
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" +
                     "(first_name, last_name, email, password, spirit_points, lodge_id, role_id, rank_id, is_active) VALUES " +
@@ -71,7 +71,7 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         Integer spiritPoints = null;
         Long lodgeId = null;
         Long id = user.getId();
-        Connection connection = this.getConnection();
+        Connection connection = this.getConnection("update");
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET " +
                     "first_name=?, last_name=?, email=?, password=?, spirit_points=?, lodge_id=?, role_id=?, rank_id=?, is_active=? WHERE id = ?");
@@ -107,7 +107,7 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
 
     public User getUserByEmail(String email) throws ElementNotFoundException, ClassNotFoundException, SQLException {
         User user;
-        Connection connection = this.getConnection();
+        Connection connection = this.getConnection("getUserByEmail");
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE email=?");
             preparedStatement.setString(1, email);
@@ -128,7 +128,7 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
 
     public List<User> getUsersByRole(int roleId) throws ElementNotFoundException, ClassNotFoundException, SQLException {
         List<User> users = new ArrayList<>();
-        Connection connection = this.getConnection();
+        Connection connection = this.getConnection("getUsersByRole");
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE role_id=?");
             preparedStatement.setInt(1, roleId);

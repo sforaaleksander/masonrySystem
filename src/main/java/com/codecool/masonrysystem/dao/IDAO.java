@@ -18,8 +18,13 @@ public interface IDAO<T> {
 
     List<T> getAll() throws ElementNotFoundException;
 
-    default Connection getConnection() throws ClassNotFoundException {
+    default Connection getConnection(String... methodName) throws ClassNotFoundException {
         Connector connector = new Connector();
+        if (methodName.length > 0) {
+            System.out.println(methodName[0]);
+        } else {
+            System.out.println("method did not pass it's name");
+        }
         return connector.Connect();
     }
 }
