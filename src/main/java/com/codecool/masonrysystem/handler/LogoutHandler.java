@@ -6,6 +6,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class LogoutHandler implements HttpHandler {
     private final SessionDao sessionDao;
@@ -23,7 +24,11 @@ public class LogoutHandler implements HttpHandler {
                 .replace("\"", "")
                 .replace("sessionId=", "");
         System.out.println(sessionId);
-        sessionDao.delete(sessionId);
+        try {
+            sessionDao.delete(sessionId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         System.out.println("session successfully ended");
         removeCookie(exchange);
         loginHelper.redirectToLoginPage(exchange);

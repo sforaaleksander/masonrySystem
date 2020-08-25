@@ -40,12 +40,12 @@ public class UserFactory {
                 apprentice.setEmail(resultSet.getString("email"));
                 apprentice.setPassword(resultSet.getString("password"));
                 apprentice.setSpiritPoints(resultSet.getInt("spirit_points"));
-                try {
-                    Lodge lodge = lodgeDao.getById(resultSet.getLong("lodge_id"));
-                    apprentice.setLodge(lodge);
-                } catch (ElementNotFoundException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Lodge lodge = lodgeDao.getById(resultSet.getLong("lodge_id"));
+//                    apprentice.setLodge(lodge);
+//                } catch (ElementNotFoundException e) {
+//                    e.printStackTrace();
+//                }
                 apprentice.setRank(Rank.values()[resultSet.getInt("rank_id")]);
                 apprentice.setIsActive(resultSet.getBoolean("is_active"));
                 return apprentice;

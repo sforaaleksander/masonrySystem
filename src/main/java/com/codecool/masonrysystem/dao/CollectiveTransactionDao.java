@@ -23,12 +23,12 @@ public class CollectiveTransactionDao extends PostgresDAO<CollectiveTransaction>
         return collectiveTransaction;
     }
 
-    public List<CollectiveTransaction> getAll() throws ElementNotFoundException {
+    public List<CollectiveTransaction> getAll() throws ElementNotFoundException, SQLException {
         return getAllElements();
     }
 
     @Override
-    public CollectiveTransaction getById(Long id) throws ElementNotFoundException {
+    public CollectiveTransaction getById(Long id) throws ElementNotFoundException, SQLException {
         return getElementById(id);
     }
 
@@ -48,7 +48,7 @@ public class CollectiveTransactionDao extends PostgresDAO<CollectiveTransaction>
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
@@ -70,7 +70,7 @@ public class CollectiveTransactionDao extends PostgresDAO<CollectiveTransaction>
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;

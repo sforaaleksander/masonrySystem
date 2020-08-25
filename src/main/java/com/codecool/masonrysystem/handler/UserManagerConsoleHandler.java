@@ -10,6 +10,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class UserManagerConsoleHandler extends Handler<User> implements HttpHandler {
     private final int APPRENTICE_ROLE_ID = 3;
@@ -21,7 +22,11 @@ public class UserManagerConsoleHandler extends Handler<User> implements HttpHand
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        user = getUserFromOptionalCookie(httpExchange);
+        try {
+            user = getUserFromOptionalCookie(httpExchange);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         if (user.getRank().equals(Rank.AINSOPHAUR)) {
             getConsoleViewForUserManager(httpExchange, JOURNEYMAN_ROLE_ID);
         } else {
@@ -32,7 +37,7 @@ public class UserManagerConsoleHandler extends Handler<User> implements HttpHand
     private void getConsoleViewForUserManager(HttpExchange httpExchange, int roleId) throws IOException {
         try {
             elementList = userDao.getUsersByRole(roleId);
-        } catch (ElementNotFoundException e) {
+        } catch (ElementNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         response = createResponse();

@@ -23,12 +23,12 @@ public class TransactionDao extends PostgresDAO<Transaction> implements IDAO<Tra
         return transaction;
     }
 
-    public List<Transaction> getAll() throws ElementNotFoundException {
+    public List<Transaction> getAll() throws ElementNotFoundException, SQLException {
         return getAllElements();
     }
 
     @Override
-    public Transaction getById(Long id) throws ElementNotFoundException {
+    public Transaction getById(Long id) throws ElementNotFoundException, SQLException {
         return getElementById(id);
     }
 
@@ -48,7 +48,7 @@ public class TransactionDao extends PostgresDAO<Transaction> implements IDAO<Tra
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
@@ -70,7 +70,7 @@ public class TransactionDao extends PostgresDAO<Transaction> implements IDAO<Tra
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;

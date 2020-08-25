@@ -12,6 +12,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 import java.net.HttpCookie;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class ApprenticeConsoleHandler extends Handler<Artifact> implements HttpHandler {
@@ -32,7 +33,7 @@ public class ApprenticeConsoleHandler extends Handler<Artifact> implements HttpH
             Long userId = getUserIdFromCookie(cookieOptional.get());
             elementList = artifactDao.getAllUsedByUserId(userId);
             user = userDao.getById(userId);
-        } catch (ElementNotFoundException | CookieNotFoundException e) {
+        } catch (ElementNotFoundException | CookieNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         response = createResponse();

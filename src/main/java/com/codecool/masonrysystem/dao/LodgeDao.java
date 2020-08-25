@@ -28,19 +28,19 @@ public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
         return lodge;
     }
 
-    public List<Lodge> getAll() throws ElementNotFoundException {
+    public List<Lodge> getAll() throws ElementNotFoundException, SQLException {
         return getAllElements();
     }
 
     @Override
-    public Lodge getById(Long id) throws ElementNotFoundException {
+    public Lodge getById(Long id) throws ElementNotFoundException, SQLException {
         return getElementById(id);
     }
 
     @Override
-    public boolean insert(Lodge lodge) {
+    public boolean insert(Lodge lodge) throws SQLException {
+        Connection connection = this.getConnection();
         try {
-            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO lodges" +
                     "(id, name, owner_id) VALUES " +
                     "(?, ?, ?)");
@@ -51,17 +51,18 @@ public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            connection.close();
             e.printStackTrace();
         }
         return false;
     }
 
     @Override
-    public boolean update(Lodge lodge) {
+    public boolean update(Lodge lodge) throws SQLException {
         Long id = lodge.getId();
+        Connection connection = this.getConnection();
         try {
-            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE lodges SET " +
                     "name=?, owner_id=? WHERE id = ?");
             preparedStatement.setString(1, lodge.getName());
@@ -71,7 +72,8 @@ public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            connection.close();
             e.printStackTrace();
         }
         return false;

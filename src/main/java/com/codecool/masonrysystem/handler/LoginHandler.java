@@ -14,6 +14,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 import java.net.HttpCookie;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -61,10 +62,12 @@ public class LoginHandler extends Handler<User> implements HttpHandler {
         } catch (ElementNotFoundException | InvalidPasswordException e) {
             e.printStackTrace();
             loginHelper.redirectToLoginPage(httpExchange);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
-    private void login(HttpExchange httpExchange, Map<String, String> inputs) throws IOException {
+    private void login(HttpExchange httpExchange, Map<String, String> inputs) throws IOException, SQLException, ClassNotFoundException {
         Session session;
         String sessionId = loginHelper.getIdGenerator().generateId(18);
         System.out.println(sessionId);

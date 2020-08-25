@@ -20,7 +20,7 @@ public class SessionDao extends PostgresDAO<Session> implements IDAO<Session> {
         return session;
     }
 
-    public List<Session> getAll() throws ElementNotFoundException {
+    public List<Session> getAll() throws ElementNotFoundException, SQLException {
         return getAllElements();
     }
 
@@ -29,10 +29,10 @@ public class SessionDao extends PostgresDAO<Session> implements IDAO<Session> {
         return null;
     }
 
-    public Session getById(String id) throws ElementNotFoundException {
+    public Session getById(String id) throws ElementNotFoundException, SQLException {
         Session session;
+        Connection connection = this.getConnection();
         try {
-            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM sessions WHERE session_id = ?");
             preparedStatement.setString(1, id);
             ResultSet rs = preparedStatement.executeQuery();
@@ -43,16 +43,17 @@ public class SessionDao extends PostgresDAO<Session> implements IDAO<Session> {
                 connection.close();
                 return session;
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+        connection.close();
         throw new ElementNotFoundException("Session not found");
     }
 
     @Override
-    public boolean insert(Session session) {
+    public boolean insert(Session session) throws SQLException {
+        Connection connection = this.getConnection();
         try {
-            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO sessions" +
                     "(session_id, user_id) VALUES " +
                     "(?, ?)");
@@ -62,7 +63,8 @@ public class SessionDao extends PostgresDAO<Session> implements IDAO<Session> {
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            connection.close();
             e.printStackTrace();
         }
         return false;
@@ -78,18 +80,19 @@ public class SessionDao extends PostgresDAO<Session> implements IDAO<Session> {
         return false;
     }
 
-    public boolean delete(String id) {
+    public boolean delete(String id) throws SQLException {
+        Connection connection = this.getConnection();
         try {
-            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM sessions WHERE session_id = ?");
             preparedStatement.setString(1, id);
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+        connection.close();
         return false;
     }
 }

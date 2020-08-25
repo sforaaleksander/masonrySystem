@@ -18,6 +18,7 @@ import java.io.*;
 import java.net.HttpCookie;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,18 +77,23 @@ public abstract class Handler<T> {
         return map;
     }
 
-    public User getUserFromCookie(HttpCookie cookie) throws ElementNotFoundException {
+    public User getUserFromCookie(HttpCookie cookie) throws ElementNotFoundException, SQLException, ClassNotFoundException {
         Long userId = getUserIdFromCookie(cookie);
         return userDao.getById(userId);
     }
 
     public Long getUserIdFromCookie(HttpCookie cookie) throws ElementNotFoundException {
         String sessionId = cookieHelper.getSessionIdFromCookie(cookie);
-        Session session = sessionDao.getById(sessionId);
+        Session session = null;
+        try {
+            session = sessionDao.getById(sessionId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return session.getUserId();
     }
 
-    public User getUserFromOptionalCookie(HttpExchange httpExchange) throws CookieNotFoundException, ElementNotFoundException {
+    public User getUserFromOptionalCookie(HttpExchange httpExchange) throws CookieNotFoundException, ElementNotFoundException, SQLException, ClassNotFoundException {
         Optional<HttpCookie> cookieOptional = cookieHelper.getSessionIdCookie(httpExchange, CookieHelper.getSessionCookieName());
         if (!cookieOptional.isPresent()) {
             throw new CookieNotFoundException("Expected cookie could not be found");
@@ -113,7 +119,7 @@ public abstract class Handler<T> {
         try {
             elementList = dao.getAll();
             user = getUserFromOptionalCookie(httpExchange);
-        } catch (ElementNotFoundException | CookieNotFoundException e) {
+        } catch (ElementNotFoundException | CookieNotFoundException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         response = createResponse();
@@ -127,7 +133,7 @@ public abstract class Handler<T> {
             element = dao.getById(elementId);
             user = getUserFromOptionalCookie(httpExchange);
             System.out.println(user.getRank().getRankString());
-        } catch (ElementNotFoundException | CookieNotFoundException e) {
+        } catch (ElementNotFoundException | CookieNotFoundException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         response = createResponse();
