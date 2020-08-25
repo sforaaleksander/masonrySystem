@@ -11,17 +11,14 @@ public class Connector {
     private static final String CONNECTION_STRING = "jdbc:postgresql://ec2-54-246-85-151.eu-west-1.compute.amazonaws.com:5432/d38udvntvo8fhl";
     static int counter = 0;
 
-    public Connector() throws ClassNotFoundException {
-        this.connection = Connect();
-    }
 
-    public Connection Connect() throws ClassNotFoundException {
+    public Connection Connect() {
         connection = null;
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(CONNECTION_STRING, user, password);
             System.out.println(++counter);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return connection;
