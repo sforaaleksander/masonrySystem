@@ -23,20 +23,20 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         return userFactory.makeUser(resultSet);
     }
     
-    public List<User> getAll() throws ElementNotFoundException {
+    public List<User> getAll() throws ElementNotFoundException, SQLException {
         return getAllElements();
     }
 
     @Override
-    public User getById(Long id) throws ElementNotFoundException {
+    public User getById(Long id) throws ElementNotFoundException, SQLException {
         return getElementById(id);
     }
 
     @Override
-    public boolean insert(User user) throws ClassNotFoundException, SQLException {
+    public boolean insert(User user) throws SQLException {
         Integer spiritPoints = null;
         Long lodgeId = null;
-        Connection connection = this.getConnection("insert");
+        Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" +
                     "(first_name, last_name, email, password, spirit_points, lodge_id, role_id, rank_id, is_active) VALUES " +
@@ -67,11 +67,11 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
     }
 
     @Override
-    public boolean update(User user) throws ClassNotFoundException, SQLException {
+    public boolean update(User user) throws SQLException {
         Integer spiritPoints = null;
         Long lodgeId = null;
         Long id = user.getId();
-        Connection connection = this.getConnection("update");
+        Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET " +
                     "first_name=?, last_name=?, email=?, password=?, spirit_points=?, lodge_id=?, role_id=?, rank_id=?, is_active=? WHERE id = ?");
@@ -105,9 +105,9 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         return deleteElement(id);
     }
 
-    public User getUserByEmail(String email) throws ElementNotFoundException, ClassNotFoundException, SQLException {
+    public User getUserByEmail(String email) throws ElementNotFoundException, SQLException {
         User user;
-        Connection connection = this.getConnection("getUserByEmail");
+        Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE email=?");
             preparedStatement.setString(1, email);
@@ -126,9 +126,9 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         throw new ElementNotFoundException("User with given email could not be found");
     }
 
-    public List<User> getUsersByRole(int roleId) throws ElementNotFoundException, ClassNotFoundException, SQLException {
+    public List<User> getUsersByRole(int roleId) throws ElementNotFoundException, SQLException {
         List<User> users = new ArrayList<>();
-        Connection connection = this.getConnection("getUsersByRole");
+        Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE role_id=?");
             preparedStatement.setInt(1, roleId);

@@ -28,17 +28,17 @@ public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
         return lodge;
     }
 
-    public List<Lodge> getAll() throws ElementNotFoundException {
+    public List<Lodge> getAll() throws ElementNotFoundException, SQLException {
         return getAllElements();
     }
 
     @Override
-    public Lodge getById(Long id) throws ElementNotFoundException {
+    public Lodge getById(Long id) throws ElementNotFoundException, SQLException {
         return getElementById(id);
     }
 
     @Override
-    public boolean insert(Lodge lodge) throws ClassNotFoundException, SQLException {
+    public boolean insert(Lodge lodge) throws SQLException {
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO lodges" +
@@ -59,7 +59,7 @@ public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
     }
 
     @Override
-    public boolean update(Lodge lodge) throws ClassNotFoundException, SQLException {
+    public boolean update(Lodge lodge) throws SQLException {
         Long id = lodge.getId();
         Connection connection = this.getConnection();
         try {

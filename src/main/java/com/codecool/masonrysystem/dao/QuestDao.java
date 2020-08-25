@@ -26,17 +26,17 @@ public class QuestDao extends PostgresDAO<Quest> {
         return quest;
     }
 
-    public List<Quest> getAll() throws ElementNotFoundException {
+    public List<Quest> getAll() throws ElementNotFoundException, SQLException {
         return getAllElements();
     }
 
     @Override
-    public Quest getById(Long id) throws ElementNotFoundException {
+    public Quest getById(Long id) throws ElementNotFoundException, SQLException {
         return getElementById(id);
     }
 
     @Override
-    public boolean insert(Quest quest) throws ElementNotFoundException, ClassNotFoundException, SQLException {
+    public boolean insert(Quest quest) throws ElementNotFoundException, SQLException {
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO quests" +
@@ -62,7 +62,7 @@ public class QuestDao extends PostgresDAO<Quest> {
     }
 
     @Override
-    public boolean update(Quest quest) throws ClassNotFoundException, SQLException {
+    public boolean update(Quest quest) throws SQLException {
         Long id = quest.getId();
         Connection connection = this.getConnection();
         try {

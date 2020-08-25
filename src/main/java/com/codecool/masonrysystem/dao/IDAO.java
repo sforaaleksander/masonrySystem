@@ -8,23 +8,13 @@ import java.util.List;
 
 public interface IDAO<T> {
 
-    T getById(Long id) throws ElementNotFoundException;
+    T getById(Long id) throws ElementNotFoundException, SQLException, ClassNotFoundException;
 
     boolean insert(T t) throws ElementNotFoundException, ClassNotFoundException, SQLException;
 
     boolean update(T t) throws ClassNotFoundException, SQLException;
 
-    boolean delete(Long id);
+    boolean delete(Long id) throws ClassNotFoundException;
 
-    List<T> getAll() throws ElementNotFoundException;
-
-    default Connection getConnection(String... methodName) throws ClassNotFoundException {
-        Connector connector = new Connector();
-        if (methodName.length > 0) {
-            System.out.println(methodName[0]);
-        } else {
-            System.out.println("method did not pass it's name");
-        }
-        return connector.Connect();
-    }
+    List<T> getAll() throws ElementNotFoundException, SQLException, ClassNotFoundException;
 }

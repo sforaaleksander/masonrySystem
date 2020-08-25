@@ -14,10 +14,15 @@ public abstract class PostgresDAO<T> implements IDAO<T> {
         TABLENAME = tableName;
     }
 
-    public List<T> getAllElements() throws ElementNotFoundException {
+    public Connection getConnection() {
+        Connector connector = new Connector();
+        return connector.Connect();
+    }
+
+    public List<T> getAllElements() throws ElementNotFoundException, SQLException {
         List<T> elements = new ArrayList<>();
+        Connection connection = this.getConnection();
         try {
-            Connection connection = this.getConnection("getAllElements");
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM " + this.TABLENAME + ";");
             while (rs.next()) {
@@ -27,16 +32,17 @@ public abstract class PostgresDAO<T> implements IDAO<T> {
             statement.close();
             connection.close();
             return elements;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            connection.close();
             e.printStackTrace();
         }
         throw new ElementNotFoundException(TABLENAME + " could not be found");
     }
 
-    public T getElementById(Long id) throws ElementNotFoundException {
+    public T getElementById(Long id) throws ElementNotFoundException, SQLException {
         T element;
+        Connection connection = this.getConnection();
         try {
-            Connection connection = this.getConnection("getElementById");
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + this.TABLENAME + " WHERE id = ?");
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
@@ -47,16 +53,17 @@ public abstract class PostgresDAO<T> implements IDAO<T> {
                 connection.close();
                 return element;
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            connection.close();
             e.printStackTrace();
         }
         throw new ElementNotFoundException(this.TABLENAME + " not found");
     }
 
-    public T getHighestIdElement() throws ElementNotFoundException {
+    public T getHighestIdElement() throws ElementNotFoundException, SQLException {
         T element;
+        Connection connection = this.getConnection();
         try {
-            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * " +
                     "FROM " + this.TABLENAME+ " order by id desc limit 1");
             ResultSet rs = preparedStatement.executeQuery();
@@ -67,22 +74,23 @@ public abstract class PostgresDAO<T> implements IDAO<T> {
                 connection.close();
                 return element;
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            connection.close();
             e.printStackTrace();
         }
         throw new ElementNotFoundException(this.TABLENAME + " not found");
     }
 
-    public boolean deleteElement(Long id)  {
+    public boolean deleteElement(Long id) {
+        Connection connection = this.getConnection();
         try {
-            Connection connection = this.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + this.TABLENAME + " WHERE id = ?");
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;

@@ -26,7 +26,7 @@ public class LogoutHandler implements HttpHandler {
         System.out.println(sessionId);
         try {
             sessionDao.delete(sessionId);
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         System.out.println("session successfully ended");

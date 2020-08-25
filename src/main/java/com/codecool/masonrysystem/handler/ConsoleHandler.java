@@ -9,6 +9,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class ConsoleHandler extends Handler<User> implements HttpHandler {
     private final ApprenticeConsoleHandler apprenticeConsoleHandler;
@@ -22,7 +23,11 @@ public class ConsoleHandler extends Handler<User> implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        user = getUserFromOptionalCookie(httpExchange);
+        try {
+            user = getUserFromOptionalCookie(httpExchange);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         if (user.getRank().equals(Rank.AINSOPHAUR) || user.getRank().equals(Rank.THEILLUMINATI)) {
             userManagerConsoleHandler.handle(httpExchange);

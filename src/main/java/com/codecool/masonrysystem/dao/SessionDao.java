@@ -20,7 +20,7 @@ public class SessionDao extends PostgresDAO<Session> implements IDAO<Session> {
         return session;
     }
 
-    public List<Session> getAll() throws ElementNotFoundException {
+    public List<Session> getAll() throws ElementNotFoundException, SQLException {
         return getAllElements();
     }
 
@@ -29,7 +29,7 @@ public class SessionDao extends PostgresDAO<Session> implements IDAO<Session> {
         return null;
     }
 
-    public Session getById(String id) throws ElementNotFoundException, ClassNotFoundException, SQLException {
+    public Session getById(String id) throws ElementNotFoundException, SQLException {
         Session session;
         Connection connection = this.getConnection();
         try {
@@ -51,7 +51,7 @@ public class SessionDao extends PostgresDAO<Session> implements IDAO<Session> {
     }
 
     @Override
-    public boolean insert(Session session) throws ClassNotFoundException, SQLException {
+    public boolean insert(Session session) throws SQLException {
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO sessions" +
@@ -80,7 +80,7 @@ public class SessionDao extends PostgresDAO<Session> implements IDAO<Session> {
         return false;
     }
 
-    public boolean delete(String id) throws ClassNotFoundException, SQLException {
+    public boolean delete(String id) throws SQLException {
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM sessions WHERE session_id = ?");

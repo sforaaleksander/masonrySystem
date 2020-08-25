@@ -26,17 +26,17 @@ public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact>
         return artifact;
     }
 
-    public List<Artifact> getAll() throws ElementNotFoundException {
+    public List<Artifact> getAll() throws ElementNotFoundException, SQLException {
         return getAllElements();
     }
 
     @Override
-    public Artifact getById(Long id) throws ElementNotFoundException {
+    public Artifact getById(Long id) throws ElementNotFoundException, SQLException {
         return getElementById(id);
     }
 
     @Override
-    public boolean insert(Artifact artifact) throws ClassNotFoundException, SQLException {
+    public boolean insert(Artifact artifact) throws SQLException {
         Connection connection = this.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO artifacts" +
@@ -61,7 +61,7 @@ public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact>
     }
 
     @Override
-    public boolean update(Artifact artifact) throws ClassNotFoundException, SQLException {
+    public boolean update(Artifact artifact) throws SQLException {
         Long id = artifact.getId();
         Connection connection = this.getConnection();
         try {
@@ -90,7 +90,7 @@ public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact>
         return deleteElement(id);
     }
 
-    public List<Artifact> getAllUsedByUserId(Long id) throws ElementNotFoundException, ClassNotFoundException, SQLException {
+    public List<Artifact> getAllUsedByUserId(Long id) throws ElementNotFoundException, SQLException {
         List<Artifact> artifacts = new ArrayList<>();
         Connection connection = this.getConnection();
         try {

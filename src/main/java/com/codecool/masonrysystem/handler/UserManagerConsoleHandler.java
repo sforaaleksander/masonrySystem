@@ -22,7 +22,11 @@ public class UserManagerConsoleHandler extends Handler<User> implements HttpHand
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        user = getUserFromOptionalCookie(httpExchange);
+        try {
+            user = getUserFromOptionalCookie(httpExchange);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         if (user.getRank().equals(Rank.AINSOPHAUR)) {
             getConsoleViewForUserManager(httpExchange, JOURNEYMAN_ROLE_ID);
         } else {
@@ -33,7 +37,7 @@ public class UserManagerConsoleHandler extends Handler<User> implements HttpHand
     private void getConsoleViewForUserManager(HttpExchange httpExchange, int roleId) throws IOException {
         try {
             elementList = userDao.getUsersByRole(roleId);
-        } catch (ElementNotFoundException | ClassNotFoundException | SQLException e) {
+        } catch (ElementNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         response = createResponse();
