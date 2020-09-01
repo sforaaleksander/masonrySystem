@@ -1,5 +1,6 @@
 package com.codecool.masonrysystem.dao;
 
+import com.codecool.masonrysystem.exception.ElementNotFoundException;
 import com.codecool.masonrysystem.helper.IdGenerator;
 import com.codecool.masonrysystem.model.*;
 import org.junit.jupiter.api.AfterEach;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
@@ -17,28 +19,37 @@ import static org.mockito.Mockito.stub;
 
 class SessionDaoTest {
     static SessionDao sessionDao;
-    static Journeyman journeyman;
-    static MasterMason masterMason;
-    static Apprentice apprentice;
+    static Session session;
 
     @BeforeAll
     public static void init() {
         sessionDao = new SessionDao();
-        apprentice = mock(Apprentice.class);
-        journeyman = mock(Journeyman.class);
-        masterMason = mock(MasterMason.class);
     }
 
-    @Test
-    void insert() {
+    @BeforeEach
+    public void createMockSesion(){
+        session = getMockSession();
+    }
+
+    @AfterEach
+    public void nullyfyMockSession(){
+        session = null;
+    }
+
+    public static Session getMockSession(){
         String sessionId = (new IdGenerator()).generateId(16);
         Session session = mock(Session.class);
         stub(session.getSessionId()).toReturn(sessionId);
         stub(session.getUserId()).toReturn((long)13);
+        return session;
+    }
+
+    @Test
+    void insert() {
         try {
             assertTrue(sessionDao.insert(session));
-            assertEquals(13, sessionDao.getById(sessionId).getUserId());
-            sessionDao.delete(sessionId);
+            assertEquals(13, sessionDao.getById(session.getSessionId()).getUserId());
+            sessionDao.delete(session.getSessionId());
         } catch (SQLException throwables) {
             assertTrue(false);
             throwables.printStackTrace();
@@ -46,10 +57,10 @@ class SessionDaoTest {
     }
 
     @Test
-    void getAllElements() {
+    void getAll() {
         try {
             HashSet<Session> sessions = new HashSet<Session>();
-            sessionDao.getAllElements().stream().forEach(s -> {
+            sessionDao.getAll().stream().forEach(s -> {
                 assertEquals("class com.codecool.masonrysystem.model.Session", s.getClass().toString());
                 assertNotNull(s.getUserId());
                 assertNotNull(s.getSessionId());
@@ -63,47 +74,48 @@ class SessionDaoTest {
     }
 
     @Test
-    void getElementById() {
-    }
-
-    @Test
-    void getHighestIdElement() {
-    }
-
-    @Test
-    void deleteElement() {
+    void getById() {
+        try {
+            sessionDao.insert(session);
+            assertEquals(13, sessionDao.getById(session.getSessionId()).getUserId());
+            sessionDao.delete(session.getSessionId());
+        } catch (SQLException throwables) {
+            assertTrue(false);
+            throwables.printStackTrace();
+        }
     }
 
     @Test
     void create() {
+        String sessionId = session.getSessionId();
+        long userId = session.getUserId();
+        try {
+            ResultSet resultSet = mock(ResultSet.class);
+            stub(resultSet.getString("session_id")).toReturn(sessionId);
+            stub(resultSet.getLong("user_id")).toReturn((long)13);
+            Session createdSession = sessionDao.create(resultSet);
+            assertEquals(userId, createdSession.getUserId());
+            assertEquals(sessionId, createdSession.getSessionId());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
-
-    @Test
-    void getAll() {
-    }
-
-    @Test
-    void getById() {
-    }
-
-    @Test
-    void testGetById() {
-    }
-
-
 
     @Test
     void update() {
-        // assertFalse(sessionDao.update( get session to ));
+        assertFalse(sessionDao.update(session));
     }
 
     @Test
     void delete() {
-
-        //        try {
-//            assertFalse(sessionDao.delete("kra"));
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
+        try {
+            sessionDao.insert(session);
+            sessionDao.delete(session.getSessionId());
+        } catch (SQLException throwables) {
+            assertTrue(false);
+            throwables.printStackTrace();
+        }
+        assertThrows(ElementNotFoundException.class, () -> sessionDao.getById(session.getSessionId()));
     }
 }
