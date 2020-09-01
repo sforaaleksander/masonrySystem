@@ -19,4 +19,44 @@ class LoginHandlerTest {
     @Test
     void handle() {
     }
+
+    @Test
+    void send200() {
+    }
+
+    @Test
+    void getInputs() {
+    }
+
+    @Test
+    void getUserFromCookie() {
+    }
+
+    @Test
+    void getUserIdFromCookie() {
+    }
+
+    @Test
+    void getUserFromOptionalCookie() {
+    }
+
+    @Test
+    void createResponse() {
+    }
+
+    @Test
+    void superHandleGetAll() {
+    }
+
+    @Test
+    void superHandleGetSingle() {
+    }
+
+    @Test
+    void redirectHome() {
+    }
+
+    @Test
+    void testHandle() {
+    }
 }
