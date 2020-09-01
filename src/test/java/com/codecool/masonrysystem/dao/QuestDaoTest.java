@@ -87,5 +87,5 @@ class QuestDaoTest {
     public void testIsQuestDeleting(){
         assertTrue(questDao.delete(15L));
     }
-    
+
 }
