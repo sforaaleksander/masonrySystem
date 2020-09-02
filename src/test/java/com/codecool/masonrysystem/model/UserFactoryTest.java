@@ -15,7 +15,7 @@ import static org.mockito.Mockito.stub;
 class UserFactoryTest {
 
     @Test
-    void makeUserTest() {
+    void makeUserTest() throws SQLException {
         UserFactory userFactory = new UserFactory();
         ResultSet resultSet = mock(ResultSet.class);
         Map<Integer, User> userTypes = new HashMap<>();
@@ -24,7 +24,6 @@ class UserFactoryTest {
         userTypes.put(3, new Apprentice());
         Set<Map.Entry<Integer, User>> userTypeSet = userTypes.entrySet();
         for(Map.Entry<Integer, User> userType: userTypeSet){
-            try {
                 stub(resultSet.getInt("role_id")).toReturn(userType.getKey());
                 stub(resultSet.getLong("id")).toReturn(7L);
                 stub(resultSet.getString("first_name")).toReturn("Staszek");
@@ -33,9 +32,6 @@ class UserFactoryTest {
                 stub(resultSet.getString("password")).toReturn("abracadabra");
                 stub(resultSet.getBoolean("is_active")).toReturn(true);
                 assertEquals(userType.getValue().getClass(), userFactory.makeUser(resultSet).getClass());
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
     }
 }
