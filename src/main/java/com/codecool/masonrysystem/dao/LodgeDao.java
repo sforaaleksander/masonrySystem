@@ -15,6 +15,11 @@ public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
         userDao = new UserDao();
     }
 
+    public LodgeDao(UserDao userDao) {
+        super("lodges");
+        this.userDao = userDao;
+    }
+
     @Override
     protected Lodge create(ResultSet resultSet) throws SQLException {
         Journeyman journeyman = null;
