@@ -13,7 +13,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.stub;
 
 class TransactionDaoTest {
-    private Date sqlDate = mock(java.sql.Date.class);
+    private Date sqlDate = new Date(2020, 10, 10);
     private TransactionDao transactionDao = new TransactionDao();
 
     @Test
