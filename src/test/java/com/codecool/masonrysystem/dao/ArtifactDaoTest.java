@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class ArtifactDaoTest {
-    private Date sqlDate = mock(java.sql.Date.class);
+    private Date sqlDate = new Date(2020, 10, 10);
     private ArtifactDao artifactDao = new ArtifactDao();
 
 
@@ -40,55 +40,77 @@ class ArtifactDaoTest {
 
         Artifact artifact = artifactDao.create(resultSetMock);
 
-        assertEquals(artifactExpected.getId(), artifact.getId());
-        assertEquals(artifactExpected.getName(), artifact.getName());
-        assertEquals(artifactExpected.getPrice(), artifact.getPrice());
-        assertEquals(artifactExpected.getDescription(), artifact.getDescription());
-        assertEquals(artifactExpected.getIsCollective(), artifact.getIsCollective());
-        assertEquals(artifactExpected.getIsActive(), artifact.getIsActive());
-        assertEquals(artifactExpected.getExpirationDate(), artifact.getExpirationDate());
-
+        assertAll("Should return complete object",
+                () -> assertEquals(artifactExpected.getId(), artifact.getId()),
+                () -> assertEquals(artifactExpected.getName(), artifact.getName()),
+                () -> assertEquals(artifactExpected.getPrice(), artifact.getPrice()),
+                () -> assertEquals(artifactExpected.getDescription(), artifact.getDescription()),
+                () -> assertEquals(artifactExpected.getIsCollective(), artifact.getIsCollective()),
+                () -> assertEquals(artifactExpected.getIsActive(), artifact.getIsActive()),
+                () -> assertEquals(artifactExpected.getExpirationDate(), artifact.getExpirationDate())
+        );
     }
 
     @Test
     public void testAreAllElementsPresent() throws SQLException {
-        assertNotNull(artifactDao.getAll());
-    }
-
-    @Test
-    public void testIsElementPresentById() throws SQLException {
-        assertNotNull(artifactDao.getById(1L));
+        assertNotEquals(0, artifactDao.getAll().size());
     }
 
     @Test
     public void testIsArtifactInserting() throws SQLException {
         Artifact artifactMock = mock(Artifact.class);
-        stub(artifactMock.getId()).toReturn(12L);
+        stub(artifactMock.getId()).toReturn(999L);
         stub(artifactMock.getName()).toReturn("TestArtifact");
         stub(artifactMock.getPrice()).toReturn(999);
         stub(artifactMock.getDescription()).toReturn("TestDescription");
         stub(artifactMock.getIsCollective()).toReturn(false);
         stub(artifactMock.getIsActive()).toReturn(true);
         stub(artifactMock.getExpirationDate()).toReturn(sqlDate);
-        assertTrue(artifactDao.insert(artifactMock));
+        artifactDao.insert(artifactMock);
+        Artifact artifact = artifactDao.getById(999L);
+        assertAll("Check if db consistent with object",
+                () -> assertEquals(artifactMock.getId(), artifact.getId()),
+                () -> assertEquals(artifactMock.getName(), artifact.getName()),
+                () -> assertEquals(artifactMock.getPrice(), artifact.getPrice()),
+                () -> assertEquals(artifactMock.getDescription(), artifact.getDescription()),
+                () -> assertEquals(artifactMock.getIsCollective(), artifact.getIsCollective()),
+                () -> assertEquals(artifactMock.getIsActive(), artifact.getIsActive()),
+                () -> assertEquals(artifactMock.getExpirationDate(), artifact.getExpirationDate())
+        );
+    }
+
+    @Test
+    public void testIsElementPresentById() throws SQLException {
+        assertEquals(artifactDao.getById(999L).getId(), 999L);
     }
 
     @Test
     public void testIsArtifactUpdating() throws SQLException {
         Artifact artifactMock = mock(Artifact.class);
-        stub(artifactMock.getId()).toReturn(12L);
-        stub(artifactMock.getName()).toReturn("TestArtifact");
+        stub(artifactMock.getId()).toReturn(999L);
+        stub(artifactMock.getName()).toReturn("TestArtifactUpdated");
         stub(artifactMock.getPrice()).toReturn(999);
         stub(artifactMock.getDescription()).toReturn("TestDescriptionUpdated");
         stub(artifactMock.getIsCollective()).toReturn(false);
         stub(artifactMock.getIsActive()).toReturn(true);
         stub(artifactMock.getExpirationDate()).toReturn(sqlDate);
-        assertTrue(artifactDao.update(artifactMock));
+        artifactDao.update(artifactMock);
+        Artifact artifact = artifactDao.getById(999L);
+        assertAll("Check if db consistent with object",
+                () -> assertEquals(artifactMock.getId(), artifact.getId()),
+                () -> assertEquals(artifactMock.getName(), artifact.getName()),
+                () -> assertEquals(artifactMock.getPrice(), artifact.getPrice()),
+                () -> assertEquals(artifactMock.getDescription(), artifact.getDescription()),
+                () -> assertEquals(artifactMock.getIsCollective(), artifact.getIsCollective()),
+                () -> assertEquals(artifactMock.getIsActive(), artifact.getIsActive()),
+                () -> assertEquals(artifactMock.getExpirationDate(), artifact.getExpirationDate())
+        );
     }
 
     @Test
-    public void testIsArtifactDeleting(){
-        assertTrue(artifactDao.delete(12L));
+    public void testIsArtifactDeleting() {
+        artifactDao.delete(999L);
+        assertThrows(ElementNotFoundException.class, () -> artifactDao.getById(999L));
     }
 
     @Test
