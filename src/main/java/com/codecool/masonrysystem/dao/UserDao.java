@@ -35,40 +35,49 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
     @Override
     public boolean insert(User user) {
         try {
-            return executeInsertStatemen(user, null, null);
+            return executeInsertStatement(user, null, null);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return false;
     }
-
 
     public boolean insert(Apprentice user) {
         Integer spiritPoints = user.getSpiritPoints();
         Long lodgeId = user.getLodge().getId();
         try {
-            return executeInsertStatemen(user, spiritPoints, lodgeId);
+            return executeInsertStatement(user, spiritPoints, lodgeId);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return false;
     }
 
-    public boolean executeInsertStatemen(User user, Integer spiritPoints, Long lodgeId) throws SQLException {
-        Connection connection = this.getConnection();
-            PreparedStatement preparedStatement = prepareInsertStatement(connection, user);
-            preparedStatement.setInt(6, spiritPoints);
-            preparedStatement.setLong(7, lodgeId);
+    public boolean executeInsertStatement(User user, Integer spiritPoints, Long lodgeId) throws SQLException {
+        String statement = "INSERT INTO users" +
+                "(first_name, last_name, email, password, spirit_points, lodge_id, role_id, rank_id, is_active) VALUES " +
+                "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        return executeStatement(user, statement, spiritPoints, lodgeId);
+    }
+
+    public boolean executeStatement(User user, String statement, Integer spiritPoints, Long lodgeId) throws SQLException {
+            Connection connection = this.getConnection();
+            PreparedStatement preparedStatement = prepareStatement(connection, user, statement);
+            preparedStatement = updateSpiritAndLodge(preparedStatement, spiritPoints, lodgeId);
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
             return true;
     }
 
-    public PreparedStatement prepareInsertStatement(Connection connection, User user) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" +
-                "(first_name, last_name, email, password, spirit_points, lodge_id, role_id, rank_id, is_active) VALUES " +
-                "(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    public PreparedStatement updateSpiritAndLodge(PreparedStatement preparedStatement, Integer spiritPoints, Long lodgeId) throws SQLException {
+        preparedStatement.setInt(6, spiritPoints);
+        preparedStatement.setLong(7, lodgeId);
+        return preparedStatement;
+    }
+
+    public PreparedStatement prepareStatement(Connection connection, User user, String statement) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setLong(1, user.getId());
         preparedStatement.setString(2, user.getFirstName());
         preparedStatement.setString(3, user.getLastName());
@@ -78,7 +87,6 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         preparedStatement.setBoolean(9, user.getIsActive());
         return preparedStatement;
     }
-
 
     @Override
     public boolean update(User user) throws SQLException {
