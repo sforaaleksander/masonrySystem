@@ -1,5 +1,6 @@
 package com.codecool.masonrysystem.dao;
 
+import com.codecool.masonrysystem.exception.ElementNotFoundException;
 import com.codecool.masonrysystem.model.Transaction;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +13,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.stub;
 
 class TransactionDaoTest {
-    private Date sqlDate = mock(java.sql.Date.class);
+    private Date sqlDate = new Date(2020, 10, 10);
     private TransactionDao transactionDao = new TransactionDao();
 
     @Test
@@ -33,47 +34,67 @@ class TransactionDaoTest {
 
         Transaction transaction = transactionDao.create(resultSetMock);
 
-        assertEquals(transactionExpected.getId(), transaction.getId());
-        assertEquals(transactionExpected.getUserId(), transaction.getUserId());
-        assertEquals(transactionExpected.getArtifactId(), transaction.getArtifactId());
-        assertEquals(transactionExpected.getOpenTransaction(), transaction.getOpenTransaction());
-        assertEquals(transactionExpected.getCloseTransaction(), transaction.getCloseTransaction());
+        assertAll("Check if db consistent with object",
+                () -> assertEquals(transactionExpected.getId(), transaction.getId()),
+                () -> assertEquals(transactionExpected.getUserId(), transaction.getUserId()),
+                () -> assertEquals(transactionExpected.getArtifactId(), transaction.getArtifactId()),
+                () -> assertEquals(transactionExpected.getOpenTransaction(), transaction.getOpenTransaction()),
+                () -> assertEquals(transactionExpected.getCloseTransaction(), transaction.getCloseTransaction())
+        );
     }
 
     @Test
     public void testAreAllElementsPresent() throws SQLException {
-        assertNotNull(transactionDao.getAll());
+        assertNotEquals(0, transactionDao.getAll().size());
+    }
+
+    @Test
+    public void testIsTransactionInserting() throws SQLException {
+        Transaction transactionMock = mock(Transaction.class);
+        stub(transactionMock.getId()).toReturn(999L);
+        stub(transactionMock.getUserId()).toReturn(12L);
+        stub(transactionMock.getArtifactId()).toReturn(2L);
+        stub(transactionMock.getOpenTransaction()).toReturn(sqlDate);
+        stub(transactionMock.getCloseTransaction()).toReturn(sqlDate);
+        transactionDao.insert(transactionMock);
+        Transaction transaction = transactionDao.getById(999L);
+        assertAll("Check if db consistent with object",
+                () -> assertEquals(transactionMock.getId(), transaction.getId()),
+                () -> assertEquals(transactionMock.getUserId(), transaction.getUserId()),
+                () -> assertEquals(transactionMock.getArtifactId(), transaction.getArtifactId()),
+                () -> assertEquals(transactionMock.getOpenTransaction(), transaction.getOpenTransaction()),
+                () -> assertEquals(transactionMock.getCloseTransaction(), transaction.getCloseTransaction())
+        );
     }
 
     @Test
     public void testIsElementPresentById() throws SQLException {
-        assertNotNull(transactionDao.getById(1L));
+        assertNotNull(transactionDao.getById(999L));
     }
 
-    @Test
-    public void testIsTransactionInserting(){
-        Transaction transaction = mock(Transaction.class);
-        stub(transaction.getId()).toReturn(999L);
-        stub(transaction.getUserId()).toReturn(12L);
-        stub(transaction.getArtifactId()).toReturn(2L);
-        stub(transaction.getOpenTransaction()).toReturn(sqlDate);
-        stub(transaction.getCloseTransaction()).toReturn(sqlDate);
-        assertTrue(transactionDao.insert(transaction));
-    }
 
     @Test
-    public void testIsTransactionUpdating(){
-        Transaction transaction = mock(Transaction.class);
-        stub(transaction.getId()).toReturn(999L);
-        stub(transaction.getUserId()).toReturn(12L);
-        stub(transaction.getArtifactId()).toReturn(8L);
-        stub(transaction.getOpenTransaction()).toReturn(sqlDate);
-        stub(transaction.getCloseTransaction()).toReturn(sqlDate);
-        assertTrue(transactionDao.update(transaction));
+    public void testIsTransactionUpdating() throws SQLException {
+        Transaction transactionMock = mock(Transaction.class);
+        stub(transactionMock.getId()).toReturn(999L);
+        stub(transactionMock.getUserId()).toReturn(12L);
+        stub(transactionMock.getArtifactId()).toReturn(8L);
+        stub(transactionMock.getOpenTransaction()).toReturn(sqlDate);
+        stub(transactionMock.getCloseTransaction()).toReturn(sqlDate);
+        transactionDao.update(transactionMock);
+        Transaction transaction = transactionDao.getById(999L);
+        assertAll("Check if db consistent with object",
+                () -> assertEquals(transactionMock.getId(), transaction.getId()),
+                () -> assertEquals(transactionMock.getUserId(), transaction.getUserId()),
+                () -> assertEquals(transactionMock.getArtifactId(), transaction.getArtifactId()),
+                () -> assertEquals(transactionMock.getOpenTransaction(), transaction.getOpenTransaction()),
+                () -> assertEquals(transactionMock.getCloseTransaction(), transaction.getCloseTransaction())
+        );
     }
 
     @Test
     public void testIsTransactionDeleting(){
-        assertTrue(transactionDao.delete(999L));
+        transactionDao.delete(999L);
+        assertThrows(ElementNotFoundException.class, () -> transactionDao.getById(999L));
     }
 }

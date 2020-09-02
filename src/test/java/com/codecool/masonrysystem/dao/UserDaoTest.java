@@ -10,8 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.stub;
+import static org.mockito.Mockito.*;
 
 class UserDaoTest {
     private UserDao userDao = new UserDao();
@@ -24,9 +23,6 @@ class UserDaoTest {
         stub(resultSetMock.getString("last_name")).toReturn("last_name");
         stub(resultSetMock.getString("email")).toReturn("email");
         stub(resultSetMock.getString("password")).toReturn("password");
-//        stub(resultSetMock.getInt("spirit_points")).toReturn(13);
-//        stub(resultSetMock.getInt("lodge_id")).toReturn(1);
-//        stub(resultSetMock.getInt("role_id")).toReturn(3);
         stub(resultSetMock.getBoolean("is_active")).toReturn(true);
 
 
@@ -40,13 +36,14 @@ class UserDaoTest {
 
         User user = userDao.create(resultSetMock);
 
-        assertEquals(userExpected.getId(), user.getId());
-        assertEquals(userExpected.getFirstName(), user.getFirstName());
-        assertEquals(userExpected.getLastName(), user.getLastName());
-        assertEquals(userExpected.getEmail(), user.getEmail());
-        assertEquals(userExpected.getPassword(), user.getPassword());
-        assertEquals(userExpected.getIsActive(), user.getIsActive());
-
+        assertAll("Should return complete object",
+                () -> assertEquals(userExpected.getId(), user.getId()),
+                () -> assertEquals(userExpected.getFirstName(), user.getFirstName()),
+                () -> assertEquals(userExpected.getLastName(), user.getLastName()),
+                () -> assertEquals(userExpected.getEmail(), user.getEmail()),
+                () -> assertEquals(userExpected.getPassword(), user.getPassword()),
+                () -> assertEquals(userExpected.getIsActive(), user.getIsActive())
+        );
     }
 
     @Test
@@ -61,28 +58,28 @@ class UserDaoTest {
 
     @Test
     public void testIsUserInserting() throws SQLException {
-        User userMock = mock(User.class);
-        stub(userMock.getId()).toReturn(999L);
-        stub(userMock.getFirstName()).toReturn("First Name");
-        stub(userMock.getLastName()).toReturn("Last Name");
-        stub(userMock.getEmail()).toReturn("email@email.com");
-        stub(userMock.getPassword()).toReturn("password");
-        stub(userMock.getRank()).toReturn(Rank.AINSOPHAUR);
-        stub(userMock.getIsActive()).toReturn(true);
-        assertTrue(userDao.insert(userMock));
+        User userSpy = mock(User.class);
+        stub(userSpy.getId()).toReturn(999L);
+        stub(userSpy.getFirstName()).toReturn("First Name");
+        stub(userSpy.getLastName()).toReturn("Last Name");
+        stub(userSpy.getEmail()).toReturn("email@email.com");
+        stub(userSpy.getPassword()).toReturn("password");
+        stub(userSpy.getRank()).toReturn(Rank.AINSOPHAUR);
+        stub(userSpy.getIsActive()).toReturn(true);
+        assertTrue(userDao.insert(userSpy));
     }
 
     @Test
     public void testIsUserUpdating() throws SQLException {
-        User userMock = mock(User.class);
-        stub(userMock.getId()).toReturn(999L);
-        stub(userMock.getFirstName()).toReturn("Updated First Name");
-        stub(userMock.getLastName()).toReturn("Updated Last Name");
-        stub(userMock.getEmail()).toReturn("email@email.com");
-        stub(userMock.getPassword()).toReturn("password");
-        stub(userMock.getRank()).toReturn(Rank.AINSOPHAUR);
-        stub(userMock.getIsActive()).toReturn(true);
-        assertTrue(userDao.update(userMock));
+        User userSpy = mock(User.class);
+        stub(userSpy.getId()).toReturn(999L);
+        stub(userSpy.getFirstName()).toReturn("Updated First Name");
+        stub(userSpy.getLastName()).toReturn("Updated Last Name");
+        stub(userSpy.getEmail()).toReturn("email@email.com");
+        stub(userSpy.getPassword()).toReturn("password");
+        stub(userSpy.getRank()).toReturn(Rank.AINSOPHAUR);
+        stub(userSpy.getIsActive()).toReturn(true);
+        assertTrue(userDao.update(userSpy));
     }
 
     @Test
