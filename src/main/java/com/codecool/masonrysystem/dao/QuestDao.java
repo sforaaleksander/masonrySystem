@@ -19,7 +19,7 @@ public class QuestDao extends PostgresDAO<Quest> {
         quest.setId(resultSet.getLong("id"));
         quest.setName(resultSet.getString("name"));
         quest.setReward(resultSet.getInt("reward"));
-        quest.setRequiredRank(Rank.values()[resultSet.getInt("required_rank") + 1]);         //TODO check this
+        quest.setRequiredRank(Rank.values()[resultSet.getInt("required_rank")]);
         quest.setDescription(resultSet.getString("description"));
         quest.setIsActive(resultSet.getBoolean("is_active"));
         quest.setExpirationDate(resultSet.getDate("expiration_date"));

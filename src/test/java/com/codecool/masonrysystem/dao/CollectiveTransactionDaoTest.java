@@ -60,7 +60,7 @@ class CollectiveTransactionDaoTest {
         stub(collectiveTransactionMock.getAmount()).toReturn(999);
         collectiveTransactionDao.insert(collectiveTransactionMock);
         CollectiveTransaction collectiveTransaction = collectiveTransactionDao.getById(999L);
-        assertAll("Should return complete object",
+        assertAll("Check if db consistent with object",
                 () -> assertEquals(collectiveTransactionMock.getId(), collectiveTransaction.getId()),
                 () -> assertEquals(collectiveTransactionMock.getTransactionId(), collectiveTransaction.getTransactionId()),
                 () -> assertEquals(collectiveTransactionMock.getUserId(), collectiveTransaction.getUserId()),
@@ -84,7 +84,7 @@ class CollectiveTransactionDaoTest {
         stub(collectiveTransactionMock.getAmount()).toReturn(9999);
         collectiveTransactionDao.update(collectiveTransactionMock);
         CollectiveTransaction collectiveTransaction = collectiveTransactionDao.getById(999L);
-        assertAll("Should return complete object",
+        assertAll("Check if db consistent with object",
                 () -> assertEquals(collectiveTransactionMock.getId(), collectiveTransaction.getId()),
                 () -> assertEquals(collectiveTransactionMock.getTransactionId(), collectiveTransaction.getTransactionId()),
                 () -> assertEquals(collectiveTransactionMock.getUserId(), collectiveTransaction.getUserId()),

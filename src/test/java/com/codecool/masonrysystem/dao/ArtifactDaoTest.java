@@ -40,7 +40,7 @@ class ArtifactDaoTest {
 
         Artifact artifact = artifactDao.create(resultSetMock);
 
-        assertAll("Should return complete object",
+        assertAll("Check if db consistent with object",
                 () -> assertEquals(artifactExpected.getId(), artifact.getId()),
                 () -> assertEquals(artifactExpected.getName(), artifact.getName()),
                 () -> assertEquals(artifactExpected.getPrice(), artifact.getPrice()),
