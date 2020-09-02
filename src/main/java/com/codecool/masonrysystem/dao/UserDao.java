@@ -55,7 +55,7 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
 
     public boolean executeInsertStatement(User user, Integer spiritPoints, Long lodgeId) throws SQLException {
         String statement = "INSERT INTO users" +
-                "(first_name, last_name, email, password, spirit_points, lodge_id, role_id, rank_id, is_active) VALUES " +
+                "(first_name, last_name, email, password, spirit_points, lodge_id, role_id, rank_id, is_active, id) VALUES " +
                 "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         return executeStatement(user, statement, spiritPoints, lodgeId);
     }
@@ -71,55 +71,49 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
     }
 
     public PreparedStatement updateSpiritAndLodge(PreparedStatement preparedStatement, Integer spiritPoints, Long lodgeId) throws SQLException {
-        preparedStatement.setInt(6, spiritPoints);
-        preparedStatement.setLong(7, lodgeId);
+        preparedStatement.setInt(5, spiritPoints);
+        preparedStatement.setLong(6, lodgeId);
         return preparedStatement;
     }
 
     public PreparedStatement prepareStatement(Connection connection, User user, String statement) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
-        preparedStatement.setLong(1, user.getId());
-        preparedStatement.setString(2, user.getFirstName());
-        preparedStatement.setString(3, user.getLastName());
-        preparedStatement.setString(4, user.getEmail());
-        preparedStatement.setString(5, user.getPassword());
-        preparedStatement.setInt(8, user.getRank().ordinal()); //TODO check if correct
-        preparedStatement.setBoolean(9, user.getIsActive());
+        preparedStatement.setLong(9, user.getId());
+        preparedStatement.setString(1, user.getFirstName());
+        preparedStatement.setString(2, user.getLastName());
+        preparedStatement.setString(3, user.getEmail());
+        preparedStatement.setString(4, user.getPassword());
+        preparedStatement.setInt(7, user.getRank().ordinal()); //TODO check if correct
+        preparedStatement.setBoolean(8, user.getIsActive());
         return preparedStatement;
     }
 
     @Override
     public boolean update(User user) throws SQLException {
-        Integer spiritPoints = null;
-        Long lodgeId = null;
-        Long id = user.getId();
-        Connection connection = this.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET " +
-                    "first_name=?, last_name=?, email=?, password=?, spirit_points=?, lodge_id=?, role_id=?, rank_id=?, is_active=? WHERE id = ?");
-            preparedStatement.setString(1, user.getFirstName());
-            preparedStatement.setString(2, user.getLastName());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getPassword());
-            if (user.getRank() != Rank.AINSOPHAUR || user.getRank() != Rank.THEILLUMINATI) {
-                Apprentice apprentice = (Apprentice) user;
-                spiritPoints = apprentice.getSpiritPoints();
-                lodgeId = apprentice.getLodge().getId();
-            }
-            preparedStatement.setInt(5, spiritPoints);
-            preparedStatement.setLong(6, lodgeId);
-            preparedStatement.setInt(7, user.getRank().ordinal()); //TODO check if correct
-            preparedStatement.setBoolean(8, user.getIsActive());
-            preparedStatement.setLong(9, id);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-            return true;
-        } catch (SQLException e) {
-            connection.close();
-            e.printStackTrace();
+            return executeUpdateStatement(user, null, null);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return false;
+    }
+
+    public boolean update(Apprentice user) throws SQLException {
+        Integer spiritPoints = user.getSpiritPoints();
+        Long lodgeId = user.getLodge().getId();
+        try {
+            return executeUpdateStatement(user, spiritPoints, lodgeId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean executeUpdateStatement(User user, Integer spiritPoints, Long lodgeId ) throws SQLException {
+        String statement = "UPDATE users SET " +
+                "first_name=?, last_name=?, email=?, password=?, spirit_points=?, lodge_id=?, role_id=?, rank_id=?, is_active=?" +
+                " WHERE id = ?";
+        return executeStatement(user, statement, spiritPoints, lodgeId);
     }
 
     @Override
