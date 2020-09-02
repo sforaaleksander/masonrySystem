@@ -1,5 +1,6 @@
 package com.codecool.masonrysystem.dao;
 
+import com.codecool.masonrysystem.exception.ElementNotFoundException;
 import com.codecool.masonrysystem.model.Artifact;
 import com.codecool.masonrysystem.model.CollectiveTransaction;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import static org.mockito.Mockito.stub;
 
 class CollectiveTransactionDaoTest {
 
-    private Date sqlDate = mock(java.sql.Date.class);
+    private Date sqlDate = new Date(2020, 10, 10);
     private CollectiveTransactionDao collectiveTransactionDao = new CollectiveTransactionDao();
 
     @Test
@@ -35,47 +36,66 @@ class CollectiveTransactionDaoTest {
 
         CollectiveTransaction collectiveTransaction = collectiveTransactionDao.create(resultSetMock);
 
-        assertEquals(collectiveTransactionExpected.getId(), collectiveTransaction.getId());
-        assertEquals(collectiveTransactionExpected.getTransactionId(), collectiveTransaction.getTransactionId());
-        assertEquals(collectiveTransactionExpected.getUserId(), collectiveTransaction.getUserId());
-        assertEquals(collectiveTransactionExpected.getDonationDate(), collectiveTransaction.getDonationDate());
-        assertEquals(collectiveTransactionExpected.getAmount(), collectiveTransaction.getAmount());
+        assertAll("Should return complete object",
+                () -> assertEquals(collectiveTransactionExpected.getId(), collectiveTransaction.getId()),
+                () -> assertEquals(collectiveTransactionExpected.getTransactionId(), collectiveTransaction.getTransactionId()),
+                () -> assertEquals(collectiveTransactionExpected.getUserId(), collectiveTransaction.getUserId()),
+                () -> assertEquals(collectiveTransactionExpected.getDonationDate(), collectiveTransaction.getDonationDate()),
+                () -> assertEquals(collectiveTransactionExpected.getAmount(), collectiveTransaction.getAmount())
+        );
     }
 
     @Test
     public void testAreAllElementsPresent() throws SQLException {
-        assertNotNull(collectiveTransactionDao.getAll());
+        assertNotEquals(0, collectiveTransactionDao.getAll().size());
     }
 
     @Test
-    public void testIsElementPresentById() throws SQLException {
-        assertNotNull(collectiveTransactionDao.getById(1L));
-    }
-
-    @Test
-    public void testIsCollectiveInserting(){
+    public void testIsCollectiveInserting() throws SQLException {
         CollectiveTransaction collectiveTransactionMock = mock(CollectiveTransaction.class);
-        stub(collectiveTransactionMock.getId()).toReturn(12L);
+        stub(collectiveTransactionMock.getId()).toReturn(999L);
         stub(collectiveTransactionMock.getTransactionId()).toReturn(10L);
         stub(collectiveTransactionMock.getUserId()).toReturn(12L);
         stub(collectiveTransactionMock.getDonationDate()).toReturn(sqlDate);
         stub(collectiveTransactionMock.getAmount()).toReturn(999);
-        assertTrue(collectiveTransactionDao.insert(collectiveTransactionMock));
+        collectiveTransactionDao.insert(collectiveTransactionMock);
+        CollectiveTransaction collectiveTransaction = collectiveTransactionDao.getById(999L);
+        assertAll("Should return complete object",
+                () -> assertEquals(collectiveTransactionMock.getId(), collectiveTransaction.getId()),
+                () -> assertEquals(collectiveTransactionMock.getTransactionId(), collectiveTransaction.getTransactionId()),
+                () -> assertEquals(collectiveTransactionMock.getUserId(), collectiveTransaction.getUserId()),
+                () -> assertEquals(collectiveTransactionMock.getDonationDate(), collectiveTransaction.getDonationDate()),
+                () -> assertEquals(collectiveTransactionMock.getAmount(), collectiveTransaction.getAmount())
+        );
     }
 
     @Test
-    public void testIsCollectiveUpdating(){
+    public void testIsElementPresentById() throws SQLException {
+        assertEquals(999L, collectiveTransactionDao.getById(999L).getId());
+    }
+
+    @Test
+    public void testIsCollectiveUpdating() throws SQLException {
         CollectiveTransaction collectiveTransactionMock = mock(CollectiveTransaction.class);
-        stub(collectiveTransactionMock.getId()).toReturn(12L);
+        stub(collectiveTransactionMock.getId()).toReturn(999L);
         stub(collectiveTransactionMock.getTransactionId()).toReturn(10L);
         stub(collectiveTransactionMock.getUserId()).toReturn(12L);
         stub(collectiveTransactionMock.getDonationDate()).toReturn(sqlDate);
         stub(collectiveTransactionMock.getAmount()).toReturn(9999);
-        assertTrue(collectiveTransactionDao.update(collectiveTransactionMock));
+        collectiveTransactionDao.update(collectiveTransactionMock);
+        CollectiveTransaction collectiveTransaction = collectiveTransactionDao.getById(999L);
+        assertAll("Should return complete object",
+                () -> assertEquals(collectiveTransactionMock.getId(), collectiveTransaction.getId()),
+                () -> assertEquals(collectiveTransactionMock.getTransactionId(), collectiveTransaction.getTransactionId()),
+                () -> assertEquals(collectiveTransactionMock.getUserId(), collectiveTransaction.getUserId()),
+                () -> assertEquals(collectiveTransactionMock.getDonationDate(), collectiveTransaction.getDonationDate()),
+                () -> assertEquals(collectiveTransactionMock.getAmount(), collectiveTransaction.getAmount())
+        );
     }
 
     @Test
     public void testIfCollectiveDeleting(){
-        assertTrue(collectiveTransactionDao.delete(12L));
+        collectiveTransactionDao.delete(999L);
+        assertThrows(ElementNotFoundException.class, () -> collectiveTransactionDao.getById(999L));
     }
 }

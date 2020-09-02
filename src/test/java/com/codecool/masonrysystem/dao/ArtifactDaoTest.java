@@ -81,7 +81,7 @@ class ArtifactDaoTest {
 
     @Test
     public void testIsElementPresentById() throws SQLException {
-        assertEquals(artifactDao.getById(999L).getId(), 999L);
+        assertEquals(999L, artifactDao.getById(999L).getId());
     }
 
     @Test
