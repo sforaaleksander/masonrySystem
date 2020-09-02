@@ -55,7 +55,6 @@ class SessionDaoTest {
     void getAll() throws SQLException {
             HashSet<Session> sessions = new HashSet<Session>();
             sessionDao.getAll().stream().forEach(s -> {
-                assertEquals("class com.codecool.masonrysystem.model.Session", s.getClass().toString());
                 assertNotNull(s.getUserId());
                 assertNotNull(s.getSessionId());
                 assertFalse(sessions.contains(s));

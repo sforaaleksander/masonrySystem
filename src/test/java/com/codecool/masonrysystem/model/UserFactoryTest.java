@@ -31,6 +31,8 @@ class UserFactoryTest {
                 stub(resultSet.getString("email")).toReturn("elo@elo.320");
                 stub(resultSet.getString("password")).toReturn("abracadabra");
                 stub(resultSet.getBoolean("is_active")).toReturn(true);
+                System.out.println(userType.getValue().getClass());
+                System.out.println(userFactory.makeUser(resultSet).getClass());
                 assertEquals(userType.getValue().getClass(), userFactory.makeUser(resultSet).getClass());
         }
     }
