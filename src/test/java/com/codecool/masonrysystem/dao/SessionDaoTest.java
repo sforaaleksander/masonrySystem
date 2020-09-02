@@ -40,7 +40,7 @@ class SessionDaoTest {
         String sessionId = (new IdGenerator()).generateId(16);
         Session session = mock(Session.class);
         stub(session.getSessionId()).toReturn(sessionId);
-        stub(session.getUserId()).toReturn((long)13);
+        stub(session.getUserId()).toReturn(13L);
         return session;
     }
 
@@ -92,7 +92,7 @@ class SessionDaoTest {
         try {
             ResultSet resultSet = mock(ResultSet.class);
             stub(resultSet.getString("session_id")).toReturn(sessionId);
-            stub(resultSet.getLong("user_id")).toReturn((long)13);
+            stub(resultSet.getLong("user_id")).toReturn(13L);
             Session createdSession = sessionDao.create(resultSet);
             assertEquals(userId, createdSession.getUserId());
             assertEquals(sessionId, createdSession.getSessionId());
