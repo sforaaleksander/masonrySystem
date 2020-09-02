@@ -104,11 +104,11 @@ public class ArtifactDao extends PostgresDAO<Artifact> implements IDAO<Artifact>
             rs.close();
             statement.close();
             connection.close();
-            return artifacts;
         } catch (SQLException e) {
             connection.close();
             e.printStackTrace();
         }
-        throw new ElementNotFoundException("No artifacts not found");
+        if (artifacts.size() == 0) throw new ElementNotFoundException("No artifacts not found");
+        return artifacts;
     }
 }
