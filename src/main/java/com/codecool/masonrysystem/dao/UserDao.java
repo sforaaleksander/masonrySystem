@@ -1,10 +1,7 @@
 package com.codecool.masonrysystem.dao;
 
 import com.codecool.masonrysystem.exception.ElementNotFoundException;
-import com.codecool.masonrysystem.model.Apprentice;
-import com.codecool.masonrysystem.model.User;
-import com.codecool.masonrysystem.model.Rank;
-import com.codecool.masonrysystem.model.UserFactory;
+import com.codecool.masonrysystem.model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -56,36 +53,8 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
     public boolean executeInsertStatement(User user, Integer spiritPoints, Long lodgeId) throws SQLException {
         String statement = "INSERT INTO users" +
                 "(first_name, last_name, email, password, spirit_points, lodge_id, role_id, rank_id, is_active, id) VALUES " +
-                "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         return executeStatement(user, statement, spiritPoints, lodgeId);
-    }
-
-    public boolean executeStatement(User user, String statement, Integer spiritPoints, Long lodgeId) throws SQLException {
-            Connection connection = this.getConnection();
-            PreparedStatement preparedStatement = prepareStatement(connection, user, statement);
-            preparedStatement = updateSpiritAndLodge(preparedStatement, spiritPoints, lodgeId);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-            return true;
-    }
-
-    public PreparedStatement updateSpiritAndLodge(PreparedStatement preparedStatement, Integer spiritPoints, Long lodgeId) throws SQLException {
-        preparedStatement.setInt(5, spiritPoints);
-        preparedStatement.setLong(6, lodgeId);
-        return preparedStatement;
-    }
-
-    public PreparedStatement prepareStatement(Connection connection, User user, String statement) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement(statement);
-        preparedStatement.setLong(9, user.getId());
-        preparedStatement.setString(1, user.getFirstName());
-        preparedStatement.setString(2, user.getLastName());
-        preparedStatement.setString(3, user.getEmail());
-        preparedStatement.setString(4, user.getPassword());
-        preparedStatement.setInt(7, user.getRank().ordinal()); //TODO check if correct
-        preparedStatement.setBoolean(8, user.getIsActive());
-        return preparedStatement;
     }
 
     @Override
@@ -161,5 +130,53 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
             e.printStackTrace();
         }
         throw new ElementNotFoundException("User with given rank could not be found");
+    }
+
+    public boolean executeStatement(User user, String statement, Integer spiritPoints, Long lodgeId) throws SQLException {
+        Connection connection = this.getConnection();
+        PreparedStatement preparedStatement = prepareStatement(connection, user, statement);
+        preparedStatement = updateSpiritAndLodge(preparedStatement, spiritPoints, lodgeId);
+        System.out.println(preparedStatement.toString());
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
+        return true;
+    }
+
+    public PreparedStatement updateSpiritAndLodge(PreparedStatement preparedStatement, Integer spiritPoints, Long lodgeId) throws SQLException {
+        if (spiritPoints != null){
+            System.out.println("null points");
+            preparedStatement.setInt(5, spiritPoints);
+            preparedStatement.setLong(6, lodgeId);
+        } else {
+            System.out.println("points");
+            preparedStatement.setNull(5, java.sql.Types.INTEGER);
+            preparedStatement.setNull(6, java.sql.Types.INTEGER);
+        }
+        return preparedStatement;
+    }
+
+    public PreparedStatement prepareStatement(Connection connection, User user, String statement) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setLong(10, user.getId());
+        preparedStatement.setString(1, user.getFirstName());
+        preparedStatement.setString(2, user.getLastName());
+        preparedStatement.setString(3, user.getEmail());
+        preparedStatement.setString(4, user.getPassword());
+        int roleId = 3;
+        switch (user.getClass().toString()){
+            case ("class com.codecool.masonrysystem.model.MasterMason"):
+                roleId = 1;
+                break;
+            case ("class com.codecool.masonrysystem.model.Journeyman"):
+                roleId = 2;
+                break;
+            default:
+                roleId = 3;
+        }
+        preparedStatement.setInt(7, roleId);
+        preparedStatement.setInt(8, user.getRank().ordinal()); //TODO check if correct
+        preparedStatement.setBoolean(9, user.getIsActive());
+        return preparedStatement;
     }
 }

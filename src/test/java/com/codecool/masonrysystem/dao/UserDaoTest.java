@@ -22,7 +22,7 @@ class UserDaoTest {
     @BeforeAll
     public void setUp(){
         userDao = new UserDao();
-        userMock = mock(Apprentice.class);
+        userMock = mock(User.class);
         stub(userMock.getId()).toReturn(999L);
         stub(userMock.getFirstName()).toReturn("TestFirstName");
         stub(userMock.getLastName()).toReturn("TestLastName");
