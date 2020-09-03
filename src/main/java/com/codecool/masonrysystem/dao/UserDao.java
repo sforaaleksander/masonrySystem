@@ -18,6 +18,11 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         this.userFactory = new UserFactory();
     }
 
+    public UserDao(LodgeDao lodgeDao) {
+        super("users");
+        this.userFactory = new UserFactory(lodgeDao);
+    }
+
     @Override
     protected User create(ResultSet resultSet) throws SQLException {
         return userFactory.makeUser(resultSet);

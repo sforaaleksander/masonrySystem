@@ -7,8 +7,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserFactory {
-    private LodgeDao lodgeDao = new LodgeDao();
+    private LodgeDao lodgeDao;
 
+    public UserFactory() {
+        this.lodgeDao = new LodgeDao();
+    }
+
+    public UserFactory(LodgeDao lodgeDao){
+        this.lodgeDao = lodgeDao;
+    }
 
     public User makeUser(ResultSet resultSet) throws SQLException {
         int userRole = resultSet.getInt("role_id");

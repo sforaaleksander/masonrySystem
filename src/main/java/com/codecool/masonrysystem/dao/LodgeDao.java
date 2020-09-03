@@ -12,7 +12,7 @@ public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
 
     public LodgeDao() {
         super("lodges");
-        userDao = new UserDao();
+        userDao = new UserDao(this);
     }
 
     public LodgeDao(UserDao userDao) {
