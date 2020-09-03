@@ -25,7 +25,6 @@ class UserDaoTest {
         stub(resultSetMock.getString("password")).toReturn("password");
         stub(resultSetMock.getBoolean("is_active")).toReturn(true);
 
-
         User userExpected = new Apprentice();
         userExpected.setId(1L);
         userExpected.setFirstName("first_name");
