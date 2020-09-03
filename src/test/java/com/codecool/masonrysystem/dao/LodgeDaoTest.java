@@ -23,14 +23,14 @@ class LodgeDaoTest {
     private ResultSet resultSetMock;
     private Lodge expectedLodge;
     private Lodge lodge;
-//    private LodgeDao lodgeDao = new LodgeDao();
+    private static LodgeDao lodgeDao;
 
     @BeforeAll
     public void setUp() throws SQLException {
+        lodgeDao = new LodgeDao();
         UserDao userDaoMock = mock(UserDao.class);
         resultSetMock = mock(ResultSet.class);
         lodgeDaoWithMock = new LodgeDao(userDaoMock);
-
         journeymanMock = mock(Journeyman.class, RETURNS_MOCKS);
         when(userDaoMock.getById(any())).thenReturn(journeymanMock);
         when(resultSetMock.getLong("id")).thenReturn(0L);
