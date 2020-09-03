@@ -48,7 +48,29 @@ class UserDaoTest {
 
     @Test
     public void testAreAllElementsPresent() throws SQLException {
-        assertNotNull(userDao.getAll());
+        assertNotEquals(0, userDao.getAll().size());
+    }
+
+    @Test
+    public void testIsUserInserting() throws SQLException {
+        Apprentice userMock = mock(Apprentice.class);
+        stub(userMock.getId()).toReturn(999L);
+        stub(userMock.getFirstName()).toReturn("First Name");
+        stub(userMock.getLastName()).toReturn("Last Name");
+        stub(userMock.getEmail()).toReturn("email@email.com");
+        stub(userMock.getPassword()).toReturn("password");
+        stub(userMock.getRank()).toReturn(Rank.AINSOPHAUR);
+        stub(userMock.getIsActive()).toReturn(true);
+        userDao.insert(userMock);
+        User user = userDao.getById(999L);
+        assertAll("Should return complete object",
+                () -> assertEquals(userMock.getId(), user.getId()),
+                () -> assertEquals(userMock.getFirstName(), user.getFirstName()),
+                () -> assertEquals(userMock.getLastName(), user.getLastName()),
+                () -> assertEquals(userMock.getEmail(), user.getEmail()),
+                () -> assertEquals(userMock.getPassword(), user.getPassword()),
+                () -> assertEquals(userMock.getIsActive(), user.getIsActive())
+        );
     }
 
     @Test
@@ -56,51 +78,43 @@ class UserDaoTest {
         assertNotNull(userDao.getById(1L));
     }
 
-    @Test
-    public void testIsUserInserting() throws SQLException {
-        User userSpy = mock(User.class);
-        stub(userSpy.getId()).toReturn(999L);
-        stub(userSpy.getFirstName()).toReturn("First Name");
-        stub(userSpy.getLastName()).toReturn("Last Name");
-        stub(userSpy.getEmail()).toReturn("email@email.com");
-        stub(userSpy.getPassword()).toReturn("password");
-        stub(userSpy.getRank()).toReturn(Rank.AINSOPHAUR);
-        stub(userSpy.getIsActive()).toReturn(true);
-        assertTrue(userDao.insert(userSpy));
-    }
 
     @Test
     public void testIsUserUpdating() throws SQLException {
-        User userSpy = mock(User.class);
-        stub(userSpy.getId()).toReturn(999L);
-        stub(userSpy.getFirstName()).toReturn("Updated First Name");
-        stub(userSpy.getLastName()).toReturn("Updated Last Name");
-        stub(userSpy.getEmail()).toReturn("email@email.com");
-        stub(userSpy.getPassword()).toReturn("password");
-        stub(userSpy.getRank()).toReturn(Rank.AINSOPHAUR);
-        stub(userSpy.getIsActive()).toReturn(true);
-        assertTrue(userDao.update(userSpy));
+        User userMock = mock(User.class);
+        stub(userMock.getId()).toReturn(999L);
+        stub(userMock.getFirstName()).toReturn("Updated First Name");
+        stub(userMock.getLastName()).toReturn("Updated Last Name");
+        stub(userMock.getEmail()).toReturn("email@email.com");
+        stub(userMock.getPassword()).toReturn("password");
+        stub(userMock.getRank()).toReturn(Rank.AINSOPHAUR);
+        stub(userMock.getIsActive()).toReturn(true);
+        userDao.update(userMock);
+        User user = userDao.getById(999L);
+        assertAll("Should return complete object",
+                () -> assertEquals(userMock.getId(), user.getId()),
+                () -> assertEquals(userMock.getFirstName(), user.getFirstName()),
+                () -> assertEquals(userMock.getLastName(), user.getLastName()),
+                () -> assertEquals(userMock.getEmail(), user.getEmail()),
+                () -> assertEquals(userMock.getPassword(), user.getPassword()),
+                () -> assertEquals(userMock.getIsActive(), user.getIsActive())
+        );
     }
 
     @Test
     public void testIsUserPresentByEmail() throws SQLException {
-        assertNotNull(userDao.getUserByEmail("email@email.com"));
+        assertEquals("email@email.com", userDao.getUserByEmail("email@email.com").getEmail());
     }
 
     @Test
     public void testIsUserDeleting(){
-        assertTrue(userDao.delete(999L));
+        userDao.delete(999L);
+        assertThrows(ElementNotFoundException.class, () -> userDao.getById(999L));
     }
 
     @Test
     public void testAreUsersPresentByRole() throws SQLException {
-        assertNotNull(userDao.getUsersByRole(3));
+        assertNotEquals(0, userDao.getUsersByRole(3).size());
     }
-
-    @Test
-    public void testExceptionWhereNoUsersFoundByRole() {
-        assertThrows(ElementNotFoundException.class, () -> userDao.getUsersByRole(999));
-    }
-
 
 }
