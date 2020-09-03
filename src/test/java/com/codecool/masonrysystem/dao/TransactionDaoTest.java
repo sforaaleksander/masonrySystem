@@ -69,7 +69,7 @@ class TransactionDaoTest {
 
     @Test
     public void testIsElementPresentById() throws SQLException {
-        assertNotNull(transactionDao.getById(999L));
+        assertEquals(999L, transactionDao.getById(999L).getId());
     }
 
 

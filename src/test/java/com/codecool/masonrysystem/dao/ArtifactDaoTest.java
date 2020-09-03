@@ -115,7 +115,7 @@ class ArtifactDaoTest {
 
     @Test
     public void testAreArtifactsUsedByUserPresent() throws SQLException {
-        assertNotNull(artifactDao.getAllUsedByUserId(12L));
+        assertNotEquals(0, artifactDao.getAllUsedByUserId(12L).size());
     }
 
     @Test
