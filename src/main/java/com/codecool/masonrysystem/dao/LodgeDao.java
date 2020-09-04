@@ -8,9 +8,16 @@ import java.sql.*;
 import java.util.List;
 
 public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
+    private UserDao userDao;
 
     public LodgeDao() {
         super("lodges");
+        userDao = new UserDao(this);
+    }
+
+    public LodgeDao(UserDao userDao) {
+        super("lodges");
+        this.userDao = userDao;
     }
 
     @Override
@@ -20,7 +27,7 @@ public class LodgeDao extends PostgresDAO<Lodge> implements IDAO<Lodge> {
         lodge.setId(resultSet.getLong("id"));
         lodge.setName(resultSet.getString("name"));
         try {
-            journeyman = (Journeyman) new UserDao().getById(resultSet.getLong("owner_id"));
+            journeyman = (Journeyman) userDao.getById(resultSet.getLong("owner_id"));
         } catch (ElementNotFoundException e) {
             e.printStackTrace();
         }

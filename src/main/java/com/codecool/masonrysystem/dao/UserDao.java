@@ -1,10 +1,7 @@
 package com.codecool.masonrysystem.dao;
 
 import com.codecool.masonrysystem.exception.ElementNotFoundException;
-import com.codecool.masonrysystem.model.Apprentice;
-import com.codecool.masonrysystem.model.User;
-import com.codecool.masonrysystem.model.Rank;
-import com.codecool.masonrysystem.model.UserFactory;
+import com.codecool.masonrysystem.model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,6 +13,11 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
     public UserDao() {
         super("users");
         this.userFactory = new UserFactory();
+    }
+
+    public UserDao(LodgeDao lodgeDao) {
+        super("users");
+        this.userFactory = new UserFactory(lodgeDao);
     }
 
     @Override
@@ -33,71 +35,59 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
     }
 
     @Override
-    public boolean insert(User user) throws SQLException {
-        Integer spiritPoints = null;
-        Long lodgeId = null;
-        Connection connection = this.getConnection();
+    public boolean insert(User user) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" +
-                    "(first_name, last_name, email, password, spirit_points, lodge_id, role_id, rank_id, is_active) VALUES " +
-                    "(?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            preparedStatement.setLong(1, user.getId());
-            preparedStatement.setString(2, user.getFirstName());
-            preparedStatement.setString(3, user.getLastName());
-            preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setString(5, user.getPassword());
-            if (user.getRank() != Rank.AINSOPHAUR || user.getRank() != Rank.THEILLUMINATI) {
-                Apprentice apprentice = (Apprentice) user;
-                spiritPoints = apprentice.getSpiritPoints();
-                lodgeId = apprentice.getLodge().getId();
-            }
-            preparedStatement.setInt(6, spiritPoints);
-            preparedStatement.setLong(7, lodgeId);
-            preparedStatement.setInt(8, user.getRank().ordinal()); //TODO check if correct
-            preparedStatement.setBoolean(9, user.getIsActive());
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-            return true;
-        } catch (SQLException e) {
-            connection.close();
-            e.printStackTrace();
+            return executeInsertStatement(user, null, null);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return false;
     }
 
-    @Override
-    public boolean update(User user) throws SQLException {
-        Integer spiritPoints = null;
-        Long lodgeId = null;
-        Long id = user.getId();
-        Connection connection = this.getConnection();
+    public boolean insert(Apprentice user) {
+        Integer spiritPoints = user.getSpiritPoints();
+        Long lodgeId = user.getLodge().getId();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET " +
-                    "first_name=?, last_name=?, email=?, password=?, spirit_points=?, lodge_id=?, role_id=?, rank_id=?, is_active=? WHERE id = ?");
-            preparedStatement.setString(1, user.getFirstName());
-            preparedStatement.setString(2, user.getLastName());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getPassword());
-            if (user.getRank() != Rank.AINSOPHAUR || user.getRank() != Rank.THEILLUMINATI) {
-                Apprentice apprentice = (Apprentice) user;
-                spiritPoints = apprentice.getSpiritPoints();
-                lodgeId = apprentice.getLodge().getId();
-            }
-            preparedStatement.setInt(5, spiritPoints);
-            preparedStatement.setLong(6, lodgeId);
-            preparedStatement.setInt(7, user.getRank().ordinal()); //TODO check if correct
-            preparedStatement.setBoolean(8, user.getIsActive());
-            preparedStatement.setLong(9, id);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-            return true;
-        } catch (SQLException e) {
-            connection.close();
-            e.printStackTrace();
+            return executeInsertStatement(user, spiritPoints, lodgeId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return false;
+    }
+
+    public boolean executeInsertStatement(User user, Integer spiritPoints, Long lodgeId) throws SQLException {
+        String statement = "INSERT INTO users" +
+                "(first_name, last_name, email, password, spirit_points, lodge_id, role_id, rank_id, is_active, id) VALUES " +
+                "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        return executeStatement(user, statement, spiritPoints, lodgeId);
+    }
+
+    @Override
+    public boolean update(User user) throws SQLException {
+        try {
+            return executeUpdateStatement(user, null, null);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean update(Apprentice user) throws SQLException {
+        Integer spiritPoints = user.getSpiritPoints();
+        Long lodgeId = user.getLodge().getId();
+        try {
+            return executeUpdateStatement(user, spiritPoints, lodgeId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean executeUpdateStatement(User user, Integer spiritPoints, Long lodgeId ) throws SQLException {
+        String statement = "UPDATE users SET " +
+                "first_name=?, last_name=?, email=?, password=?, spirit_points=?, lodge_id=?, role_id=?, rank_id=?, is_active=?" +
+                " WHERE id = ?";
+        return executeStatement(user, statement, spiritPoints, lodgeId);
     }
 
     @Override
@@ -145,5 +135,52 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
             e.printStackTrace();
         }
         throw new ElementNotFoundException("User with given rank could not be found");
+    }
+
+    public boolean executeStatement(User user, String statement, Integer spiritPoints, Long lodgeId) throws SQLException {
+        Connection connection = this.getConnection();
+        PreparedStatement preparedStatement = prepareStatement(connection, user, statement);
+        preparedStatement = updateSpiritAndLodge(preparedStatement, spiritPoints, lodgeId);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
+        return true;
+    }
+
+    public PreparedStatement updateSpiritAndLodge(PreparedStatement preparedStatement, Integer spiritPoints, Long lodgeId) throws SQLException {
+        if (spiritPoints != null){
+            System.out.println("null points");
+            preparedStatement.setInt(5, spiritPoints);
+            preparedStatement.setLong(6, lodgeId);
+        } else {
+            System.out.println("points");
+            preparedStatement.setNull(5, java.sql.Types.INTEGER);
+            preparedStatement.setNull(6, java.sql.Types.INTEGER);
+        }
+        return preparedStatement;
+    }
+
+    public PreparedStatement prepareStatement(Connection connection, User user, String statement) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setLong(10, user.getId());
+        preparedStatement.setString(1, user.getFirstName());
+        preparedStatement.setString(2, user.getLastName());
+        preparedStatement.setString(3, user.getEmail());
+        preparedStatement.setString(4, user.getPassword());
+        int roleId = 3;
+        switch (user.getClass().toString()){
+            case ("class com.codecool.masonrysystem.model.MasterMason"):
+                roleId = 1;
+                break;
+            case ("class com.codecool.masonrysystem.model.Journeyman"):
+                roleId = 2;
+                break;
+            default:
+                roleId = 3;
+        }
+        preparedStatement.setInt(7, roleId);
+        preparedStatement.setInt(8, user.getRank().ordinal()); //TODO check if correct
+        preparedStatement.setBoolean(9, user.getIsActive());
+        return preparedStatement;
     }
 }
