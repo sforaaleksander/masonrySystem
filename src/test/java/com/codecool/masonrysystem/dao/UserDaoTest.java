@@ -1,7 +1,6 @@
 package com.codecool.masonrysystem.dao;
 
 import com.codecool.masonrysystem.exception.ElementNotFoundException;
-import com.codecool.masonrysystem.model.Apprentice;
 import com.codecool.masonrysystem.model.Rank;
 import com.codecool.masonrysystem.model.User;
 import org.junit.jupiter.api.BeforeAll;
