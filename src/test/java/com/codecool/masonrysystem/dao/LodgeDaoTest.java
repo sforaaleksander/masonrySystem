@@ -24,6 +24,7 @@ class LodgeDaoTest {
     private Lodge expectedLodge;
     private Lodge lodge;
     private static LodgeDao lodgeDao;
+    private Lodge lodgeMock;
 
     @BeforeAll
     public void setUp() throws SQLException {
@@ -37,6 +38,7 @@ class LodgeDaoTest {
         when(resultSetMock.getString("name")).thenReturn("name");
         createExpectedLodge();
         createLodgeFromResultSet();
+        createTestLodge();
     }
 
     private void createExpectedLodge() {
@@ -58,13 +60,56 @@ class LodgeDaoTest {
                 () -> assertEquals(expectedLodge.getOwner(), lodge.getOwner()
                 ));
     }
-
     @Test
     public void testIfAllElementsArePresent() throws SQLException {
         assertNotNull(lodgeDao.getAll());
     }
     @Test
     public void testIfElementByIdIsPresent() throws SQLException {
-        assertNotNull(lodgeDao.getById(1L));
+        assertNotNull(lodgeDao.getById(2L));
+    }
+
+    private void createTestLodge() {
+        lodgeMock = mock(Lodge.class, RETURNS_DEEP_STUBS);
+        when(lodgeMock.getId()).thenReturn(666L);
+        when(lodgeMock.getName()).thenReturn("LodgeTest");
+        when(lodgeMock.getOwner().getId()).thenReturn(2L);
+    }
+
+    @Test
+    public void testIfLodgeIsInserting() throws SQLException {
+        lodgeDao.insert(lodgeMock);
+        Lodge lodge = lodgeDao.getById(666L);
+        assertAll("Check if lodge is consistent with db",
+                () -> assertEquals(lodgeMock.getId(), lodge.getId()),
+                () -> assertEquals(lodgeMock.getName(), lodge.getName()),
+                () -> assertEquals(lodgeMock.getOwner().getId(), lodge.getOwner().getId())
+        );
+        lodgeDao.delete(666L);
+    }
+    @Test
+    public void testIfLodgeIsUpdating() throws SQLException {
+        lodgeDao.insert(lodgeMock);
+
+        Lodge updatedLodgeMock = mock(Lodge.class, RETURNS_DEEP_STUBS);
+        when(updatedLodgeMock.getId()).thenReturn(666L);
+        when(updatedLodgeMock.getName()).thenReturn("UpdatedLodgeTest");
+        when(updatedLodgeMock.getOwner().getId()).thenReturn(2L);
+
+        lodgeDao.update(updatedLodgeMock);
+        Lodge lodge = lodgeDao.getById(666L);
+        assertAll("Check if lodge is consistent with db",
+                () -> assertEquals(updatedLodgeMock.getId(), lodge.getId()),
+                () -> assertEquals(updatedLodgeMock.getName(), lodge.getName()),
+                () -> assertEquals(updatedLodgeMock.getOwner().getId(), lodge.getOwner().getId())
+        );
+
+        lodgeDao.delete(666L);
+    }
+
+    @Test
+    public void testIfLodgeIsDeleting() throws SQLException {
+        lodgeDao.insert(lodgeMock);
+        assertTrue(lodgeDao.delete(666L));
     }
 }
