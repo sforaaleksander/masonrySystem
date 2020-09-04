@@ -141,7 +141,6 @@ public class UserDao extends PostgresDAO<User> implements IDAO<User> {
         Connection connection = this.getConnection();
         PreparedStatement preparedStatement = prepareStatement(connection, user, statement);
         preparedStatement = updateSpiritAndLodge(preparedStatement, spiritPoints, lodgeId);
-        System.out.println(preparedStatement.toString());
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
